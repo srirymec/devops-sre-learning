@@ -155,6 +155,26 @@ def return_sum():
 </details>
 
 <details>
+<summary>Can you write a function which will print all the file in a given directory? including sub-directories</summary><br>
+  
+</details>
+
+<details>
+<summary>How to substitute the string "green" with "blue"?</summary><br>
+  
+</details>
+
+<details>
+<summary>Q</summary><br>
+  
+</details>
+
+<details>
+<summary>Q</summary><br>
+  
+</details>
+
+<details>
 <summary>Q</summary><br>
   
 </details>
