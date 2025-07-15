@@ -14,7 +14,7 @@
 <details>
 <summary>How can you migrate the state file from your local to remote or to a different location in your remote without effecting the infrastructure?</summary><br>
   
-- Manually move the state file to desirec location
+- Manually move the state file to desired location
 - Modify the code for the remote backend to point to the new location
   ```
     terraform { 
@@ -26,7 +26,7 @@
       } 
     }
   ```
-- Run **terraform init -migrate-state** so it's pointing to the new remote backend.
+- Run **terraform init** so it's pointing to the new remote backend.
 </details>
 
 <details>
