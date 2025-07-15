@@ -26,7 +26,7 @@
   
   ```
 
-  - **Using Recursion**
+- **Using Recursion**
   ```
   def reverse_string(s):
     if len(s) == 0:
