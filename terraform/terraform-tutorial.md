@@ -243,3 +243,84 @@ data "aws_ami" "example" {
 | Keyword: resource                 | Keyword: data    |
 | Creates, updates, destroys infra  | Only reads infra |
 
+## Terraform remote state and state locking
+
+If we have the state file locally, other users who work on the code will not have the latest state file with them which may cause conflicts. It's not good either to have the state file in git repo as git does not provide state locking, also every time user may not git pull, that means the users may not have the latest state file. 
+ 
+**State locking** is very important to avoid concurrency. Two users working on same code if the state is not locked, may lead to conflicts. 
+
+**Terraform backend to specify the remote state location:**
+
+```
+terraform { 
+    backend "s3" { 
+         bucket = "<bucket-name>" 
+         key       = "<dir-name>" 
+         region  = "us-east-1" 
+         dynamodb_table = "state-locking" 
+    } 
+}
+```
+## Manipulating terraform state
+
+This operation is strictly restricted. Do not use unless no other option. 
+ 
+```terraform state show <path-to-state-file>```
+ 
+**Other subcommands:**
+
+| Sub Command      |               Description                   |
+| ---------------- | ------------------------------------------- |
+| list             | List resources in the state                 |
+| pull             | Pull current state and output to stdout     |
+| push             | Update remote state from a local state file |
+| show             | Show a resource in the state                |
+|  mv              | Move an item in the state                   |
+| replace-provider | Replace provider in the state               |
+
+## Iterating - terraform for-each
+
+**variables.tf**
+```
+variable "users" { 
+    type = set(string) 
+} 
+variable "content" { 
+    default = "password: S3cr3tP@ssw0rd" 
+   
+} 
+```
+
+**main.tf**
+```
+resource "local_file" "name" { 
+    filename = each.value 
+    sensitive_content = var.content 
+    for_each var.users 
+}
+```
+
+## Terraform Conditional expressions
+
+|   Expression  |               Description              |
+| ------------- | ---------------------------------------|
+|    **&&**     | Both should be true - result is true   |
+|    **&#124;&#124;**     | Either should be true - result is true |
+|    **!**      | Negation                               |
+
+## Conditonal Operator
+
+```Condition ? <true_val> : <false_val>```
+
+## If else
+
+```
+If <> 
+   then 
+      <> 
+   else 
+      <> 
+fi 
+
+```
+
