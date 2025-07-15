@@ -31,6 +31,7 @@
 
 <details>
 <summary>How to delete a specific virtual machine from a resource group that contains other virtual machines?</summary><br>
+  
 - Use terraform destroy with target option.
   ```terraform destroy -target=aws_instance.my_ec2 ```
 </details>
