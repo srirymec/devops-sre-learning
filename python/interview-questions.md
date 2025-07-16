@@ -164,14 +164,56 @@ def return_sum():
   
 </details>
 
+## List of python automations in DevOps
+
 <details>
-<summary>Q</summary><br>
+<summary>How would you automate backup of EC2 volumes using Python?</summary><br>
+
+- Snapshot Creation
+
+```
+ec2 = boto3.client('ec2')
+ec2.create_snapshot(VolumeId='vol-0abcd1234', Description='Daily backup')
+
+```
   
 </details>
 
 <details>
-<summary>Q</summary><br>
+<summary>Write a Python script to identify and delete unattached EBS volumes.</summary><br>
+
+```
+ec2 = boto3.client('ec2')
+volumes = ec2.describe_volumes(
+    Filters=[{'Name': 'status', 'Values': ['available']}]
+)
+
+for vol in volumes['Volumes']:
+    ec2.delete_volume(VolumeId=vol['VolumeId'])
+
+```
   
+</details>
+
+<details>
+<summary>How do you write unit tests for your AWS automation scripts?</summary><br>
+
+- Use `unittest` or `pytest` with `moto` (AWS mocking library):
+```
+from moto import mock_s3
+import boto3, unittest
+
+@mock_s3
+def test_create_bucket():
+    s3 = boto3.client('s3', region_name='us-east-1')
+    s3.create_bucket(Bucket='my-test-bucket')
+    buckets = s3.list_buckets()
+    assert len(buckets['Buckets']) == 1
+
+```
+  
+</details>
+
 </details>
 
 <details>
