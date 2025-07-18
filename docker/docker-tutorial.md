@@ -25,4 +25,10 @@ Docker is a software platform that allows you to build, test, and deploy applica
 | VMs typically take longer to start because they need to boot an entire OS. This results in slower startup times compared to containers. | Containers spin up almost instantly since they utilize the host OS kernel. Hence, they are best suitable for microservices architectures and rapid scaling. |
 | VMs are preferred for running legacy applications that have strict security requirements where strong isolation is necessary. | Docker Containers are best suited for microservices architectures, CI/CD pipelines, and applications that require rapid deployment and scaling. |
 
+![Container VS VM](https://github.com/srirymec/devops-sre-learning/blob/main/docker/container%20vs%20vms.jpg)
+
+## Docker Architecture
+
+![Docker architecture](https://github.com/srirymec/devops-sre-learning/blob/main/docker/docker_architecture.jpg)
+
 
