@@ -103,3 +103,87 @@ Docker is a software platform that allows you to build, test, and deploy applica
   - You can bind-mount directories from the host or use named volumes.
   - Volumes separate data from the container lifecycle, ensuring durability and manageability.
   </details>
+
+<details>
+<summary> 
+ 
+ ## Docker hub 
+ </summary><br>
+
+Docker Hub is a cloud-based repository service that allows users to store, share, and manage Docker container images.
+
+![Docker hub](https://github.com/srirymec/devops-sre-learning/blob/main/docker/docker_hub_1.jpg)
+
+</details>
+<details>
+<summary> 
+ 
+## Docker Images
+</summary><br>
+
+Docker images are self-contained templates that are used to build containers. They make use of a tiered file system to store data effectively.
+
+</details>
+<details>
+<summary> 
+ 
+## Docker Containers
+</summary><br>
+
+A Docker container is a runtime instance of a Docker image. They can be created by instantiating the image.
+
+</details>
+<details>
+<summary> 
+ 
+## Docker - Container lifecycle
+</summary><br>
+
+There are five essential phases in the Docker container lifecycle: **created**, **started**, **paused**, **exited**, and **dead**.
+
+![Container life cycle](https://github.com/srirymec/devops-sre-learning/blob/main/docker/containers_life_cycle.jpg)
+
+### 📦 Docker Container Lifecycle States
+
+---
+
+#### 🟢 The Created State
+
+The **"created"** state is the first stage. When a container is created with the `docker create` command or a comparable API call, it reaches this phase. The container is not yet running when it is in the "created" state, but it does exist as a static entity with all of its configuration settings defined.
+
+At this point, Docker reserves the storage volumes and network interfaces that the container needs, but the processes inside the container have not yet begun.
+
+---
+
+#### ▶️ The Started State
+
+The **"started"** or **"running"** state is the next stage of the lifecycle. When a container is started with the `docker start` command or an equivalent API call, it enters this stage.
+
+When a container is in the "started" state, its processes are launched and it starts running the service or application that is specified in its image. While they carry out their assigned tasks, containers in this state actively use **CPU, memory, and other system resources**.
+
+---
+
+#### ⏸️ The Paused State
+
+Throughout their lifecycle, containers may also go into a **"paused"** state. When a container is paused with the `docker pause` command, its processes are suspended, thereby stopping its execution.
+
+A container that is paused keeps its resource allotments and configuration settings but is not in use. This state helps with **resource conservation and debugging** by momentarily stopping container execution without completely stopping it.
+
+---
+
+#### 🛑 The Exited State
+
+A container in the **"exited"** state has finished executing and has left its primary process. Containers can enter this state when they finish the tasks they are intended to complete or when they run into errors that force them to terminate.
+
+A container that has been "exited" stays stopped, keeping its resources and configuration settings but ceasing to run any processes. In this condition, containers can be completely deleted with the `docker rm` command or restarted with the `docker start` command.
+
+---
+
+#### 💀 The Dead State
+
+A container that is in the **"dead"** state has either experienced an **irreversible error** or been abruptly terminated. Critical errors in the containerized application, problems with the host system underneath, or manual intervention can all cause containers to enter this state.
+
+When a container is in the "dead" state, it is not in use and the Docker daemon usually releases or reclaims its resources. To free up system resources, containers in this state need to be deleted using the `docker rm` command since they cannot be restarted.
+
+
+</details>
