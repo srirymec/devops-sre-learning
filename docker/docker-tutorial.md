@@ -214,4 +214,83 @@ $ docker run -d -p 8080:80 nginx
 
 In this case, the detached mode (`-d`) of the `docker run` command creates a new container based on the `"nginx"` image and runs it in the background. Additionally, it maps host port `8080` to container port `80` (`-p 8080:80`), granting access to the **NGINX** web server housed within the container.
 
+### 🛑 Stopping a Docker Container
+
+A container can be gracefully stopped by using the `docker stop` command, which signals the container's main process with a `SIGTERM`. This enables the container to finish any cleanup operations — such as saving state or cutting off network connections — before shutting down.
+
+```bash
+$ docker stop my_container
+```
+This command stops the `"my_container"` container that is currently operating. Docker waits for the container to gracefully end its life for a configurable duration (10 seconds by default). Docker will automatically terminate the container with a `SIGKILL` signal if it does not stop within this time limit.
+
+### ⏸️ Pausing a Running Container
+
+A running container's processes can be momentarily suspended, or its execution paused, with the `docker pause` command. This can be helpful for temporarily freeing up system resources, debugging, and troubleshooting problems.
+
+```bash
+$ docker pause my_container
+```
+This command stops the container `"my_container"` from running. The container uses no CPU or memory when it is paused because its processes are frozen. The container does, however, keep its resource allocation and configuration settings.
+
+### ▶️ Resuming a Docker Container
+
+When a container is paused, its processes can be carried out again by using the `docker unpause` command. By using this command, the container returns to its initial state and undoes the effects of the `docker pause` command.
+
+```bash
+$ docker unpause my_container
+```
+The above command resumes the paused container `"my_container"`'s execution and permits its processes to carry on as usual.
+
+### 🔁 Restarting a Container
+
+One easy way to quickly stop and restart an operating container is with the `docker restart` command. It is frequently used to force a container to reinitialize after experiencing problems or to apply changes to the configuration of a running container.
+
+```bash
+$ docker restart my_container
+```
+
+This command pauses and then resumes the execution of the container with the name `"my_container"`. The processes inside the container are stopped and then restarted upon restarting, enabling any modifications to take effect.
+
+### 💻 Executing Commands in a Running Docker Container
+
+To run a command inside an already-running container, use the `docker exec` command. It enables users to run arbitrary commands, like starting a shell session or carrying out a particular program, inside the environment of a container.
+
+```bash
+$ docker exec -it my_container bash
+```
+This command opens the `"my_container"` container that is currently running in an interactive shell session (`bash`). In order to enable interactive input/output, the `-it` flags allocate a pseudo-TTY and maintain STDIN open even when it is not attached.
+
+### 🗑️ Removing a Docker Container
+
+To remove a Docker container or containers, you can use the `docker rm` command. The container(s) whose ID or name you wish to remove can be specified. This command only removes stopped containers by default; to forcefully remove running containers, you can use the `-f` or `--force` flag.
+
+```bash
+$ docker rm my_container
+```
+
+The above command deletes the container with the name `"my_container"`. Unless the `-f` flag is used to force removal, the container must stop running before being removed.
+
+### 🚮 Pruning Stopped Containers
+
+To clear up disk space on the Docker host, you can use the `docker container prune` command to remove all stopped containers. It is a practical method of clearing out empty containers and recovering resources.
+
+```bash
+$ docker container prune
+```
+
+Docker asks for confirmation before continuing, but you can ignore this prompt by passing it with the `-f` or `--force` flag.
+
+```bash
+$ docker container prune -f
+```
+
+### 🚀 Removing all Containers(Running or stopped)
+
+If you want to remove all Docker containers together, you can chain two commands — `docker ps -aq`, which is used to obtain a list of all container IDs, and combine it with the `docker rm` command to remove all containers, including running containers.
+
+```bash
+$ docker rm $(docker ps -aq)
+```
+The above command removes every container on the Docker host, regardless of whether it is running or stopped.
+
 </details>
