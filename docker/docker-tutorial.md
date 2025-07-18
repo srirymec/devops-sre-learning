@@ -31,4 +31,56 @@ Docker is a software platform that allows you to build, test, and deploy applica
 
 ![Docker architecture](https://github.com/srirymec/devops-sre-learning/blob/main/docker/docker_architecture.jpg)
 
+- **Docker Daemon**
+  - Also known as `dockerd`, it manages Docker objects like containers, images, volumes, and networks.
+  - Listens to Docker API requests.
+  - Can communicate with other daemons to manage Docker services.
+
+- **Docker Client**
+  - Users interact with Docker using clients like the CLI.
+  - Docker commands (e.g., `docker run`) are sent to `dockerd` for execution.
+  - A single Docker client can communicate with multiple daemons.
+
+- **Docker Desktop**
+  - An easy-to-use application for accessing Docker on Windows, macOS, and Linux.
+  - Allows users to perform all Docker-related functionalities.
+  - Bundled with Docker daemon, client, Compose, Kubernetes, and more.
+
+- **Docker Registries**
+  - Registries store Docker images.
+  - The most popular public registry is **Docker Hub**.
+  - By default, Docker pulls images from Docker Hub.
+  - `docker pull` or `docker run` commands fetch images from the registry.
+  - `docker push` sends images to the registry.
+
+- **Docker Objects**
+  - Includes images, containers, networks, volumes, plugins, and others used throughout the Docker lifecycle.
+
+- **Docker Images**
+  - Read-only templates used to create containers.
+  - Typically based on another image with added modifications.
+  - Example: An image based on Ubuntu with Apache, your application, and custom configurations.
+  - Can be custom-built using a `Dockerfile`.
+  - Each instruction in a Dockerfile adds a layer to the image.
+  - When rebuilding, only changed layers are rebuilt—making images lightweight and fast.
+
+- **Docker Containers**
+  - A container is a running instance of a Docker image.
+  - You can create, run, stop, move, or delete containers.
+  - Container behavior depends on the image and startup configurations.
+  - Unsaved changes (not persisted via volumes) are lost when a container is removed or stopped.
+
+- **Docker Networks**
+  - Enable communication between containers.
+  - Containers are isolated by default.
+  - Virtual networks allow safe communication between containers.
+  - Networks can be simple (bridge) or complex (custom drivers).
+  - Essential for multi-container applications.
+
+- **Docker Storage**
+  - Traditional applications rely on host storage.
+  - Docker uses **volumes** to manage storage outside of the container.
+  - Volumes ensure data persists even if containers are stopped or deleted.
+  - You can bind-mount directories from the host or use named volumes.
+  - Volumes separate data from the container lifecycle, ensuring durability and manageability.
 
