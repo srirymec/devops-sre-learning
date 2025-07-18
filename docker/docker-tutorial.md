@@ -18,7 +18,7 @@ Docker is a software platform that allows you to build, test, and deploy applica
 
 ![Container VS VM](https://github.com/srirymec/devops-sre-learning/blob/main/docker/container%20vs%20vms.jpg)
 
- | Virtual Machines (VM) | Containers |
+ | **Virtual Machines (VM)** | **Containers** |
 |------------------------|------------|
 | Virtual Machines imitate full-fledged hardware, including the guest OS, on top of a hypervisor. Each VM runs its own OS instance which is independent of the host OS. | Docker containers are lightweight and portable, and they share the host OS kernel. They run on top of the host OS and encapsulate the application and its dependencies. |
 | VMs consume more resources since they need to imitate an entire operating system, including memory, disk space, and CPU. | In terms of resource utilization, Docker Containers are highly efficient since they share the host OS kernel and require fewer resources compared to VMs. |
