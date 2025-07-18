@@ -309,3 +309,217 @@ $ docker rm $(docker ps -aq)
 The above command removes every container on the Docker host, regardless of whether it is running or stopped.
 
 </details>
+<details>
+<summary> 
+ 
+ ## Docker Compose
+ </summary><br>
+
+Docker Compose is a tool specifically designed to simplify the management of multi-container Docker applications. It uses a YAML file in which the definition of services, networks, and volumes that an application requires is described.
+
+Basically, through the `docker-compose.yml` file, we define the configuration for each container: build context, environment variables, ports to be exposed, and the relationship between services. Running all the defined services can be done by one command, the `docker-compose up` command, ensuring they work together accordingly.
+
+### Docker Compose File Mechanism (YAML)
+
+```
+version: '3.8'
+services:
+   web:
+      image: nginx:latest
+      ports:
+         - "80:80"
+      volumes:
+         - web-data:/var/www/html
+      networks:
+         - webnet
+
+   database:
+      image: mysql:latest
+      environment:
+         MYSQL_ROOT_PASSWORD: example
+      volumes:
+         - db-data:/var/lib/mysql
+      networks:
+         - webnet
+
+networks:
+   webnet:
+      driver: bridge
+
+volumes:
+   web-data:
+   db-data:
+```
+
+#### Key Elements of YAML File
+
+- **Version**  
+  This defines the format of the Docker Compose file so that it ensures compatibility with different Docker Compose features.
+
+- **Services**  
+  Contains lists of all services (containers) composing the application.
+
+- **Networks**  
+  It will specify custom networks for inter-container communication and may specify the configuration options and network drivers.
+
+- **Volumes**  
+  Declares shared volumes that are used to allow persistent storage.
+
+### Docker Compose Services
+
+Services in Docker Compose represent the containers comprising the user's application. Each service is defined in the `services` section of the `docker-compose.yml` file and has its configuration such as a Docker image to use, variables within the environment, ports, volumes, and network settings.
+
+```
+services:
+   app:
+      image: myapp:latest
+      build: .
+      ports:
+         - "8080:80"
+      volumes:
+         - app-data:/usr/src/app
+      environment:
+         - NODE_ENV=production
+      depends_on:
+         - db
+
+   db:
+      image: postgres:latest
+      environment:
+         POSTGRES_PASSWORD: example
+```
+
+#### Key Service Configuration Options
+
+- **Image**  
+  Specifies the Docker image that should be used for the service.
+
+- **Build**  
+  Specifies the directory for a build context, allowing the specification to make an image or not pull from a registry.
+
+- **Ports**  
+  Maps host ports to the container.
+
+- **Volumes**  
+  Attaches volumes to your service for persistent storage.
+
+- **Environment**  
+  Specifies environment variables for the service.
+
+- **Depends_on**  
+  Defines service dependencies so they are started in the appropriate order.
+
+### Docker Compose Networks
+
+Docker Compose networks allow for communication between services. By default, Docker Compose defines a single network for all services described under `docker-compose.yml`. However, you can define your custom networks to better control inter-service communication.
+
+```
+networks:
+   frontend:
+      driver: bridge
+   backend:
+      driver: bridge
+
+services:
+   web:
+      networks:
+         - frontend
+
+   api:
+      networks:
+         - frontend
+         - backend
+
+   db:
+      networks:
+         - backend
+```
+
+#### Best Network Configuration Options
+
+- **driver**  
+  Specifies the driver to be used in the network (e.g., `bridge`, `overlay`).
+
+- **driver_opts**  
+  Options for the network driver.
+
+- **ipam**  
+  Specifies the IP address management configurations like subnets and IP ranges.
+
+### Docker Compose Volumes
+
+Docker Compose uses **volumes** to persist data created or consumed by Docker containers. The `volumes` section in the `docker-compose.yml` file defines all the volumes attached to services for storing data in a way that its lifecycle exists outside of the container.
+
+```
+volumes:
+   db-data:
+   app-data:
+      external: true
+
+services:
+   database:
+      image: postgres:latest
+      volumes:
+         - db-data:/var/lib/postgresql/data
+
+   app:
+      image: myapp:latest
+      volumes:
+         - app-data:/usr/src/app
+```
+
+#### Key Volume Configuration Options
+
+- **external**  
+  Indicates whether the volume is created outside Docker Compose.
+
+- **driver**  
+  Specifies the volume driver to use.
+
+- **driver_opts**  
+  Options to configure the volume driver.
+
+### Docker Compose Environment Variables
+
+Environment variables can be used in Docker Compose to pass configuration settings into services. These can be defined within a service's configuration as part of the `environment` section or loaded from an external file.
+
+```
+services:
+   web:
+      image: myapp:latest
+      environment:
+         - NODE_ENV=production
+         - API_KEY=12345
+
+   database:
+      image: postgres:latest
+      env_file:
+         - .env
+```
+In **.env** file −
+
+```
+POSTGRES_USER=myuser
+POSTGRES_PASSWORD=mypassword
+POSTGRES_DB=mydatabase
+```
+
+#### Basic Ways to Set Environment Variables
+
+- **Inline**  
+  Register environment variables within your service definition.
+
+- **env_file**  
+  This command allows environment variables to be loaded from an external file.
+
+
+</details>
+<details>
+<summary> 
+ 
+ ## Topic Name
+ </summary><br>
+
+
+
+</details>
