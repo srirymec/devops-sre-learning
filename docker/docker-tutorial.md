@@ -31,7 +31,7 @@ Docker is a software platform that allows you to build, test, and deploy applica
 ## Docker containers vs Virtual Machines
  </summary><br>
 
-![Container VS VM](https://github.com/srirymec/devops-sre-learning/blob/main/docker/container%20vs%20vms.jpg)
+![Container VS VM](https://github.com/srirymec/devops-sre-learning/blob/main/docker/images/container%20vs%20vms.jpg)
 
  | **Virtual Machines (VM)** | **Containers** |
 |------------------------|------------|
@@ -48,7 +48,7 @@ Docker is a software platform that allows you to build, test, and deploy applica
 ## Docker Architecture
 </summary><br>
 
-![Docker architecture](https://github.com/srirymec/devops-sre-learning/blob/main/docker/docker_architecture.jpg)
+![Docker architecture](https://github.com/srirymec/devops-sre-learning/blob/main/docker/images/docker_architecture.jpg)
 
 - **Docker Daemon**
   - Also known as `dockerd`, it manages Docker objects like containers, images, volumes, and networks.
@@ -112,7 +112,7 @@ Docker is a software platform that allows you to build, test, and deploy applica
 
 Docker Hub is a cloud-based repository service that allows users to store, share, and manage Docker container images.
 
-![Docker hub](https://github.com/srirymec/devops-sre-learning/blob/main/docker/docker_hub_1.jpg)
+![Docker hub](https://github.com/srirymec/devops-sre-learning/blob/main/docker/images/docker_hub_1.jpg)
 
 </details>
 <details>
@@ -141,7 +141,7 @@ A Docker container is a runtime instance of a Docker image. They can be created 
 
 There are five essential phases in the Docker container lifecycle: **created**, **started**, **paused**, **exited**, and **dead**.
 
-![Container life cycle](https://github.com/srirymec/devops-sre-learning/blob/main/docker/containers_life_cycle.jpg)
+![Container life cycle](https://github.com/srirymec/devops-sre-learning/blob/main/docker/images/containers_life_cycle.jpg)
 
 ### 📦 Docker Container Lifecycle States
 
@@ -199,6 +199,7 @@ The Docker host's running containers can be listed using the `docker ps` command
 ```bash
 $ docker ps
 ```
+![docker ps](https://github.com/srirymec/devops-sre-learning/blob/main/docker/images/docker_containers_2.jpg)
 
 This command displays the IDs, names, statuses, and other pertinent details of all containers that are currently running. It returns an empty list if no containers are in use.
 
@@ -211,6 +212,7 @@ With the help of this command, you can specify several options, including volume
 ```bash
 $ docker run -d -p 8080:80 nginx
 ```
+![docker run](https://github.com/srirymec/devops-sre-learning/blob/main/docker/images/docker_containers_3.jpg)
 
 In this case, the detached mode (`-d`) of the `docker run` command creates a new container based on the `"nginx"` image and runs it in the background. Additionally, it maps host port `8080` to container port `80` (`-p 8080:80`), granting access to the **NGINX** web server housed within the container.
 
@@ -221,6 +223,8 @@ A container can be gracefully stopped by using the `docker stop` command, which 
 ```bash
 $ docker stop my_container
 ```
+![docker stop](https://github.com/srirymec/devops-sre-learning/blob/main/docker/images/docker_containers_4.jpg)
+
 This command stops the `"my_container"` container that is currently operating. Docker waits for the container to gracefully end its life for a configurable duration (10 seconds by default). Docker will automatically terminate the container with a `SIGKILL` signal if it does not stop within this time limit.
 
 ### ⏸️ Pausing a Running Container
@@ -230,6 +234,8 @@ A running container's processes can be momentarily suspended, or its execution p
 ```bash
 $ docker pause my_container
 ```
+![docker pause](https://github.com/srirymec/devops-sre-learning/blob/main/docker/images/docker_containers_5.jpg)
+
 This command stops the container `"my_container"` from running. The container uses no CPU or memory when it is paused because its processes are frozen. The container does, however, keep its resource allocation and configuration settings.
 
 ### ▶️ Resuming a Docker Container
@@ -239,6 +245,8 @@ When a container is paused, its processes can be carried out again by using the 
 ```bash
 $ docker unpause my_container
 ```
+![docker unpause](https://github.com/srirymec/devops-sre-learning/blob/main/docker/images/docker_containers_6.jpg)
+
 The above command resumes the paused container `"my_container"`'s execution and permits its processes to carry on as usual.
 
 ### 🔁 Restarting a Container
@@ -248,6 +256,7 @@ One easy way to quickly stop and restart an operating container is with the `doc
 ```bash
 $ docker restart my_container
 ```
+![docker restart](https://github.com/srirymec/devops-sre-learning/blob/main/docker/images/docker_containers_7.jpg)
 
 This command pauses and then resumes the execution of the container with the name `"my_container"`. The processes inside the container are stopped and then restarted upon restarting, enabling any modifications to take effect.
 
@@ -258,6 +267,8 @@ To run a command inside an already-running container, use the `docker exec` comm
 ```bash
 $ docker exec -it my_container bash
 ```
+![docker exec](https://github.com/srirymec/devops-sre-learning/blob/main/docker/images/docker_containers_8.jpg)
+
 This command opens the `"my_container"` container that is currently running in an interactive shell session (`bash`). In order to enable interactive input/output, the `-it` flags allocate a pseudo-TTY and maintain STDIN open even when it is not attached.
 
 ### 🗑️ Removing a Docker Container
@@ -267,6 +278,7 @@ To remove a Docker container or containers, you can use the `docker rm` command.
 ```bash
 $ docker rm my_container
 ```
+![docker rm](https://github.com/srirymec/devops-sre-learning/blob/main/docker/images/docker_containers_9.jpg)
 
 The above command deletes the container with the name `"my_container"`. Unless the `-f` flag is used to force removal, the container must stop running before being removed.
 
@@ -277,6 +289,7 @@ To clear up disk space on the Docker host, you can use the `docker container pru
 ```bash
 $ docker container prune
 ```
+![docker prune](https://github.com/srirymec/devops-sre-learning/blob/main/docker/images/docker_containers_10.jpg)
 
 Docker asks for confirmation before continuing, but you can ignore this prompt by passing it with the `-f` or `--force` flag.
 
@@ -291,6 +304,8 @@ If you want to remove all Docker containers together, you can chain two commands
 ```bash
 $ docker rm $(docker ps -aq)
 ```
+![docker rm1](https://github.com/srirymec/devops-sre-learning/blob/main/docker/images/docker_containers_11.jpg)
+
 The above command removes every container on the Docker host, regardless of whether it is running or stopped.
 
 </details>
