@@ -1,7 +1,6 @@
 # Terraform Interview Questions
 
-<a name="terraform-advanced"></a>
-#### :star: Advanced/Scenario based
+## :star: Advanced/Scenario based
 
 <details>
 <summary>Explain "Remote State". When would you use it and how?</summary><br><b>
@@ -36,8 +35,7 @@
   ```terraform destroy -target=aws_instance.my_ec2 ```
 </details>
 
-<a name="terraform-beginner"></a>
-#### :baby: Beginner
+## :baby: Beginner
 
 <details>
 <summary>Can you explain what is Terraform? How it works?</summary><br><b>
@@ -115,18 +113,112 @@ You use it this way: <code>variable “my_var” {}</code>
 </b></details>
 
 <details>
-<summary>What is <code>local-exec</code> and <code>remote-exec</code> in the context of provisioners?</summary><br><b>
-</b></details>
+<summary>What is <code>local-exec</code> and <code>remote-exec</code> in the context of provisioners?</summary><br>
+
+In Terraform, **provisioners** are used to execute scripts or commands on **local or remote machines** as part of the resource lifecycle (typically after creation).
+
+---
+
+### ✅ `local-exec` Provisioner
+
+- Executes a **command on the machine running Terraform** (e.g., developer laptop or CI/CD runner).
+- Useful for:
+  - Running local scripts or shell commands
+  - Calling CLI tools (`aws`, `gcloud`, `kubectl`, etc.)
+  - Sending notifications (Slack, email)
+  - Writing output to a file
+
+#### Example:
+
+```hcl
+resource "aws_instance" "web" {
+  ami           = "ami-123456"
+  instance_type = "t2.micro"
+
+  provisioner "local-exec" {
+    command = "echo ${self.public_ip} >> ip_list.txt"
+  }
+}
+```
+
+### ✅ `remote-exec` Provisioner
+
+- Executes **commands on the remote machine** (e.g., EC2, VM) over SSH (Linux) or WinRM (Windows).
+- Useful for:
+  - Installing software
+  - Bootstrapping the instance
+  - Configuring services after provisioning
+
+#### Example:
+
+```hcl
+resource "aws_instance" "web" {
+  ami           = "ami-123456"
+  instance_type = "t2.micro"
+
+  connection {
+    type        = "ssh"
+    user        = "ec2-user"
+    private_key = file("~/.ssh/id_rsa")
+    host        = self.public_ip
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "sudo yum update -y",
+      "sudo yum install nginx -y"
+    ]
+  }
+}
+```
+
+</details>
 
 <details>
-<summary>What is a "tainted resource"?</summary><br><b>
+<summary>What is a "tainted resource"?</summary><br>
 
-It's a resource which was successfully created but failed during provisioning. Terraform will fail and mark this resource as "tainted".
-</b></details>
+In **Terraform**, a **tainted resource** is a resource that has been **marked for destruction and recreation** during the next `terraform apply`. This is typically done when the resource is still in the Terraform state file, but something about it is considered invalid, broken, or outdated.
+
+---
+
+### 🔧 Why Use a Tainted Resource?
+
+You might taint a resource when:
+- The resource is **unhealthy**, misconfigured, or failed after creation.
+- You want to **force its recreation** without deleting it manually.
+- A **partial change** happened outside Terraform and you need to refresh it.
+
+---
+
+### 🛠️ How to Taint and Untaint
+
+#### ✅ Taint a resource:
+```bash
+terraform taint <resource_type>.<resource_name>
+```
+
+**Example**
+```
+terraform taint aws_instance.web_server
+```
+
+#### ✅ Untaint a resource:
+```
+terraform untaint <resource_type>.<resource_name>
+```
+**Example**
+```
+terraform taint aws_instance.web_server
+```
+</details>
 
 <details>
-<summary>What <code>terraform taint</code> does?</summary><br><b>
-</b></details>
+<summary>What <code>terraform taint</code> does?</summary><br>
+
+  The `terraform taint` command is used to manually mark a Terraform-managed resource for recreation during the next `terraform apply`. When you taint a resource, the resource is marked as tainted.
+
+  At the next `terraform appy`, the resource will be deleted and created.
+</details>
 
 <details>
 <summary>What types of variables are supported in Terraform?</summary><br><b>
