@@ -185,5 +185,33 @@ A container that is in the **"dead"** state has either experienced an **irrevers
 
 When a container is in the "dead" state, it is not in use and the Docker daemon usually releases or reclaims its resources. To free up system resources, containers in this state need to be deleted using the `docker rm` command since they cannot be restarted.
 
+</details>
+<details>
+<summary> 
+ 
+## Important Docker Container Commands
+</summary><br>
+
+### 📋 Listing All Docker Containers
+
+The Docker host's running containers can be listed using the `docker ps` command. You can use the `-a` or `--all` flag to show all containers, including stopped ones, as it only shows running containers by default.
+
+```bash
+$ docker ps
+```
+
+This command displays the IDs, names, statuses, and other pertinent details of all containers that are currently running. It returns an empty list if no containers are in use.
+
+### ▶️ Running a Docker Container
+
+The primary command for starting and creating Docker containers is `docker run`. If the image isn't already available locally, Docker pulls it from a registry when you run this command. It then starts a fresh container instance by generating one based on that image.
+
+With the help of this command, you can specify several options, including volume mounts, environment variables, port mappings, and more, to tailor the container's configuration to your requirements.
+
+```bash
+$ docker run -d -p 8080:80 nginx
+```
+
+In this case, the detached mode (`-d`) of the `docker run` command creates a new container based on the `"nginx"` image and runs it in the background. Additionally, it maps host port `8080` to container port `80` (`-p 8080:80`), granting access to the **NGINX** web server housed within the container.
 
 </details>
