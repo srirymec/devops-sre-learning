@@ -1,10 +1,21 @@
 # Docker Tutorial
 
-## What is Docker?
+<b> CLICK ON EACH QUESTION FOR THE ANSWER </b>
+
+<details>
+<summary> 
+ 
+ ## What is Docker? 
+ </summary><br>
 
 Docker is a software platform that allows you to build, test, and deploy applications quickly. Docker packages software into standardized units called containers that have everything the software needs to run including libraries, system tools, code, and runtime. 
 
+</details>
+<details>
+<summary> 
+ 
 ## Why Docker?
+ </summary><br>
 
 - **Portability:** Docker facilitates the developers in packaging their applications with all dependencies into a single lightweight containers.
 
@@ -13,8 +24,12 @@ Docker is a software platform that allows you to build, test, and deploy applica
 - **Efficiency:** Docker, through its container-based architecture it optimizes the resource utilization.
 
 - **Scalability:** Docker's scalability features facilitated the developers in making easier of their applications handling at time of workloads increment.
-
+</details>
+<details>
+<summary> 
+ 
 ## Docker containers vs Virtual Machines
+ </summary><br>
 
 ![Container VS VM](https://github.com/srirymec/devops-sre-learning/blob/main/docker/container%20vs%20vms.jpg)
 
@@ -26,8 +41,12 @@ Docker is a software platform that allows you to build, test, and deploy applica
 | VMs are less flexible compared to containers due to differences in underlying hardware and hypervisor configurations. However, they can be portable to some extent through disk images. | As long as Docker is installed in an environment, Containers can run consistently across different environments, development or production. This makes them highly portable. |
 | VMs typically take longer to start because they need to boot an entire OS. This results in slower startup times compared to containers. | Containers spin up almost instantly since they utilize the host OS kernel. Hence, they are best suitable for microservices architectures and rapid scaling. |
 | VMs are preferred for running legacy applications that have strict security requirements where strong isolation is necessary. | Docker Containers are best suited for microservices architectures, CI/CD pipelines, and applications that require rapid deployment and scaling. |
-
+</details>
+<details>
+<summary> 
+ 
 ## Docker Architecture
+</summary><br>
 
 ![Docker architecture](https://github.com/srirymec/devops-sre-learning/blob/main/docker/docker_architecture.jpg)
 
@@ -83,4 +102,4 @@ Docker is a software platform that allows you to build, test, and deploy applica
   - Volumes ensure data persists even if containers are stopped or deleted.
   - You can bind-mount directories from the host or use named volumes.
   - Volumes separate data from the container lifecycle, ensuring durability and manageability.
-
+  </details>
