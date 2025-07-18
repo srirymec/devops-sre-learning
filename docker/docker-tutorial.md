@@ -512,7 +512,29 @@ POSTGRES_DB=mydatabase
 - **env_file**  
   This command allows environment variables to be loaded from an external file.
 
+### Example docker-compose.yml for setting up a MySQL database
 
+```
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: mysql_container
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: your_root_password
+      MYSQL_DATABASE: your_database_name
+      MYSQL_USER: your_user
+      MYSQL_PASSWORD: your_user_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
+```
 </details>
 <details>
 <summary> 
