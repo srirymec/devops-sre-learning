@@ -277,7 +277,7 @@ The `[tag]` part of the command is optional. If you create an image without a ta
 <details>
 <summary>What happens to data of the container when a container exits?</summary><br>
 
- When a container starts, it uses the files and configuration provided by the image. Each container is able to create, modify, and delete files and does so without affecting any other containers. When the container is deleted, these file changes are also deleted.
+ When a container starts, it uses the files and configuration provided by the image. Each container is able to create, modify, and delete files and does so without affecting any other containers. **When the container is deleted, these file changes are also deleted.**
 
 While this ephemeral nature of containers is great, it poses a challenge when you want to persist the data. For example, if you restart a database container, you might not want to start with an empty database. So, how do you persist files?
 
