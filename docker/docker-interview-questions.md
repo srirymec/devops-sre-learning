@@ -310,8 +310,70 @@ When the container runs, all files it writes into the `/logs` folder will be sav
   * docker rm
   * docker ps
   * docker build
-  * docker commit</summary><br><b>
-</b></details>
+  * docker commit
+    
+</summary><br>
+
+- **docker run**
+  The primary command for starting and creating Docker containers is `docker run`. If the image isn't already available locally, Docker pulls it from a registry when you run this command. It then starts a fresh container instance by generating one based on that image.
+
+With the help of this command, you can specify several options, including volume mounts, environment variables, port mappings, and more, to tailor the container's configuration to your requirements.
+
+```bash
+$ docker run -d -p 8080:80 nginx
+```
+![docker run](https://github.com/srirymec/devops-sre-learning/blob/main/docker/images/docker_containers_3.jpg)
+
+In this case, the detached mode (`-d`) of the `docker run` command creates a new container based on the `"nginx"` image and runs it in the background. Additionally, it maps host port `8080` to container port `80` (`-p 8080:80`), granting access to the **NGINX** web server housed within the container.
+
+- **docker rm**
+To remove a Docker container or containers, you can use the `docker rm` command. The container(s) whose ID or name you wish to remove can be specified. This command only removes stopped containers by default; to forcefully remove running containers, you can use the `-f` or `--force` flag.
+
+```bash
+$ docker rm my_container
+```
+![docker rm](https://github.com/srirymec/devops-sre-learning/blob/main/docker/images/docker_containers_9.jpg)
+
+The above command deletes the container with the name `"my_container"`. Unless the `-f` flag is used to force removal, the container must stop running before being removed.
+
+If you want to remove all Docker containers together, you can chain two commands — `docker ps -aq`, which is used to obtain a list of all container IDs, and combine it with the `docker rm` command to remove all containers, including running containers.
+
+```bash
+$ docker rm $(docker ps -aq)
+```
+![docker rm1](https://github.com/srirymec/devops-sre-learning/blob/main/docker/images/docker_containers_11.jpg)
+
+The above command removes every container on the Docker host, regardless of whether it is running or stopped.
+
+- **docker ps**
+  The Docker host's running containers can be listed using the `docker ps` command. You can use the `-a` or `--all` flag to show all containers, including stopped ones, as it only shows running containers by default.
+
+```bash
+$ docker ps
+```
+![docker ps](https://github.com/srirymec/devops-sre-learning/blob/main/docker/images/docker_containers_2.jpg)
+
+This command displays the IDs, names, statuses, and other pertinent details of all containers that are currently running. It returns an empty list if no containers are in use.
+
+- **docker build**
+  The docker build command is used to build a Docker image from a Dockerfile and a context.
+
+  ```bash
+  $ docker build -t my-app:latest .
+  ```
+  Assuming the Docker file is in the current directory.
+  
+- **docker commit**
+  The `docker commit` command allows users to create a new Docker image based on the contents of a container. The new image comprises the base image and a layer containing modifications made inside the container.
+
+The `docker commit` command uses the following syntax:
+
+```
+docker commit [options] [container-id-or-name] [image-name]:[tag]
+```
+
+The `[tag]` part of the command is optional. If you create an image without a tag, Docker defaults to `latest`.
+</details>
 
 <details>
 <summary>How do you remove old, non running, containers?</summary><br><b>
