@@ -275,8 +275,33 @@ The `[tag]` part of the command is optional. If you create an image without a ta
 </details>
 
 <details>
-<summary>What happens to data of the container when a container exits?</summary><br><b>
-</b></details>
+<summary>What happens to data of the container when a container exits?</summary><br>
+
+ When a container starts, it uses the files and configuration provided by the image. Each container is able to create, modify, and delete files and does so without affecting any other containers. When the container is deleted, these file changes are also deleted.
+
+While this ephemeral nature of containers is great, it poses a challenge when you want to persist the data. For example, if you restart a database container, you might not want to start with an empty database. So, how do you persist files?
+
+## Container volumes
+
+Volumes are a storage mechanism that provide the ability to persist data beyond the lifecycle of an individual container. Think of it like providing a shortcut or symlink from inside the container to outside the container.
+
+As an example, imagine you create a volume named `log-data`.
+
+```
+docker volume create log-data
+```
+
+When starting a container with the following command, the volume will be mounted (or attached) into the container at `/logs`:
+
+```
+docker run -d -p 80:80 -v log-data:/logs docker/welcome-to-docker
+```
+
+If the volume `log-data` doesn't exist, Docker will automatically create it for you.
+
+When the container runs, all files it writes into the `/logs` folder will be saved in this volume, outside of the container. If you delete the container and start a new container using the same volume, the files will still be there.
+
+</details>
 
 <details>
 <summary>Explain what each of the following commands do:
