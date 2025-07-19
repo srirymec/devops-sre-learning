@@ -457,8 +457,25 @@ Both `COPY` and `ADD` are Dockerfile instructions used to transfer files and dir
 </details>
 
 <details>
-<summary>What is the difference between CMD and RUN in Dockerfile?</summary><br><b>
-</b></details>
+<summary>What is the difference between CMD and RUN in Dockerfile?</summary><br>
+
+The primary difference between `RUN` and `CMD` in a Dockerfile lies in when and how they are executed: 
+
+- RUN:
+  - Execution Time: `RUN` instructions are executed during the build process of the Docker image. Each `RUN` command creates a new layer in the image, committing the changes made by the command.
+  - Purpose: Used for executing commands required to set up the image, such as installing packages, compiling code, or creating directories.
+  - Example: ```RUN apt-get update && apt-get install -y my-package```
+
+- CMD:
+  - Execution Time: `CMD` instructions define the default command or parameters that will be executed when a Docker container is started from the image.
+  - Purpose: Used to specify the main process or application that the container should run by default. It can also provide default arguments for an `ENTRYPOINT` instruction.
+  - Overriding: The `CMD` instruction can be easily overridden by providing a different command or arguments when running the container using `docker run`.
+  - Example: ```CMD ["nginx", "-g", "daemon off;"]``` (to start Nginx) or ```CMD ["echo", "Hello World"]``` (as a default message).
+
+In summary:
+- `RUN` builds the image by executing commands and creating layers.
+- `CMD` defines the default command to run when a container starts, and this default can be easily overridden.
+</details>
 
 <details>
 <summary>Explain what is Docker compose and what is it used for</summary><br><b>
