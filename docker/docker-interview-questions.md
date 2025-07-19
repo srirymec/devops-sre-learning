@@ -478,8 +478,42 @@ In summary:
 </details>
 
 <details>
-<summary>Explain what is Docker compose and what is it used for</summary><br><b>
-</b></details>
+<summary>Explain what is Docker compose and what is it used for</summary><br>
+
+ Docker Compose is a tool specifically designed to simplify the management of multi-container Docker applications. It uses a YAML file in which the definition of services, networks, and volumes that an application requires is described.
+
+Basically, through the `docker-compose.yml` file, we define the configuration for each container: build context, environment variables, ports to be exposed, and the relationship between services. Running all the defined services can be done by one command, the `docker-compose up` command, ensuring they work together accordingly.
+
+### Example docker-compose.yml for setting up a MySQL database
+
+```
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: mysql_container
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: your_root_password
+      MYSQL_DATABASE: your_database_name
+      MYSQL_USER: your_user
+      MYSQL_PASSWORD: your_user_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
+```
+
+Command used -
+
+```
+docker compose up docker-compose.yml
+```
+</details>
 
 <details>
 <summary>What are the differences between Docker compose, Docker swarm and Kubernetes?</summary><br><b>
