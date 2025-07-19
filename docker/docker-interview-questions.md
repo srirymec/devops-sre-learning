@@ -392,11 +392,38 @@ $ docker container prune -f
 ```
 </details>
 
-##### Dockerfile
+#### Dockerfile
 
 <details>
-<summary>What is Dockerfile</summary><br><b>
-</b></details>
+<summary>What is Dockerfile</summary><br>
+
+A Dockerfile is a plain text document that contains a series of instructions used to automatically build a Docker image. Each instruction in a Dockerfile represents a step in the image creation process, such as specifying a base image, copying files, installing dependencies, or setting environment variables. 
+
+### 📄 Dockerfile Instructions
+
+| Instruction   | Description                                             |
+|---------------|---------------------------------------------------------|
+| `ADD`         | Add local or remote files and directories.              |
+| `ARG`         | Use build-time variables.                               |
+| `CMD`         | Specify default commands.                               |
+| `COPY`        | Copy files and directories.                             |
+| `ENTRYPOINT`  | Specify default executable.                             |
+| `ENV`         | Set environment variables.                              |
+| `EXPOSE`      | Describe which ports your application is listening on.  |
+| `FROM`        | Create a new build stage from a base image.             |
+| `RUN`         | Execute build commands.                                 |
+| `WORKDIR`     | Specify/Change working directory.                       |
+| `USER`        | Set user and group ID.                                  |
+
+### Example Docker file
+```
+FROM python:3.11-slim
+COPY app.py /app/app.py
+WORKDIR /app
+CMD ["python", "app.py"]
+
+```
+</details>
 
 <details>
 <summary>What is the difference between ADD and COPY in Dockerfile?</summary><br><b>
