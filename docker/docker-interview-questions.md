@@ -376,8 +376,21 @@ The `[tag]` part of the command is optional. If you create an image without a ta
 </details>
 
 <details>
-<summary>How do you remove old, non running, containers?</summary><br><b>
-</b></details>
+<summary>How do you remove old, non running, containers?</summary><br>
+
+ To clear up disk space on the Docker host, you can use the `docker container prune` command to remove all stopped containers. It is a practical method of clearing out empty containers and recovering resources.
+
+```bash
+$ docker container prune
+```
+![docker prune](https://github.com/srirymec/devops-sre-learning/blob/main/docker/images/docker_containers_10.jpg)
+
+Docker asks for confirmation before continuing, but you can ignore this prompt by passing it with the `-f` or `--force` flag.
+
+```bash
+$ docker container prune -f
+```
+</details>
 
 ##### Dockerfile
 
