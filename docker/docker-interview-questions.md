@@ -171,14 +171,24 @@ In this case, the detached mode (`-d`) of the `docker run` command creates a new
 - 🔍 Monitoring & Observability
   - Use sidecars or agents for monitoring/logging
 → Example: Fluentd, Promtail, Datadog Agent.
-	 - Expose metrics endpoints
+  - Expose metrics endpoints
 → Prometheus-compatible metrics endpoints using /metrics.
  
 </details>
 
 <details>
-<summary>What `docker commit` does?. When will you use it?</summary><br><b>
-</b></details>
+<summary>What `docker commit` does?. When will you use it?</summary><br>
+
+ The `docker commit` command allows users to create a new Docker image based on the contents of a container. The new image comprises the base image and a layer containing modifications made inside the container.
+
+The `docker commit` command uses the following syntax:
+
+```
+docker commit [options] [container-id-or-name] [image-name]:[tag]
+```
+
+The `[tag]` part of the command is optional. If you create an image without a tag, Docker defaults to `latest`.
+</details>
 
 <details>
 <summary>How would you transfer data from one container into another?</summary><br><b>
