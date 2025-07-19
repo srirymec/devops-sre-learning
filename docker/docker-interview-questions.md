@@ -426,8 +426,35 @@ CMD ["python", "app.py"]
 </details>
 
 <details>
-<summary>What is the difference between ADD and COPY in Dockerfile?</summary><br><b>
-</b></details>
+<summary>What is the difference between ADD and COPY in Dockerfile?</summary><br>
+
+Both `COPY` and `ADD` are Dockerfile instructions used to transfer files and directories from the build context into a Docker image. However, they differ in their capabilities:
+
+- COPY:
+  - Functionality: COPY is a straightforward instruction used to copy local files or directories from the host machine (the build context) into the Docker image at a specified destination.
+  - Simplicity: It only performs a direct copy operation, making it more predictable and easier to understand.
+  - Syntax: ```COPY <source> <destination>```
+
+- ADD:
+  - Functionality: ADD is more versatile than COPY, offering additional features beyond simple file copying.
+  - Remote URLs: It can download files from remote URLs directly into the image.
+  - Archive Extraction: It can automatically extract compressed archives (like .tar, .tar.gz, .zip) if the source is a local compressed file.
+  - Syntax: ```ADD <source> <destination>```
+
+**Key Differences Summarized:**
+
+# 📋 Comparison: `COPY` vs `ADD` in Dockerfile
+
+| Feature               | `COPY`                            | `ADD`                                                  |
+|------------------------|------------------------------------|---------------------------------------------------------|
+| Local Files/Dirs       | Yes                                | Yes                                                     |
+| Remote URLs            | No                                 | Yes (downloads content)                                 |
+| Automatic Extraction   | No (copies archives as-is)         | Yes (extracts local archives)                           |
+| Complexity             | Simpler and more predictable       | More complex due to added functionalities               |
+| Best Practice          | Preferred for most local file copies | Use only when needing URL download or archive extraction |
+
+
+</details>
 
 <details>
 <summary>What is the difference between CMD and RUN in Dockerfile?</summary><br><b>
