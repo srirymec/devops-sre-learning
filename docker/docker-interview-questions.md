@@ -191,11 +191,91 @@ The `[tag]` part of the command is optional. If you create an image without a ta
 </details>
 
 <details>
-<summary>How would you transfer data from one container into another?</summary><br><b>
-</b></details>
+<summary>How would you transfer data from one container into another?</summary><br>
+
+ # 📦 Methods for Transferring Data Between Docker Containers
+
+---
+
+## 🔹 Docker Volumes
+
+- **Concept:**  
+  Docker volumes provide a mechanism for persistent data storage and sharing between containers.
+
+- **How it works:**  
+  When a volume is mounted to a container, changes made within the container’s volume directory are reflected on the host and in other containers that share the same volume.
+
+- **Example:**
+  ```
+  docker run -d -v myvolume:/app/data my_container_image  # Create a volume and mount it to a container
+  docker run -d -v myvolume:/app/data another_container_image  # Mount the same volume to another container
+  ```
+
+---
+
+## 🔹 `docker cp` Command
+
+- **Concept:**  
+  The `docker cp` command allows copying files and directories between a container and the host or between containers.
+
+- **How it works:**  
+  It can copy files from the container to the host, or from the host to the container.
+
+- **Example:**
+  ```
+  docker cp my_container:/app/data/file.txt .  # Copy file.txt from container to the current directory on the host
+  docker cp file.txt my_container:/app/data/  # Copy file.txt from the host to the container's /app/data directory
+  ```
+
+---
+
+## 🔹 Network Communication
+
+- **Concept:**  
+  Containers can communicate with each other over a network if they are part of the same network or if they are exposed to each other through exposed ports.
+
+- **How it works:**  
+  Applications within the containers can use standard network protocols (like HTTP, TCP sockets, etc.) to exchange data.
+
+- **Example:**
+  ```
+  - A web application container can send data to a database container through a REST API.
+  - Containers can use message queues (like RabbitMQ or Kafka) to exchange data.
+  ```
+
+---
+
+## 🔹 Named Volumes
+
+- **Concept:**  
+  Named volumes offer a way to manage and share data between containers, especially in `docker-compose`.
+
+- **How it works:**  
+  You define named volumes in your `docker-compose.yml` and mount them to containers.
+
+- **Example:**
+ ```
+        version: "3.8"
+        services:
+          web:
+            image: nginx:latest
+            ports:
+              - "8080:80"
+            volumes:
+              - my_web_data:/usr/share/nginx/html  # Named volume for website content
+          db:
+            image: postgres:latest
+            volumes:
+              - my_db_data:/var/lib/postgresql/data  # Named volume for database data
+        volumes:
+          my_web_data:
+          my_db_data:
+ ```
+
+</details>
 
 <details>
-<summary>What happens to data of the container when a container exists?</summary><br><b>
+<summary>What happens to data of the container when a container exits?</summary><br><b>
 </b></details>
 
 <details>
