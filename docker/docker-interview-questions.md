@@ -123,8 +123,58 @@ In this case, the detached mode (`-d`) of the `docker run` command creates a new
 </details>
 
 <details>
-<summary>What best practices are you familiar related to working with containers?</summary><br><b>
-</b></details>
+<summary>What best practices are you familiar related to working with containers?</summary><br>
+
+- 🐳 Image Design & Management
+  - Use minimal base images (e.g., alpine, distroless) -> Reduces attack surface and image size.
+  - Multi-stage builds -> Compile/build in one stage and copy only needed artifacts to the final image.
+  - Pin image versions -> Avoid using latest; instead, use specific tags to prevent unexpected changes.
+  - Keep images small -> Avoid installing unnecessary packages. Clean up apt-get caches, etc.
+  - Layer caching awareness -> Place least frequently changed layers on top of Dockerfile to optimize builds.
+
+- 🔐 Security Best Practices
+  - Scan images for vulnerabilities
+→ Use tools like Trivy, Clair, or Docker Scout in your CI pipeline.
+  - Run containers as non-root
+→ Add a user in Dockerfile and drop unnecessary Linux capabilities.
+  - Read-only file systems
+→ Set filesystem to read-only except where writable volumes are needed.
+  - Avoid secrets in images or ENV
+→ Use Kubernetes Secrets or external secret management (e.g., Vault, AWS Secrets Manager).
+
+- ⚙️ Container Runtime Configurations
+  - Limit resource usage
+→ Set memory (memory) and CPU (cpu) limits in Docker or Kubernetes.
+  - Health checks
+→ Use HEALTHCHECK in Docker and livenessProbe/readinessProbe in Kubernetes.
+  - Log to stdout/stderr
+→ Allow logs to be captured by container orchestrators like Kubernetes.
+
+- 📦Container Orchestration (Kubernetes)
+  - Immutable infrastructure
+→ Avoid modifying running containers. Replace them with new builds.
+  - Use deployments and services
+→ Ensure proper rolling updates and service discovery.
+  - Namespace separation
+→ Use namespaces for multitenancy or separating environments.
+  - Use ConfigMaps and Secrets
+→ Externalize configuration and sensitive data cleanly.
+
+- 🚀 CI/CD Integration
+  - Automate image builds and pushes
+→ Use CI/CD tools like GitHub Actions, GitLab CI, or Google Cloud Build.
+  - Tag with git commit or version
+→ Enables better traceability.
+  - Use a trusted registry
+→ Push to secured registries like Docker Hub (with signed images), ECR, GCR, etc.
+
+- 🔍 Monitoring & Observability
+  - Use sidecars or agents for monitoring/logging
+→ Example: Fluentd, Promtail, Datadog Agent.
+	 - Expose metrics endpoints
+→ Prometheus-compatible metrics endpoints using /metrics.
+ 
+</details>
 
 <details>
 <summary>What `docker commit` does?. When will you use it?</summary><br><b>
