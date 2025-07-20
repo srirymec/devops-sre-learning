@@ -8,7 +8,7 @@ Terraform is one of the most popular Infrastructure-as-code (IaC) tool, used by 
 
 Terraform lifecycle consists of – **init**, **plan**, **apply**, and **destroy**.
 
-![Terraform life cycle](https://github.com/srirymec/devops-sre-learning/blob/main/terraform/terraform-lifecycle.png)
+![Terraform life cycle](https://github.com/srirymec/devops-sre-learning/blob/main/terraform/images/terraform-lifecycle.png)
 
 - **terraform init** initializes the (local) Terraform environment. Usually executed only once per session.
 - **terraform plan** compares the Terraform state with the as-is state in the cloud, build and display an execution plan. This does not change the deployment (read-only).
