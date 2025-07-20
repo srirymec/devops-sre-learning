@@ -333,12 +333,36 @@ List
 </b></details>
 
 <details>
-<summary>What are output variables and what <code>terraform output</code> does?</summary><br><b>
-</b></details>
+<summary>What are output variables and what <code>terraform output</code> does?</summary><br>
+
+Output values make information about your infrastructure available on the command line, and can expose information for other Terraform configurations to use. Output values are similar to return values in programming languages.
+
+**Output values have several uses:**
+
+- A child module can use outputs to expose a subset of its resource attributes to a parent module.
+- A root module can use outputs to print certain values in the CLI output after running `terraform apply`.
+- When using remote state, root module outputs can be accessed by other configurations via a terraform_remote_state data source.
+
+**Declaring an Output Value**
+
+```
+output "instance_ip_addr" {
+  value = aws_instance.server.private_ip
+}
+
+```
+</details>
 
 <details>
 <summary>Explain Modules</summary>
-</b></details>
+
+A Terraform module is a collection of standard configuration files in a dedicated directory. Terraform modules encapsulate groups of resources dedicated to one task, reducing the amount of code you have to develop for similar infrastructure components.
+
+A typical module can look like this:
+
+
+
+</details>
 
 <details>
 <summary>What is the Terraform Registry?</summary><br><b>
