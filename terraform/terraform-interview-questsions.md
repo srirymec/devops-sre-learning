@@ -190,8 +190,30 @@ Breaking down your infrastructure into reusable modules improves code organizati
 </details>
 
 <details>
-<summary>Explain how implicit and explicit dependencies work in Terraform</summary><br><b>
-</b></details>
+<summary>Explain how implicit and explicit dependencies work in Terraform</summary><br>
+
+Implicit dependencies are automatically detected by Terraform when one resource references another resource's attributes. Explicit dependencies are manually defined using the `depends_on` meta-argument when the relationship isn't directly apparent from attribute references. 
+
+**Implicit dependency:**
+
+- Terraform automatically infers dependencies when one resource uses the output of another resource. 
+- For example, if a virtual machine instance references a virtual network's ID, Terraform understands that the virtual network must be created before the instance. 
+- This is because the virtual network's ID is an attribute of the virtual network resource, and the instance needs that ID to be created. 
+- Terraform handles these implicit dependencies by creating a dependency graph and ensuring resources are created or updated in the correct order. 
+
+- **Explicit dependency:**
+
+```
+resource "aws_instance" "server" {
+  # ... server configuration ...
+}
+
+resource "aws_instance" "client" {
+  depends_on = [aws_instance.server]
+  # ... client configuration ...
+}
+```
+</details>
 
 <details>
 <summary>What is <code>local-exec</code> and <code>remote-exec</code> in the context of provisioners?</summary><br>
