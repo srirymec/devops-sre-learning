@@ -1,6 +1,10 @@
 # devops-sre-learning
 DevOps concepts and tools, SRE concepts
 
+## Interview questions
+
+[Interview Questions](https://github.com/srirymec/devops-sre-learning/blob/main/interview-questions.md)
+
 ## Terraform
 
 [Terraform Tutorial](https://github.com/srirymec/devops-sre-learning/blob/main/terraform/terraform-tutorial.md) <br/>
