@@ -157,8 +157,37 @@ You use it this way: <code>variable “my_var” {}</code>
 </b></details>
 
 <details>
-<summary>Give an example of several Terraform best practices</summary><br><b>
-</b></details>
+<summary>Give an example of several Terraform best practices</summary><br>
+
+Several Terraform best practices include using `remote state with locking`, `organizing code into modules`, `using input variables and outputs`, `implementing CI/CD pipelines`, and testing thoroughly. These practices enhance collaboration, code reusability, maintainability, and security in infrastructure automation. 
+
+- **Remote State Management & Locking:**
+
+Local state files are prone to errors, especially in team environments. Remote state, stored in a central location (like S3, Azure Blob Storage, or Terraform Cloud), enables collaboration and prevents state corruption due to concurrent access. State locking prevents multiple users from making changes simultaneously, ensuring consistency.
+
+```
+    terraform {
+      backend "s3" {
+        bucket = "your-terraform-state-bucket"
+        key    = "path/to/your/terraform.tfstate"
+        region = "your-aws-region"
+        encrypt = true
+        lock_table = "your-dynamodb-lock-table"
+      }
+    }
+```
+
+- **Modularization:**
+
+Breaking down your infrastructure into reusable modules improves code organization, reduces redundancy, and enhances maintainability. Modules encapsulate specific infrastructure components and can be reused across different projects or environments.
+
+```
+    # Example module structure
+    modules/network/main.tf
+    modules/network/variables.tf
+    modules/network/outputs.tf
+```
+</details>
 
 <details>
 <summary>Explain how implicit and explicit dependencies work in Terraform</summary><br><b>
