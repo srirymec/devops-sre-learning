@@ -96,7 +96,39 @@ Terraform configurations are declarative, meaning you describe the desired end s
   * Provider
   * Resource
   * Provisioner
-</b></details>
+
+</summary><br>
+
+- **Provider:**
+  - A provider is the foundation of infrastructure management. It's the entity (often a cloud platform or virtualization system) that owns and controls the underlying infrastructure.
+  - It provides an API or interface that allows users to request and manage resources.
+  - Examples include:
+      - **Cloud Providers:** AWS, Azure, Google Cloud, DigitalOcean, etc.
+      - **Virtualization Platforms:** VMware, VirtualBox.
+      - **Configuration Management Systems:** Chef, Puppet, Ansible. 
+- **Resource:**
+  - A resource is a specific piece of infrastructure that is created and managed through a provider.
+  - It represents a tangible or virtual component of your infrastructure.
+  - Examples include:
+      - **Compute Instances:** Virtual machines, containers.
+      - **Networking:** Virtual networks, load balancers, firewalls.
+      - **Storage:** Block storage volumes, object storage buckets.
+      - **Databases:** Managed database instances.
+  - Resources are defined and configured within your infrastructure code (e.g., Terraform configuration, CloudFormation templates). 
+- **Provisioner:**
+  - A provisioner is a mechanism used to configure or set up resources after they have been created by a provider.
+  - It typically involves running scripts, installing software, or configuring settings on the newly created resource.
+  - Provisioners are often used to automate the installation and configuration of applications, databases, or other software on the infrastructure.
+  - Examples include:
+      - **Terraform Provisioners:** Shell, Puppet, Chef, Ansible.
+      - **CloudInit:** Used for initial configuration of cloud instances.
+      - **Ansible Playbooks:** Executed on remote hosts for configuration management.
+  - Provisioners can be used to perform tasks like:
+  - Installing web servers (e.g., Apache, Nginx).
+  - Configuring databases (e.g., MySQL, PostgreSQL).
+  - Deploying application code.
+  - Setting up monitoring agents. 
+</details>
 
 <details>
 <summary>What <code>terraform.tfstate</code> file is used for?</summary><br><b> 
