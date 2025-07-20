@@ -360,8 +360,13 @@ A Terraform module is a collection of standard configuration files in a dedicate
 
 A typical module can look like this:
 
-
-
+```
+.
+├── main.tf
+├── outputs.tf
+├── README.md
+└── variables.tf
+```
 </details>
 
 <details>
