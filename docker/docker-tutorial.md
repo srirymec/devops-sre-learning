@@ -562,6 +562,9 @@ A Dockerfile is a document that contains a series of instructions used to automa
 
 ### Example Docker file
 
+#### Using default docker file name
+
+Dockerfile
 ```
 FROM python:3.11-slim
 COPY app.py /app/app.py
@@ -570,11 +573,52 @@ CMD ["python", "app.py"]
 
 ```
 
+**To build the image from the above docker we use docker build commabd**
+
+```
+docker build -t my-python-app .
+
+```
+
+#### Using custom docker file name
+
+MyDockerfile
+```
+FROM python:3.11-slim
+COPY app.py /app/app.py
+WORKDIR /app
+CMD ["python", "app.py"]<img width="268" height="108" alt="image" src="https://github.com/user-attachments/assets/8452d685-4160-4c65-b5cd-96cd2d641a09" />
+
+```
+
+**To build the image from the above docker we use docker build commabd**
+
+```
+docker build -t my-python-app -f MyDockerfile .
+
+```
+
+#### Passing build time arguments
+
+Dockerfile
+```
+ARG VERSION=1.0.0 (Default value)
+FROM centos
+CMD echo "Version is $VERSION"
+
+```
+
+**To build the image from the above docker we use docker build commabd**
+
+```
+docker build -t my-python-app --build-arg VERSION=1.2.3 .
+
+```
+
 </details>
 
  ## Topic Name
  </summary><br>
-
 
 
 </details>
