@@ -13,7 +13,8 @@ DevOps concepts and tools, SRE concepts
 
 ## Docker
 
-[Docker Tutorial](https://github.com/srirymec/devops-sre-learning/blob/main/docker/readme.md) <br/>
+[Docker Tutorial](https://github.com/srirymec/devops-sre-learning/blob/main/docker) <br/>
+[Docker Concepts](https://github.com/srirymec/devops-sre-learning/blob/main/docker/docker-tutorial.md) <br/>
 [Docker Cheat Sheet](https://github.com/srirymec/devops-sre-learning/blob/main/docker/docker-cheat-sheet.md) <br/>
 [Docker Commands](https://github.com/srirymec/devops-sre-learning/blob/main/docker/docker-commands.md) <br/>
 [Docker Interview Questions](https://github.com/srirymec/devops-sre-learning/blob/main/docker/docker-interview-questions.md)
