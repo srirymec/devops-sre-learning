@@ -125,6 +125,15 @@ Takes variable - http_port (Default value - 8080)
 
 ```
 
+**Variables in playbook:** <br/>
+
+- To `define` variables in playbook one must use `vars` keyword.
+- To `read` variables in the playbook one must use `vars_prompt` keyword.
+- To `pass` variables from the command prompt: `--extra-vars` or `-e` option
+- `check-mode` attribute in playbook.yml defines to check for any changes or not during the execution<br/>
+  `ansible-playbook playbook.yml --check` (Checks for the changes)<br/>
+  `ansible-playbook playbook.yml --diff` (Checks for the difference)
+
 </details>
 
 
