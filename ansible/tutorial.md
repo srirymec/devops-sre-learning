@@ -78,6 +78,53 @@ On all the worker nodes (hosts) perform following steps for client-server setup
  ## Ansible Playbook
  </summary><br>
 
+- To run any playbook use the below command,<br/>
+ `ansible-playbook <playbook.yml>`
+- To check the syntax,<br/>
+  `ansible-playbook <playbook.yml> --syntax-check`
+
+**playbook.yml**<br/>
+
+Install and configure apache server<br/>
+Takes variable - http_port (Default value - 8080)
+```
+---
+- name: Installing and configuring webserver on target nodes
+  hosts: target
+  become: yes
+  vars:
+    http_port: 8080
+  tasks:
+    - name: Installing apache web server
+      yum:
+        update_cache: yes
+        name: httpd
+        state: latest
+    - name: Copy the index.html file
+      copy:
+        src: index.html
+        dest: /var/www/html/
+    - name: Start the httpd service
+      service:
+        name: httpd
+        state: started
+        enabled: yes
+    - name: Changing the apache web server port number
+      lineinfile:
+        path: /etc/httpd/conf/httpd.conf
+        regexp: '^Listen '
+        insertafter: '^#Listen '
+        line: 'Listen {{ http_port }}'
+      when: http_port is defined
+      notify: Restart Apache
+  handlers:
+    - name: Restart Apache
+      service:
+        name: httpd
+        state: restarted
+
+```
+
 </details>
 
 
