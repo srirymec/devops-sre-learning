@@ -1,6 +1,8 @@
 # Kubernetes Cheat Sheet
 A categorized list of essential Kubernetes commands that every DevOps Engineer should know for interviews and hands-on tasks.
 
+![Kubernetes Cheat sheet](https://github.com/srirymec/devops-sre-learning/blob/main/kubernetes/images/k8-cheat-sheet.jpg)
+
 ---
 
 ## 1. Cluster Info
