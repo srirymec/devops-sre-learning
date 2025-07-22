@@ -7,7 +7,11 @@
 - Understanding of REST API
 - Basic understanding of YAML
 
-## Docker VS Kubernetes
+<details>
+<summary> 
+ 
+ ## Docker VS Kubernetes
+ </summary><br>
 
 | Topic              | Docker                                                                                     | Kubernetes                                                                                  |
 |--------------------|--------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------|
@@ -22,4 +26,12 @@
 | **Use Cases**       | Used for developing and testing applications.                                              | Used for deploying and managing applications in production, especially at scale.            |
 
 
+</details>
 
+<details>
+<summary> 
+ 
+ ## Kubernetes architecture
+ </summary><br>
+
+</details>
