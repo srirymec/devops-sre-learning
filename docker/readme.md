@@ -169,9 +169,9 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
 	```bash
 		FROM node:10-alpine
 
-		RUN mkdir -p /home/node/app/node_modules && chown -R node:node /home/node/app
+		RUN mkdir -p /home/node/node_modules && chown -R node:node /home/node
 
-		WORKDIR /home/node/app
+		WORKDIR /home/node
 
 		COPY package*.json ./
 
