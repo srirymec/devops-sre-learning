@@ -209,6 +209,26 @@ The primary command for starting and creating Docker containers is `docker run`.
 
 With the help of this command, you can specify several options, including volume mounts, environment variables, port mappings, and more, to tailor the container's configuration to your requirements.
 
+```docker run [OPTIONS] IMAGE [COMMAND] [ARG...]```
+
+**IMAGE:** Name (and optionally tag) of the image (e.g., nginx:latest)
+
+**[COMMAND] / [ARG]:** Optional override for CMD or arguments in the Dockerfile
+
+**[OPTIONS]:**
+| Option          | Description                                         | Example Command                                               |
+|-----------------|-----------------------------------------------------|---------------------------------------------------------------|
+| `-d`            | Run container in detached mode (in background)      | `docker run -d -p 8080:80 nginx`                              |
+| `-it`           | Allocate interactive terminal (useful for shells)   | `docker run -it ubuntu bash`                                  |
+| `--name`        | Assign a custom name to the container                | `docker run -d -p 8080:80 --name myNginx nginx`                |
+| `-p`            | Publish container port to host (e.g., `-p 8080:80`) | `docker run -d -p 8080:80 nginx`                              |
+| `-v`            | Mount a volume (e.g., `-v /host:/container`)         | `docker run -v /host/path:/container/path my-image`            |
+| `--env` or `-e` | Set environment variables                           | `docker run -e MY_VAR=123 my-image`                           |
+| `--entrypoint`  | Override the ENTRYPOINT in Dockerfile               | If your image has entrypoint as `python ENTRYPOINT['python']` |
+|                 |                                                     | `docker run --entrypoint pip my-image install requests`        |
+|                 |                                                     | Overrides entrypoint with pip.                                 |
+
+**Example: Running nginx container**
 ```bash
 $ docker run -d -p 8080:80 nginx
 ```
