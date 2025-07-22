@@ -1,6 +1,12 @@
 # Ansible Tutorial
 
+CLICK ON EACH QUESTION FOR THE ANSWER
+
+<details>
+<summary> 
+
 ## Installing Ansible
+</summary><br>
 
 Ansible is installed only on the Controller nodes.
 
@@ -45,6 +51,34 @@ On all the worker nodes (hosts) perform following steps for client-server setup
 
 `ansible ping -m target`
 
+</details>
+
+<details>
+<summary> 
+ 
+ ## Ansible Commands
+ </summary><br>
+
+ | Command                                                                                                    | Description                                                                 |
+|------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------|
+| `ansible-doc -l`                                                                                           | To list all the modules.                                                   |
+| `ansible-doc -l \| grep copy`                                                                               | Use grep to find a specific module. `copy` module in this example     |
+| `ansible-doc copy`                                                                                         | To view the documentation of the `copy` module.                         |
+| `ansible target -m setup`                                                                                  | To get the information about network, machine, or metadata of infra using setup module. |
+| `ansible target -m yum -a "name=httpd state=latest" --become`                                               | Install `httpd` package using the os package module `yum`. Use `--become` to execute with sudo privileges. |
+| `ansible target -m yum -a "name=httpd state=removed" --become`                                              | Remove the httpd package.                                                  |
+| `ansible target -m lineinfile -a "path='/etc/httpd/conf/httpd.conf' regexp='^Listen ' insertafter='^#Listen ' line=' Listen 8080' state=present" --become` | Modify a single line using the lineinfile module.                           |
+| `ansible target -m service -a "name=httpd enabled=yes state=started" --become`                              | Using the service module to start the httpd service on the nodes.           |
+
+</details>
+
+<details>
+<summary> 
+ 
+ ## Ansible Playbook
+ </summary><br>
+
+</details>
 
 
 
