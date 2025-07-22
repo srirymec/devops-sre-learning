@@ -555,6 +555,20 @@ services:
 volumes:
   mysql_data:
 ```
+
+### Docker compose commands
+
+| Command                                      | Description                                             |
+|----------------------------------------------|---------------------------------------------------------|
+| `docker-compose build`                       | Build Docker Images using the Docker Compose file.      |
+| `docker-compose up`                          | Run Docker Containers.                                  |
+| `docker-compose up -d`                       | Run Docker Containers in background mode.               |
+| `docker-compose up --build`                  | Build images before starting containers.                |
+| `docker-compose up --force-recreate`         | Recreate containers from existing images.               |
+| `docker-compose down`                        | Stop and remove containers, volumes, networks, and images.|
+| `docker-compose ps -a`                       | List containers.                                        |
+| `docker-compose logs`                        | Display log output.                                     |
+
 </details>
 <details>
 <summary> 
