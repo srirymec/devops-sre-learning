@@ -136,7 +136,103 @@ Takes variable - http_port (Default value - 8080)
 
 </details>
 
+<details>
+<summary> 
+ 
+ ## Jinja templating
+ </summary><br>
 
+- Ansible uses jinja templates for dynamic expressions and access to the variables.
+- Jinja template extension is `.j2`
+
+**httpd.conf.j2**
+```
+#
+#
+Listen "{{ http_port }}"
+```
+
+**playbook.yml**
+```
+---
+- name: Installing and configuring webserver on target nodes
+  hosts: target
+  become: yes
+  vars:
+    my_doc_root: /var/www/html
+    http_port: 8080
+  tasks:
+  - block:
+    - name: Installing apache web server
+      yum:
+        update_cache: yes
+        name: httpd
+        state: present
+    - name: Starting apache web server
+      yum:
+        name: httpd
+        state: started
+        enabled: yes
+    when: "ansible_os_family == 'RedHat' and ansible_facts['distribution'] == 'CentOS'"
+  - name: Changing the apache web service port number
+    template: "src='httpd.conf.j2' dest='/etc/httpd/conf/httpd.conf'"
+    notify:
+    - Restart Apache
+  - name: Create HTML file in target
+    copy:
+      src: index.html
+      dest: {{ my_doc_root}}
+    notify:
+    - Restart Apache
+  handlers:
+    - name: Restart Apache
+      service:
+        name: httpd
+        state: restarted
+```
+
+</details>
+
+<details>
+<summary> 
+ 
+ ## Ansible Vault
+ </summary><br>
+
+Ansible Vault uses **AES256 symmetric encryption** to encrypt the playbook<br/>
+
+### Encrypting the playbooks
+
+| Command                                         | Description                                                                 |
+|-------------------------------------------------|-----------------------------------------------------------------------------|
+| `ansible vault create playbook.yml`             | Creating an encrypted playbook, prompts for a `password` for encryption.      |
+| `ansible vault view playbook.yml`               | View the encrypted playbook, prompts for the `password` used during encryption.|
+| `ansible vault edit playbook.yml`               | Prompts for the `password twice` and validates the key.                       |
+| `ansible vault encrypt playbook.yml`            | Encrypting an existing playbook. Prompts for the `password` for encryption.   |
+| `ansible vault decrypt playbook.yml`            | Decrypt the encrypted playbook. Prompts for the `password` used during encryption.|
+| `ansible vault rekey playbook.yml`              | To change the encryption password.                                          |
+
+### Running the encrypted playbooks
+
+| Command                                         | Description                                                                 |
+|-------------------------------------------------|-----------------------------------------------------------------------------|
+| `ansible-playbook playbook.yml --ask-vault-pass` |  This will prompt for vault password to run the playbook.     |
+| `ansible-playbook playbook.yml --vault-password-file="<path-to-vault-pass-file>"` | The vault password is saved in the file and path to that file is provided  |
+| `ansible-playbook playbook.yml `               | You could set the path of vault-pass file in ansible.cfg and then run  playbook as usual                 |
+
+### Encrypt_string
+
+`ansbile vault encrypt_string <String to be encrypted>`
+
+`ansbile vault encrypt_string "Hello" --name my_text` (**my_text** is a variable in playbook)<br/>
+
+This gives the encrypted string, substitute in the **my_text** variable.
+
+### Ansible vault IDs:
+
+When we need to provide more than one vault password for executing a playbook, we need to use **vault ID**.
+
+</details>
 
 
 
