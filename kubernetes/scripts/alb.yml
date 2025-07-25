@@ -1,0 +1,99 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: test-app-apis-ingress
+  namespace: test-app
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/healthcheck-path: "/test-app/test/v1/health"
+    alb.ingress.kubernetes.io/target-type: instance
+    alb.ingress.kubernetes.io/certificate-arn: "arn:aws:acm:ap-southeast-1:481735574581:certificate/074c7906-607f-433f-9026-26f40d788a7c"
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS":443}]'
+    alb.ingress.kubernetes.io/success-codes: 200,302
+  labels:
+    app: test-app-apis-ingress
+spec:
+  rules:
+    - http:
+        paths:
+          - backend:
+              serviceName: hubspot-int
+              servicePort: 80
+            path: /test-app/test/v1/questions
+          - backend:
+              serviceName: hubspot-int
+              servicePort: 80
+            path: /test-app/test/v1/hubspot/quotation
+          - backend:
+              serviceName: hubspot-int
+              servicePort: 80
+            path: /test-app/test/v1/hubspot/contact/companyinfo
+          - backend:
+              serviceName: hubspot-int
+              servicePort: 80
+            path: /test-app/test/v1/hubspot/contact/basicinfo
+          - backend:
+              serviceName: hubspot-int
+              servicePort: 80
+            path: /test-app/test/v1/hubspot/questions
+          - backend:
+              serviceName: quote-int
+              servicePort: 80
+            path: /test-app/test/v1/quotes
+          - backend:
+              serviceName: hubspot-int
+              servicePort: 80
+            path: /test-app/test/v1/hubspot/termsandconditions
+          - backend:
+              serviceName: pandadoc
+              servicePort: 80
+            path: /test-app/v1/proposal
+          - backend:
+              serviceName: hubspot-int
+              servicePort: 80
+            path: /test-app/test/v1/hubspot/industries
+          - backend:
+              serviceName: test-app-dbs
+              servicePort: 80
+            path: /test-app/api/v1/icNotification
+          - backend:
+              serviceName: countries
+              servicePort: 80
+            path: /test-app/v1/countries
+          - backend:
+              serviceName: price
+              servicePort: 80
+            path: /test-app/test/v1/price
+          - backend:
+              serviceName: sendgrid-stripe
+              servicePort: 80
+            path: /test-app/v1/sendgrid-stripe
+         - backend:
+              serviceName: sendgrid-stripe
+              servicePort: 80
+            path: /test-app/v1/sendOTP
+          - backend:
+              serviceName: sendgrid-stripe
+              servicePort: 80
+            path: /test-app/v1/verifyOTP
+          - backend:
+              serviceName: sendgrid-stripe
+              servicePort: 80
+            path: /test-app/v1/createStripePIToken
+          - backend:
+              serviceName: sendgrid-stripe
+              servicePort: 80
+            path: /test-app/v1/addStripePaymentResult
+          - backend:
+              serviceName: countries
+              servicePort: 80
+            path: /document/details/.*
+          - backend:
+              serviceName: hubspot-int
+              servicePort: 80
+            path: /v1/hubspot/contact/companyname/.*
+          - backend:
+              serviceName: pandadoc
+              servicePort: 80
+            path: /test-app/v1/contract/status
