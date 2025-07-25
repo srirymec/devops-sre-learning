@@ -24,6 +24,8 @@ DevOps concepts and tools, SRE concepts
 [Kubernetes Tutorial](https://github.com/srirymec/devops-sre-learning/blob/main/kubernetes/tutorial.md) <br/>
 [Kubernetes Cheat Sheet](https://github.com/srirymec/devops-sre-learning/blob/main/kubernetes/cheat-sheet.md) <br/>
 [Kubernetes Interview Questions](https://github.com/srirymec/devops-sre-learning/blob/main/kubernetes/interview-questions.md)
+[Kubernetes Real World Scenarios](https://github.com/srirymec/devops-sre-learning/blob/main/kubernetes/Kubernetes_Real-Word_Scenarios.pdf)
+[Example Scripts](https://github.com/srirymec/devops-sre-learning/tree/main/kubernetes/scripts)
 
 ## Python
 
