@@ -112,7 +112,7 @@ If you're already using for_each, simply remove the key that corresponds to the 
 </details>
 <details>
   
-<summary>Creating 5 servers with different instance types - foreach and count</summary><br>
+<summary>Creating 5 servers with different configurations - foreach and count</summary><br>
 
 To create Multiple AWS resources with different set of configurations - like using Count & ForEach together
 
@@ -214,6 +214,58 @@ output "instances" {
 
 </details>
 
+<details>
+  
+<summary>Creating 5 servers with different instance types</summary><br>
+
+### Example: Using for_each with a map
+```
+provider "aws" {
+  region = "us-east-1"
+}
+
+# Define a map of instance names and types
+locals {
+  ec2_instances = {
+    "web-1" = "t2.micro"
+    "web-2" = "t2.small"
+    "web-3" = "t3.micro"
+    "web-4" = "t3.small"
+    "web-5" = "t2.medium"
+  }
+}
+
+resource "aws_instance" "example" {
+  for_each      = local.ec2_instances
+  ami           = "ami-0c55b159cbfafe1f0" # Replace with your region's valid AMI
+  instance_type = each.value
+
+  tags = {
+    Name = each.key
+  }
+}
+```
+
+### If you want to use a list instead of a map:
+
+```
+locals {
+  instance_types = ["t2.micro", "t2.small", "t3.micro", "t3.small", "t2.medium"]
+}
+
+resource "aws_instance" "example" {
+  count         = length(local.instance_types)
+  ami           = "ami-0c55b159cbfafe1f0" # Replace with a valid AMI
+  instance_type = local.instance_types[count.index]
+
+  tags = {
+    Name = "ec2-${count.index + 1}"
+  }
+}
+
+```
+
+</details>
 
 
 
