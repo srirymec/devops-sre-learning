@@ -35,6 +35,188 @@
   ```terraform destroy -target=aws_instance.my_ec2 ```
 </details>
 
+<details>
+<summary>How to delete 3rd server only in the list of 5 servers created by terraform</summary><br>
+
+### Scenario 1: Servers created using count
+
+```
+resource "aws_instance" "example" {
+  count         = 5
+  ami           = "ami-xxxxxx"
+  instance_type = "t2.micro"
+}
+
+```
+
+In this case, Terraform creates 5 instances:
+
+aws_instance.example[0]
+
+aws_instance.example[1]
+
+aws_instance.example[2] ← this is the 3rd one
+
+aws_instance.example[3]
+
+aws_instance.example[4]
+
+**Option A:** Manually taint & destroy just that one
+```
+terraform destroy -target=aws_instance.example[2]
+```
+This destroys the instance, but Terraform will recreate it on the next apply unless the count is reduced or indexed differently.
+
+**Option B:** Replace count with for_each for more control
+
+Instead of using `count`, switch to `for_each` so you can skip specific instances.
+
+```
+locals {
+  server_ids = [1, 2, 3, 4, 5]
+  filtered_servers = [for id in local.server_ids : id if id != 3]
+}
+
+resource "aws_instance" "example" {
+  for_each      = toset(local.filtered_servers)
+  ami           = "ami-xxxxxx"
+  instance_type = "t2.micro"
+  tags = {
+    Name = "server-${each.key}"
+  }
+}
+
+```
+
+Now the server with ID 3 is skipped/deleted.
+
+Then run:
+
+```
+terraform apply
+```
+
+Terraform will destroy only the one matching the removed key (3).
+
+### Scenario 2: Servers created using for_each (already)
+
+If you're already using for_each, simply remove the key that corresponds to the 3rd server.
+
+**Summary**
+|  Approach	  |    Pros    |  	Cons  |
+| ----------- | ---------- | --------- |
+| destroy -target=resource[index] |	Fast, targeted	| Will be recreated unless logic changes |
+| for_each with conditional exclude	| Proper Terraform way	| Requires some refactoring |
+| Reduce count (from 5 to 4)	| Simple	| Deletes the last server, not index 2 |
+
+</details>
+<details>
+  
+<summary>Creating 5 servers with different instance types - foreach and count</summary><br>
+
+To create Multiple AWS resources with different set of configurations - like using Count & ForEach together
+
+**variables.tf**
+```
+variable "configuration" {
+  description = "The total configuration, List of Objects/Dictionary"
+  default = [{}]
+}
+
+```
+
+**dev-variables.tfvars**
+```
+configuration = [
+  {
+    "application_name" : "GritfyApp-dev",
+    "ami" : "ami-09e67e426f25ce0d7",
+    "no_of_instances" : "2",
+    "instance_type" : "t2.medium",
+    "subnet_id" : "subnet-0f4f294d8404946eb",
+    "vpc_security_group_ids" : ["sg-0d15a4cac0567478c","sg-0d8749c35f7439f3e"]
+  },
+  {
+    "application_name" : "GrityWeb-dev",
+    "ami" : "ami-0747bdcabd34c712a",
+    "instance_type" : "t2.medium",
+    "no_of_instances" : "1"
+    "subnet_id" : "subnet-0f4f294d8404946eb"
+    "vpc_security_group_ids" : ["sg-0d15a4cac0567478c"]
+  },
+  {
+    "application_name" : "OpsGrit-dev",
+    "ami" : "ami-0747bdcabd34c712a",
+    "instance_type" : "t3.micro",
+    "no_of_instances" : "3"
+    "subnet_id" : "subnet-0f4f294d8404946eb"
+    "vpc_security_group_ids" : ["sg-0d15a4cac0567478c"]
+  }
+  
+]
+```
+
+**main.tf**
+```
+provider "aws" {
+  region = "us-east-1"
+  profile = "personal"
+
+}
+
+locals {
+  serverconfig = [
+    for srv in var.configuration : [
+      for i in range(1, srv.no_of_instances+1) : {
+        instance_name = "${srv.application_name}-${i}"
+        instance_type = srv.instance_type
+        subnet_id   = srv.subnet_id
+        ami = srv.ami
+        security_groups = srv.vpc_security_group_ids
+      }
+    ]
+  ]
+}
+
+// We need to Flatten it before using it
+locals {
+  instances = flatten(local.serverconfig)
+}
+
+resource "aws_instance" "web" {
+
+  for_each = {for server in local.instances: server.instance_name =>  server}
+  
+  ami           = each.value.ami
+  instance_type = each.value.instance_type
+  vpc_security_group_ids = each.value.security_groups
+  user_data = <<EOF
+#!/bin/bash
+echo "Copying the SSH Key to the remote server"
+echo -e "******" >> /home/ubuntu/.ssh/authorized_keys
+
+echo "Changing the hostname to ${each.value.instance_name}"
+hostname ${each.value.instance_name}
+echo "${each.value.instance_name}" > /etc/hostname
+
+EOF
+  subnet_id = each.value.subnet_id
+  tags = {
+    Name = "${each.value.instance_name}"
+  }
+}
+
+output "instances" {
+  value       = "${aws_instance.web}"
+  description = "All Machine details"
+}
+```
+
+</details>
+
+
+
+
 ## :baby: Beginner
 
 <details>
