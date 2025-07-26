@@ -267,7 +267,97 @@ resource "aws_instance" "example" {
 
 </details>
 
+<details>
+  
+<summary>Creating multiple subnets using for_each</summary><br>
 
+**variables.tf**
+```
+variable "networks" {
+  type = map(object({
+    cidr_block = string
+    subnets    = map(object({ cidr_block = string }))
+  }))
+  default = {
+    "private" = {
+      cidr_block = "10.1.0.0/16"
+      subnets = {
+        "db1" = {
+          cidr_block = "10.1.0.0/24"
+        }
+        "db2" = {
+          cidr_block = "10.1.1.0/24"
+        }
+      }
+    },
+    "public" = {
+      cidr_block = "10.2.0.0/16"
+      subnets = {
+        "webserver" = {
+          cidr_block = "10.2.1.0/24"
+        }
+        "email_server" = {
+          cidr_block = "10.2.2.0/24"
+        }
+      }
+    }
+    "dmz" = {
+      cidr_block = "10.3.0.0/16"
+      subnets = {
+        "firewall" = {
+          cidr_block = "10.3.1.0/24"
+        }
+      }
+    }
+  }
+}
+```
+
+The above is a reasonable way to model objects that naturally form a tree, such as top-level networks and their subnets. The repetition for the top-level networks can use this variable directly, because it's already in a form where the resulting instances match one-to-one with map elements:
+
+```
+resource "aws_vpc" "example" {
+  for_each = var.networks
+
+  cidr_block = each.value.cidr_block
+}
+```
+
+However, in order to declare all of the subnets with a single resource block, we must first flatten the structure to produce a collection where each top-level element represents a single subnet:
+
+```
+locals {
+  # flatten ensures that this local value is a flat list of objects, rather
+  # than a list of lists of objects.
+  network_subnets = flatten([
+    for network_key, network in var.networks : [
+      for subnet_key, subnet in network.subnets : {
+        network_key = network_key
+        subnet_key  = subnet_key
+        network_id  = aws_vpc.example[network_key].id
+        cidr_block  = subnet.cidr_block
+      }
+    ]
+  ])
+}
+
+resource "aws_subnet" "example" {
+  # local.network_subnets is a list, so we must now project it into a map
+  # where each key is unique. We'll combine the network and subnet keys to
+  # produce a single unique key per instance.
+  for_each = tomap({
+    for subnet in local.network_subnets : "${subnet.network_key}.${subnet.subnet_key}" => subnet
+  })
+
+  vpc_id            = each.value.network_id
+  availability_zone = each.value.subnet_key
+  cidr_block        = each.value.cidr_block
+}
+
+```
+The above results in one subnet instance per subnet object, while retaining the associations between the subnets and their containing networks.
+
+</details>
 
 ## :baby: Beginner
 
