@@ -546,13 +546,152 @@ Swarm management which means you can create new swarms in Docker Cloud.
 ## :star: Advanced
 
 <details>
-<summary>How do you manage persistent storage in Docker?</summary><br><b>
-</b></details>
+<summary>How do you manage persistent storage in Docker?</summary><br>
+
+Managing persistent storage in Docker is essential to ensure that data isn't lost when a container stops, restarts, or is removed. Docker provides a few mechanisms for managing persistent storage:
+
+### 🗂️ 1. Volumes (Recommended)
+Volumes are managed by Docker and are stored outside the container's writable layer. They are the preferred way to persist data.
+
+#### ✅ Use cases:
+Sharing data between containers
+
+Storing database data (e.g., MySQL, PostgreSQL)
+
+Backing up and restoring container data
+
+📦 Creating and using a volume:
+```
+docker volume create myvolume
+docker run -v myvolume:/app/data myimage
+```
+📌 Inside container:
+Anything written to `/app/data` is stored in the volume `myvolume`.
+
+#### 🔍 View volumes:
+```
+docker volume ls
+docker volume inspect myvolume
+```
+
+### 🗃️ 2. Bind Mounts
+Bind mounts link a path on the host filesystem to a path inside the container.
+
+#### ✅ Use cases:
+Development: share code between host and container
+
+Use existing configuration or log files from host
+
+📦 Example:
+```
+docker run -v /host/path:/container/path myimage
+```
+Changes made in either the host or container will reflect on the other side.
+
+⚠️ Considerations:
+Less portable than volumes
+
+Host path must exist
+
+Host file permissions must be compatible
+
+### 💾 3. tmpfs Mounts
+These store data in memory only and are lost after the container stops.
+
+✅ Use cases:
+Sensitive data (like secrets or credentials)
+
+Fast I/O temporary files
+
+📦 Example:
+```
+docker run --tmpfs /app/cache:rw,size=100m myimage
+```
+</details>
 
 <details>
-<summary>How can you connect from the inside of your container to the localhost of your host, where the container runs?</summary><br><b>
-</b></details>
+<summary>How can you connect from the inside of your container to the localhost of your host, where the container runs?</summary><br>
+
+### Option 1: host.docker.internal (Recommended on Docker Desktop)
+On Docker Desktop (Windows, macOS, and newer versions of Docker on Linux):
+
+```
+ping host.docker.internal
+```
+Use this in your container to refer to the host machine's localhost.
+
+✅ Example:
+If your host runs a service on port 5000:
+
+```
+curl http://host.docker.internal:5000
+```
+### Option 2: Use Host Network (--network=host) [Linux only]
+On Linux, you can share the host's network stack with the container:
+
+```
+docker run --network=host myimage
+```
+This makes localhost inside the container the same as localhost on the host.
+
+⚠️ This does not work on Docker Desktop (Windows/macOS), only Linux.
+
+### Option 3: Manually determine host IP from container
+If host.docker.internal is not available, you can determine the default gateway IP (the host IP from container's point of view):
+
+```
+ip route | awk '/default/ { print $3 }'
+```
+This usually returns something like 172.17.0.1.
+
+You can then connect to the host using:
+
+```
+curl http://172.17.0.1:5000
+```
+❗ This method is a bit fragile and depends on the Docker network configuration.
+
+ 
+</details>
 
 <details>
-<summary>How do you copy files from Docker container to the host and vice versa?</summary><br><b>
-</b></details>
+<summary>How do you copy files from Docker container to the host and vice versa?</summary><br>
+
+ You can copy files between a Docker container and the host using the docker cp command. It's simple and works both ways.
+
+🔁 docker cp Command Syntax
+```
+docker cp <source> <destination>
+```
+<source> and <destination> can be either on the host or inside a container.
+
+The container path must be prefixed with the container name or ID.
+
+📤 Copy from Container ➡️ Host
+```
+docker cp <container_id_or_name>:<container_path> <host_path>
+```
+✅ Example:
+```
+Copy /app/logs/output.log from a running container to your current host directory:
+```
+
+```
+docker cp mycontainer:/app/logs/output.log ./output.log
+```
+📥 Copy from Host ➡️ Container
+```
+docker cp <host_path> <container_id_or_name>:<container_path>
+```
+✅ Example:
+```
+Copy config.yaml from the host to /etc/myapp/ inside the container:
+```
+
+```
+docker cp ./config.yaml mycontainer:/etc/myapp/config.yaml
+```
+The destination path must be accessible and have write permissions inside the container.
+
+
+</details>
