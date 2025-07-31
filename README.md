@@ -42,6 +42,8 @@ DevOps concepts and tools, SRE concepts
 [Service Level](https://github.com/srirymec/devops-sre-learning/blob/main/SRE/service-level.md)<br/>
 [Error budget](https://github.com/srirymec/devops-sre-learning/blob/main/SRE/error-budget.md)<br/>
 [Chaos Engineering Principle](https://github.com/srirymec/devops-sre-learning/blob/main/SRE/chaos-engineering-principle.md)<br/>
-[SRE Principle: Toil](https://github.com/srirymec/devops-sre-learning/blob/main/SRE/sre-toil.md)
+[Toil](https://github.com/srirymec/devops-sre-learning/blob/main/SRE/sre-toil.md)<br/>
+[Google SRE - SLO Cheat Sheet](https://kstatic.googleusercontent.com/files/ff59978bff9a5b5cc58a4d86d7fbdc783e1038513f75e2a2b0016467363272e2eeb25a122e2c3f69f624df049e49fae83f07af834f21cedf57c37ef2fbdbbb61)<br/>
+[Google - SLO Worksheet](https://docs.google.com/document/d/1bRkVu7tuow3K21669mzXEEhk1Ki-iukMFehZAR0dAvU/edit?tab=t.0#heading=h.4jtlmcn6qvo)
 
 
