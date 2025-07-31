@@ -33,7 +33,7 @@ Site Reliability Engineering is based on:
   - **SLO/SLA thresholds** indicate when the customer is happy or unhappy
   - Failing to meet them may lead to **service reliability issues** and **penalties**
 
-> 📌 Take a pause to read the definitions of SLI, SLO, and SLA.
+![sre-service-levels](https://github.com/srirymec/devops-sre-learning/blob/main/SRE/images/sre-service-levels.jpg)
 
 ---
 
