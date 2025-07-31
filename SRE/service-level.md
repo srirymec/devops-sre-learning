@@ -85,7 +85,7 @@ These determine:
 - **SLO/SLA thresholds** indicate when a customer is happy/unhappy
 - Missing the threshold affects **reliability**, leading to **penalties**
 
-> ⏸️ *Take a pause to review the definitions of SLI, SLO, SLA.*
+![sre-service-levels](https://github.com/srirymec/devops-sre-learning/blob/main/SRE/images/sre-service-levels.jpg)
 
 ---
 
