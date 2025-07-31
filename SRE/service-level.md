@@ -1,4 +1,4 @@
-# 🎓 Bite-Sized Learning: SRE Principle – Service Level
+# 🎓 SRE Principle – Service Level
 
 Let's talk about one of the SRE principles: **Service Level**.
 
