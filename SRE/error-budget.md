@@ -11,4 +11,6 @@ Your SLI is then expressed as a percentage, and once you define an objective for
 Here’s an example. 
 ---
 
-Imagine that you’re measuring the availability of your home page. The availability is measured by the amount of requests responded with an error, divided by all the valid requests the home page receives, expressed as a percentage. If you decide that the objective of that availability is 99.9%, the error budget is 0.1%. You can serve up to 0.1% of errors (preferably a bit less than 0.1%), and users will happily continue using the service.
+Imagine that you’re measuring the availability of your home page. The availability **(SLI)** is measured by the amount of requests responded with an error, divided by all the valid requests the home page receives, expressed as a percentage. If you decide that the objective **(SLO)** of that availability is 99.9%, the error budget is 0.1%. You can serve up to 0.1% of errors (preferably a bit less than 0.1%), and users will happily continue using the service.
+
+``` Error budget = ```
