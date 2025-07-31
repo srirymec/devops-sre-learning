@@ -91,6 +91,8 @@ These determine:
 
 ## 📏 Defining SLIs and SLOs
 
+![SLI-and-SLO](https://github.com/srirymec/devops-sre-learning/blob/main/SRE/images/SLI-and-SLO.jpg)
+
 ### What Are SLIs?
 
 - **SLIs** measure health of user journeys from the **user’s perspective**
