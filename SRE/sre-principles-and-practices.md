@@ -12,6 +12,8 @@ Site Reliability Engineering is based on:
 - **7 Principles**
 - **18 Practices** that elaborate on those principles
 
+![sre-principles-and-practices](https://github.com/srirymec/devops-sre-learning/blob/main/SRE/images/sre-principles-practices.jpg)
+
 ---
 
 ## 🧭 7 Principles of SRE
