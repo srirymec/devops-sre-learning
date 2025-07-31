@@ -364,7 +364,7 @@ The above results in one subnet instance per subnet object, while retaining the 
 
 Running Terraform across AWS and Azure? **Structure** matters.
 
-This layout separates your code by **cloud**, **module**, and **environment** — so teams can scale without chaos.
+This layout separates your code by ***cloud***, ***module***, and ***environment*** — so teams can scale without chaos.
 
 ***Here’s how it works:***
 
