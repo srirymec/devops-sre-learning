@@ -40,6 +40,7 @@ DevOps concepts and tools, SRE concepts
 [Introduction to Site Reliability Engineering (SRE)](https://github.com/srirymec/devops-sre-learning/blob/main/SRE/introduction-to-sre.md)<br/>
 [SRE Principles and Practices](https://github.com/srirymec/devops-sre-learning/blob/main/SRE/sre-principles-and-practices.md)<br/>
 [Service Level](https://github.com/srirymec/devops-sre-learning/blob/main/SRE/service-level.md)<br/>
+[Error budget](https://github.com/srirymec/devops-sre-learning/blob/main/SRE/error-budget.md)<br/>
 [Chaos Engineering Principle](https://github.com/srirymec/devops-sre-learning/blob/main/SRE/chaos-engineering-principle.md)<br/>
 [SRE Principle: Toil](https://github.com/srirymec/devops-sre-learning/blob/main/SRE/sre-toil.md)
 
