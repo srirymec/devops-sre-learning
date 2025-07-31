@@ -359,6 +359,31 @@ The above results in one subnet instance per subnet object, while retaining the 
 
 </details>
 
+<details>
+<summary>How to setup Multi-cloud Terraform in 3 parts</summary><br>
+
+Running Terraform across AWS and Azure? **Structure** matters.
+
+This layout separates your code by **cloud**, **module**, and **environment** — so teams can scale without chaos.
+
+***Here’s how it works:***
+
+**1. Cloud-specific code**
+   Under `multi-cloud-terraform/`, you split AWS and Azure into their own folders. Each has its own `main.tf`, `variables.tf`, and `outputs.tf`. This keeps cloud logic clean and separate.
+
+**2. Reusable modules**
+   Inside `modules/`, you define shared building blocks. For example, AWS storage or Azure compute. These modules are called by the main configs — so you write once, use many times.
+
+**3. Environment configs**
+   The `envs/` folder holds settings for dev, test, and prod. Each environment has its own backend, variables, and provider files. This lets you deploy the same code to different stages with different settings.
+
+***Why it matters:***
+This setup avoids duplication, supports multiple clouds, and keeps environments isolated. It’s how you scale Terraform safely.
+
+![terraform-multi-cloud](https://github.com/srirymec/devops-sre-learning/blob/main/terraform/images/multi-cloud-terraform.jpg)
+
+</details>
+
 ## :baby: Beginner
 
 <details>
