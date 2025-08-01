@@ -70,4 +70,49 @@ on CPU usage.
  ## Kubernetes architecture
  </summary><br>
 
+A Kubernetes cluster consists of a **control plane** plus a set of worker machines, called **nodes**, that run containerized applications. Every cluster needs at least one worker node in order to run Pods.
+
+The worker node(s) host the Pods that are the components of the application workload. The control plane manages the worker nodes and the Pods in the cluster. In production environments, the control plane usually runs across multiple computers and a cluster usually runs multiple nodes, providing fault-tolerance and high availability.
+
+- Control plane components
+
+  - **kube-apiserver:**
+    The API server is a component of the Kubernetes control plane that exposes the Kubernetes API.
+
+  - **etcd:**
+    Consistent and highly-available key value store used as Kubernetes' backing store for all cluster data.
+
+  - **kube-scheduler:**
+    Control plane component that watches for newly created Pods with no assigned node, and selects a node for them to run on.
+
+  - **kube-controller-manager:**
+    Control plane component that runs controller processes.
+    
+    There are many different types of controllers. Some examples of them are:
+
+    - **Node controller:** Responsible for noticing and responding when nodes go down.
+    - **Job controller:** Watches for Job objects that represent one-off tasks, then creates Pods to run those tasks to completion.
+    - **EndpointSlice controller:** Populates EndpointSlice objects (to provide a link between Services and Pods).
+    - **ServiceAccount controller:** Create default ServiceAccounts for new namespaces.
+
+  - **cloud-controller-manager:**
+
+    A Kubernetes control plane component that embeds cloud-specific control logic. The cloud controller manager lets you link your cluster into your cloud provider's API,      and separates out the components that interact with that cloud platform from components that only interact with your cluster.
+
+
+- Node components
+
+  - **kubelet:**
+
+    An agent that runs on each node in the cluster. It makes sure that containers are running in a Pod.
+
+  - **kube-proxy (optional):**
+
+     kube-proxy is a network proxy that runs on each node in your cluster, implementing part of the Kubernetes Service concept.
+
+  - **Container runtime:**
+
+     A fundamental component that empowers Kubernetes to run containers effectively. Kubernetes supports container runtimes such as containerd, CRI-O, and any other             implementation of the Kubernetes CRI (Container Runtime Interface).
+
+
 </details>
