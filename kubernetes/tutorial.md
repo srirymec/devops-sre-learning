@@ -13,6 +13,11 @@
  ## Docker VS Kubernetes
  </summary><br>
 
+ - Docker is containerization platform, whereas Kubernetes is container orchestration platform.
+ - Containers are **Ephermal(Short lived)** in nature. If the container 1 takes all the resources of the host VM, nth container may not get the sufficient memory and may die.
+
+   ![docker-on-host-vm](https://github.com/srirymec/devops-sre-learning/blob/main/kubernetes/images/docker1.jpg)
+
 | Topic              | Docker                                                                                     | Kubernetes                                                                                  |
 |--------------------|--------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------|
 | **Function**        | Docker is a tool that packages applications into containers for consistent behavior.       | Kubernetes automates the deployment, scaling, and management of containerized applications.  |
