@@ -301,9 +301,24 @@ If you want to know all the **details of the running pod**, you can describe the
 
 In the following output, you can see all the details about the pod. Its IP address, namespace, container details, QoS class, etc.
 
-![k8-pod-1](https://github.com/srirymec/devops-sre-learning/blob/main/kubernetes/images/k8-pod-2.PNG)
+![k8-pod-2](https://github.com/srirymec/devops-sre-learning/blob/main/kubernetes/images/k8-pod-2.PNG)
 
 </details>
 
+<details>
+<summary> 
+ 
+## Access Pod Shell
+</summary><br>
 
+There are many use cases where you need terminal access to the pod. One main use case is debugging and troubleshooting.
+
+You can access the shell of web-server-pod using the following command.
+
+`kubectl exec -it web-server-pod -- /bin/sh`
+
+In the following output, I am executing whoami command inside the pod.
+
+![k8-pod-3](https://github.com/srirymec/devops-sre-learning/blob/main/kubernetes/images/k8-pod-3.PNG)
+</details>
 
