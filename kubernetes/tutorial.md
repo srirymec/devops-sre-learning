@@ -337,3 +337,23 @@ Following are the pod lifecycle phases.
 - **5. Unknown:** Unknown status of the pod. For example, the cluster is unable to monitor the status of the pod.
 </details>
 
+<details>
+<summary> 
+ 
+## Pod Associated Objects
+</summary><br>
+
+When it comes to running applications on Kubernetes, we don't run an individual pod. Because Kubernetes is all about **scaling and maintaining** the availability of pods.
+Kubernetes has different types of objects associated with pods for different use cases.
+
+The following are important pod-associated objects.
+
+- **1. Replicaset:** To maintain a stable set of Pods replicas running at any given time.
+- **2. Deployment:** To run stateless applications like web servers, APIs, etc
+- **3. StatefulSets:** To run stateful applications like distributed databases.
+- **4. Daemonsets:** To run agents on all the Kubernetes nodes.
+- **5. Jobs:** For batch processing
+- **6. CronJobs:** Scheduled Jobs
+</details>
+
+
