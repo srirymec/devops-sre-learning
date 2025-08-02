@@ -181,6 +181,49 @@ access policies through the Kubernetes API. RBAC utilizes roles, which contain p
 grant the permissions defined in a role to a set of users.
  </details>
 
+<details>
+<summary> 
+ 
+## Kubernetes Namespace
+</summary><br>
+
+Namespace provides an additional qualification to a resource name. This is helpful when multiple teams are using the same cluster and there is a potential of name collision. It can be as a virtual wall between multiple clusters.
+
+Following are some of the important functionalities of a Namespace in Kubernetes −
+
+- Namespaces help pod-to-pod communication using the same namespace.
+
+- Namespaces are virtual clusters that can sit on top of the same physical cluster.
+
+- They provide logical separation between the teams and their environments.
+
+### Create a Namespace
+
+`kubectl create f namespace.yml `
+
+### Using Namespace in Service - Example
+
+```
+apiVersion: v1
+kind: Service
+metadata:
+   name: elasticsearch
+   namespace: elk
+   labels:
+      component: elasticsearch
+spec:
+   type: LoadBalancer
+   selector:
+      component: elasticsearch
+   ports:
+   - name: http
+      port: 9200
+      protocol: TCP
+   - name: transport
+      port: 9300
+      protocol: TCP
+```
+</details>
 
 <details>
 <summary> 
@@ -212,14 +255,8 @@ grant the permissions defined in a role to a set of users.
 
 - By default, the **PID namespace** is not shared however kubernetes provide options to enable process sharing between containers inside the pod using `shareProcessNamespace` Option.
 - The mount namespace is not shared between containers. Each container has its own private filesystem and directories. However, the **pod mount volumes** are shared between containers.
-
-</details>
-
-<details>
-<summary> 
  
- ## Kubernetes Pod YAML (Object Definition)
- </summary><br>
+### Kubernetes Pod YAML (Object Definition)
 
 Here is an example Pod YAML that creates an Nginx web server pod. This YAML is nothing but a declarative desired state of a pod.
 
@@ -251,13 +288,7 @@ Let's take a look at the Kubernetes pod object.
 | `spec`       | Under the `spec` section, we declare the desired state of the pod. These are the specifications of the containers we want to run inside the pod. |
 | `containers` | Under `containers`, we declare the desired state of the containers inside the pod: the container image, exposed port, etc. |
 
-</details>
-
-<details>
-<summary> 
- 
- ## Creating the Pod
- </summary><br>
+### Creating the Pod
 
 Create a file named `nginx.yaml` with the following contents.
 
@@ -286,14 +317,8 @@ Now, to deploy the manifest, you need to execute the following kubectl command w
 Once the pod is deployed you will see the pod **Running** status as shown below. In our example, we have only one container inside the pod. So it shows `1/1` ready and running.
 
 ![k8-pod-1](https://github.com/srirymec/devops-sre-learning/blob/main/kubernetes/images/k8-pod-1.PNG)
-
-</details>
-
-<details>
-<summary> 
  
-## Describe a Pod
-</summary><br>
+### Describe a Pod
 
 If you want to know all the **details of the running pod**, you can describe the pod using kubectl.
 
@@ -302,14 +327,8 @@ If you want to know all the **details of the running pod**, you can describe the
 In the following output, you can see all the details about the pod. Its IP address, namespace, container details, QoS class, etc.
 
 ![k8-pod-2](https://github.com/srirymec/devops-sre-learning/blob/main/kubernetes/images/k8-pod-2.PNG)
-
-</details>
-
-<details>
-<summary> 
  
-## Access Pod Shell
-</summary><br>
+### Access Pod Shell
 
 There are many use cases where you need terminal access to the pod. One main use case is debugging and troubleshooting.
 
@@ -320,13 +339,8 @@ You can access the shell of web-server-pod using the following command.
 In the following output, I am executing whoami command inside the pod.
 
 ![k8-pod-3](https://github.com/srirymec/devops-sre-learning/blob/main/kubernetes/images/k8-pod-3.PNG)
-</details>
-
-<details>
-<summary> 
  
-## Pod Lifecycle
-</summary><br>
+### Pod Lifecycle
 
 Following are the pod lifecycle phases.
 
@@ -335,13 +349,8 @@ Following are the pod lifecycle phases.
 - **3. Succeeded:** All containers inside the pod have been successfully terminated. For example, the successful completion of a CronJob object.
 - **4. Failed:** All pods are terminated but at least one container has terminated in failure. For example, the application running inside the pod is unable to start due to a config issue and the container exits with a non-zero exit code.
 - **5. Unknown:** Unknown status of the pod. For example, the cluster is unable to monitor the status of the pod.
-</details>
-
-<details>
-<summary> 
  
-## Pod Associated Objects
-</summary><br>
+### Pod Associated Objects
 
 When it comes to running applications on Kubernetes, we don't run an individual pod. Because Kubernetes is all about **scaling and maintaining** the availability of pods.
 Kubernetes has different types of objects associated with pods for different use cases.
@@ -354,6 +363,7 @@ The following are important pod-associated objects.
 - **4. Daemonsets:** To run agents on all the Kubernetes nodes.
 - **5. Jobs:** For batch processing
 - **6. CronJobs:** Scheduled Jobs
+
 </details>
 
 
