@@ -366,4 +366,24 @@ The following are important pod-associated objects.
 
 </details>
 
+<details>
+<summary> 
+ 
+## Kubernetes - Service
+</summary><br>
 
+A service can be defined as a logical set of pods. It can be defined as an abstraction on the top of the pod which provides a single IP address and DNS name by which pods can be accessed.
+
+### Example service yaml
+
+```
+apiVersion: v1
+kind: Service
+metadata:
+   name: Tutorial_point_service
+spec:
+   ports:
+   - port: 8080
+   targetPort: 31999
+```
+</details>
