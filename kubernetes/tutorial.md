@@ -214,3 +214,78 @@ grant the permissions defined in a role to a set of users.
 - The mount namespace is not shared between containers. Each container has its own private filesystem and directories. However, the **pod mount volumes** are shared between containers.
 
 </details>
+
+<details>
+<summary> 
+ 
+ ## Kubernetes Pod YAML (Object Definition)
+ </summary><br>
+
+Here is an example Pod YAML that creates an Nginx web server pod. This YAML is nothing but a declarative desired state of a pod.
+
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: web-server-pod
+  labels:
+    app: web-server
+    environment: production
+  annotations:
+    description: This pod runs the web server
+spec:
+  containers:
+  - name: web-server
+    image: nginx:latest
+    ports:
+    - containerPort: 80
+```
+
+Let's take a look at the Kubernetes pod object.
+
+| Parameter   | Description |
+|-------------|-------------|
+| `apiVersion` | The API version of the pod. In our case, it's `v1`. |
+| `kind`       | Kind of the object. It's `Pod`. |
+| `metadata`   | Metadata is used to uniquely identify and describe the pod:<br>• **labels** – Set of key-value pairs to represent the pod. This is similar to tagging in cloud environments. Every object must be labeled with standard labels. It helps in grouping the objects.<br>• **name** – Name of the pod.<br>• **namespace** – Namespace for the pod.<br>• **annotations** – Additional data in key-value format. |
+| `spec`       | Under the `spec` section, we declare the desired state of the pod. These are the specifications of the containers we want to run inside the pod. |
+| `containers` | Under `containers`, we declare the desired state of the containers inside the pod: the container image, exposed port, etc. |
+
+</details>
+
+<details>
+<summary> 
+ 
+ ## Creating the Pod
+ </summary><br>
+
+Create a file named `nginx.yaml` with the following contents.
+
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: web-server-pod
+  labels:
+    app: web-server
+    environment: production
+  annotations:
+    description: This pod runs the web server
+spec:
+  containers:
+  - name: web-server
+    image: nginx:1.14.2
+    ports:
+    - containerPort: 80
+```
+
+Now, to deploy the manifest, you need to execute the following kubectl command with the file name.
+
+`kubectl create -f nginx.yaml`
+
+</details>
+
+
+
+
+
