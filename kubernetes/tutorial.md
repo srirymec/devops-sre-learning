@@ -283,6 +283,10 @@ Now, to deploy the manifest, you need to execute the following kubectl command w
 
 `kubectl create -f nginx.yaml`
 
+Once the pod is deployed you will see the pod **Running** status as shown below. In our example, we have only one container inside the pod. So it shows `1/1` ready and running.
+
+![k8-pod-1](https://github.com/srirymec/devops-sre-learning/blob/main/kubernetes/images/k8-pod-1.PNG)
+
 </details>
 
 
