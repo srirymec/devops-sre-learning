@@ -289,7 +289,21 @@ Once the pod is deployed you will see the pod **Running** status as shown below.
 
 </details>
 
+<details>
+<summary> 
+ 
+## Describe a Pod
+</summary><br>
 
+If you want to know all the **details of the running pod**, you can describe the pod using kubectl.
+
+`kubectl describe pod web-server-pod`
+
+In the following output, you can see all the details about the pod. Its IP address, namespace, container details, QoS class, etc.
+
+![k8-pod-1](https://github.com/srirymec/devops-sre-learning/blob/main/kubernetes/images/k8-pod-2.PNG)
+
+</details>
 
 
 
