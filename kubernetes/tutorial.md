@@ -122,5 +122,61 @@ The worker node(s) host the Pods that are the components of the application work
 
      A fundamental component that empowers Kubernetes to run containers effectively. Kubernetes supports container runtimes such as containerd, CRI-O, and any other             implementation of the Kubernetes CRI (Container Runtime Interface).
 
-
 </details>
+
+<details>
+<summary> 
+ 
+ ## Kubernetes Terminologies
+ </summary><br>
+
+Kubernetes’ Terminology: Terminology which helps to understand each objects in Kubernetes cluster to 
+deploy and manage containers.
+
+- **Service:** The Service operator requests existing IP addresses and information from the endpoint operator and will 
+manages network connectivity based on labels. A Service is used to communicate between pods, namespaces, and outside 
+the cluster.
+- **Endpoints:** An endpoint is a resource that gets IP addresses of one or more pods dynamically assigned to it, along with a 
+port.
+- **Labels:** To easily manage thousands of Pods across of many nodes could be difficult. To make management easier, we can 
+use labels, arbitrary string which becomes part of the objects metadata. These can then be used when checking or changing 
+the state of objects.
+- **Taints:** Nodes can have taints to discourage or stop pods to be assigned or placed on that node. 
+- **Toleration:** Tolerations allow the scheduler to schedule pods with matching taints. Tolerations allow scheduling but 
+don't guarantee scheduling: the scheduler also evaluates other parameters as part of its function. Taints and tolerations 
+work together to ensure that pods are not scheduled onto inappropriate nodes.
+- **Affinity:** In Kubernetes, affinity is a set of rules that give hints to the scheduler about where to place pods.
+- **Annotation:** A key-value pair that is used to attach arbitrary non-identifying metadata to objects.
+- **cgroup (control group):** A group of Linux processes with optional resource isolation, accounting and limits.
+cgroup is a Linux kernel feature that limits, accounts for, and isolates the resource usage (CPU, memory, disk I/O, network)
+for a collection of processes.
+- **Cluster:** A set of worker machines, called nodes, that run containerized applications. Every cluster has at least one worker 
+node.
+- **DaemonSet:** Ensures a copy of a Pod is running across a set of nodes in a cluster. Used to deploy system daemons such as 
+log collectors and monitoring agents that typically must run on every Node.
+- **Ephemeral Container:** A Container type that you can temporarily run inside a Pod. If you want to investigate a Pod 
+that's running with problems, you can add an ephemeral container to that Pod and carry out diagnostics. Ephemeral 
+containers have no resource or scheduling guarantees, and you should not use them to run any part of the workload itself.
+- **Init Container:** One or more initialization containers that must run to completion before any app containers run. 
+Initialization (init) containers are like regular app containers, with one difference: init containers must run to completion 
+before any app containers can start. Init containers run in series: each init container must run to completion before the 
+next init container begins.
+- **Kubectl:** Command line tool for communicating with a Kubernetes cluster's control plane, using the Kubernetes API. You 
+can use kubectl to create, inspect, update, and delete Kubernetes objects.
+- **LimitRange:** Provides constraints to limit resource consumption per Containers or Pods in a namespace. LimitRange
+limits the quantity of objects that can be created by type, as well as the amount of compute resources that may be 
+requested/consumed by individual Containers or Pods in a namespace.
+- **Logging:** Logs are the list of events that are logged by cluster or application. Application and systems logs can help you 
+understand what is happening inside your cluster. The logs are particularly useful for debugging problems and monitoring 
+cluster activity.
+- **Namespace:** An abstraction used by Kubernetes to support isolation of groups of resources within a single cluster. 
+Namespaces are used to organize objects in a cluster and provide a way to divide cluster resources. Names of resources 
+need to be unique within a namespace, but not across namespaces. Namespace-based scoping is applicable only for 
+namespaced objects (e.g., Deployments, Services, etc) and not for cluster-wide objects (e.g., StorageClass, Nodes, 
+PersistentVolumes, etc).
+- **Node:** A node is a worker machine in Kubernetes. A worker node may be a VM or physical machine, depending on the 
+cluster. It has local daemons or services necessary to run Pods and is managed by the control plane. 
+- **RBAC (Role-Based Access Control):** Manages authorization decisions, allowing admins to dynamically configure 
+access policies through the Kubernetes API. RBAC utilizes roles, which contain permission rules, and role bindings, which 
+grant the permissions defined in a role to a set of users.
+ </details>
