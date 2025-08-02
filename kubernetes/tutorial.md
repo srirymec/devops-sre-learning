@@ -180,3 +180,37 @@ cluster. It has local daemons or services necessary to run Pods and is managed b
 access policies through the Kubernetes API. RBAC utilizes roles, which contain permission rules, and role bindings, which 
 grant the permissions defined in a role to a set of users.
  </details>
+
+
+<details>
+<summary> 
+ 
+## Kubernetes Pod
+</summary><br>
+
+- Pods are the **smallest deployable units** in Kubernetes.
+- Pods are **ephemeral** in nature; they can be created, deleted, and updated.
+- A pod can have **more than one container**; there is no limit to how many containers you can run inside a pod.
+- Each pod gets a **unique IP address.**
+- Pods communicate with each other using the IP address.
+- Containers inside a pod connect using **localhost** on different ports.
+- Containers running inside a pod should have different port numbers to avoid port clashes.
+- You can set CPU and memory resources for each container running inside the pod.
+- Containers inside a pod **share the same volume mount.**
+- All the containers inside a pod are scheduled on the same node; It cannot span multiple nodes.
+- If there is more than one container, during the pod startup all the main containers start in parallel. Whereas the init containers inside the pod run in sequence.
+
+![k8-pod](https://github.com/srirymec/devops-sre-learning/blob/main/kubernetes/images/k8-pod.PNG)
+
+**Containers inside the Kubernetes pod share the following,**
+
+- **Network namespace** - All containers inside a pod communicate via localhost.
+- **IPC namespace** - All containers use a shared interprocess communication namespace.
+- **UTS namespace** - All containers share the same hostname.
+
+**What is not shared between containers inside a pod?**
+
+- By default, the **PID namespace** is not shared however kubernetes provide options to enable process sharing between containers inside the pod using `shareProcessNamespace` Option.
+- The mount namespace is not shared between containers. Each container has its own private filesystem and directories. However, the **pod mount volumes** are shared between containers.
+
+</details>
