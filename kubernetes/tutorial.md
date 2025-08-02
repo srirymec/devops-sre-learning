@@ -380,10 +380,18 @@ A service can be defined as a logical set of pods. It can be defined as an abstr
 apiVersion: v1
 kind: Service
 metadata:
-   name: Tutorial_point_service
+   name: appname
+   labels:
+      k8s-app: appname
 spec:
+   type: NodePort
    ports:
    - port: 8080
-   targetPort: 31999
+      nodePort: 31999
+      name: omninginx
+   selector:
+      k8s-app: appname
+      component: nginx
+      env: env_name
 ```
 </details>
