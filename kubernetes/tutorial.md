@@ -322,3 +322,18 @@ In the following output, I am executing whoami command inside the pod.
 ![k8-pod-3](https://github.com/srirymec/devops-sre-learning/blob/main/kubernetes/images/k8-pod-3.PNG)
 </details>
 
+<details>
+<summary> 
+ 
+## Pod Lifecycle
+</summary><br>
+
+Following are the pod lifecycle phases.
+
+- **1. Pending:** It means the pod creation request is successful, however, the scheduling is in process. For example, it is in the process of downloading the container image.
+- **2. Running:** The pod is successfully running and operating as expected. For example, the pod is service client requests.
+- **3. Succeeded:** All containers inside the pod have been successfully terminated. For example, the successful completion of a CronJob object.
+- **4. Failed:** All pods are terminated but at least one container has terminated in failure. For example, the application running inside the pod is unable to start due to a config issue and the container exits with a non-zero exit code.
+- **5. Unknown:** Unknown status of the pod. For example, the cluster is unable to monitor the status of the pod.
+</details>
+
