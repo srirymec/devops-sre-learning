@@ -385,6 +385,78 @@ The following are important pod-associated objects.
 - To put it simply, init containers can ensure your applications are always properly configured and initialized before they are started.
 
 </details>
+<details>
+<summary> 
+ 
+## What is a DaemonSet In Kubernetes?
+</summary><br>
+
+- The DaemonSet object is designed to **ensure that a single pod runs on each worker node**. This means you cannot scale daemonset pods in a node. And for some reason, if the daemonset pod gets deleted from the node, the daemonset controller creates it again.
+
+- Let's look at an example. If there are 500 worker nodes and you deploy a daemonset, the daemonset controller will run one pod per worker node by default. That is a total of 500 pods. However, using **nodeSelector, nodeAffinity, Taints, and Tolerations**, you can restrict the daemonset to run on specific nodes.
+
+- For example, in a cluster of 100 worker nodes, one might have 20 worker nodes labeled GPU enabled to run batch workloads. And you should run a pod on those 20 worker nodes. In this case, you can deploy the pod as a Daemonset using a node selector. We will look at it practically later in this guide.
+
+- Another example is that you have a specific number of worker nodes dedicated to platform tools (ingress, monitoring, logging, etc.) and want to run Daemonset related to platform tools only on the nodes labeled as platform tools. In this case, you can use the nodeSelector to run the daemonset pods only on the worker nodes dedicated to platform tooling.
+
+### Kubernetes DaemonSet Use Cases
+
+- **Cluster Log Collection:** Running a log collector on every node to centralize Kubernetes logging data. Eg:   fluentd , logstash, fluentbit
+- **Cluster Monitoring:** Deploy monitoring agents, such as Prometheus Node Exporter, on every node in the cluster to collect and expose node-level metrics. This way prometheus gets all the required worker node metrics.
+- **Security and Compliance:** Running CIS Benchmarks on every node using tools like kube-bench. Also deploy security agents, such as intrusion detection systems or vulnerability scanners, on specific nodes that require additional security measures. For example, nodes that handle PCI, and PII-compliant data.
+- **Storage Provisioning:** Running a storage plugin on every node to provide a shared storage system to the entire cluster.
+- **Network Management:** Running a network plugin or firewall on every node to ensure consistent network policy enforcement. For example, the Calico CNI plugin runs as Daemonset on all the nodes.
+
+### DaemonSet Example
+
+Like other Kubernetes objects, `DaemonSet` also gets configured by using YAML files.
+
+```
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: fluentd
+  namespace: logging
+  labels:
+    app: fluentd-logging
+spec:
+  selector:
+    matchLabels:
+      name: fluentd
+  template:
+    metadata:
+      labels:
+        name: fluentd
+    spec:
+      containers:
+      - name: fluentd-elasticsearch
+        image: quay.io/fluentd_elasticsearch/fluentd:v2.5.2
+        resources:
+          limits:
+            memory: 200Mi
+          requests:
+            cpu: 100m
+            memory: 200Mi
+        volumeMounts:
+        - name: varlog
+          mountPath: /var/log
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - name: varlog
+        hostPath:
+          path: /var/log
+```
+
+Let's understand the manifest file.
+
+- **`apiVersion`:** `apps/v1` for `DaemonSet`
+- **`kind`:** `DaemonSet` such as Pod, Deployment, and Service
+- **`metadata`:** Put the name of the `DaemonSet`, mention namespace, annotations, and labels. In our case `DaemonSet's` name is fluentd.
+- **`spec.selector`:** The selector for the pods is managed by the `DaemonSet`. This value must be a label specified in the pod template. This value is immutable.
+- **`spec.template`:** This is a required field that specifies a pod template for the `DaemonSet` to use. Along with all the required fields for containers. It has everything of pod schema except `apiVersion` and `kind`.
+
+</details>
+
 
 <details>
 <summary> 
