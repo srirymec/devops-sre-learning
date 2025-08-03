@@ -369,6 +369,26 @@ The following are important pod-associated objects.
 <details>
 <summary> 
  
+## What is an Init Container?
+</summary><br>
+
+- Init Containers are containers that **start and run to completion** before starting the main containers in the pod. It acts as a preparatory step, allowing us to perform initialization tasks, configure prerequisites, or configure dependencies required by the application in the main containers.
+
+ ![init-container-1](https://github.com/srirymec/devops-sre-learning/blob/main/kubernetes/images/init-container-1.PNG)
+
+ - Let's say we have an application that needs a secret to connect to an API. You can't hardcode this secret into the application or use Kubernetes secrets due to compliance reasons. In this case, **you can use an init container** to fetch the secret from a secret management service like Vault or AWS Secrets Manager and write it to a location in the pod where the application container can access it.
+
+ ![init-container-2](https://github.com/srirymec/devops-sre-learning/blob/main/kubernetes/images/init-container-2.PNG)
+
+- This way when the application pod starts, it will have access to the secret to connect to the API.
+
+- To put it simply, init containers can ensure your applications are always properly configured and initialized before they are started.
+
+</details>
+
+<details>
+<summary> 
+ 
 ## Kubernetes - Service
 </summary><br>
 
