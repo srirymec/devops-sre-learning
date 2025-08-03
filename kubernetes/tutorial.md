@@ -395,3 +395,162 @@ spec:
       env: env_name
 ```
 </details>
+
+<details>
+<summary> 
+ 
+## Kubernetes - Replication Controller
+</summary><br>
+
+Replication Controller is one of the key features of Kubernetes, which is responsible for managing the pod lifecycle. It is responsible for making sure that the specified number of pod replicas are running at any point of time. 
+
+```
+apiVersion: v1
+kind: ReplicationController --------------------------> 1
+metadata:
+   name: Tomcat-ReplicationController --------------------------> 2
+spec:
+   replicas: 3 ------------------------> 3
+   template:
+      metadata:
+         name: Tomcat-ReplicationController
+      labels:
+         app: App
+         component: neo4j
+      spec:
+         containers:
+         - name: Tomcat- -----------------------> 4
+         image: tomcat: 8.0
+         ports:
+            - containerPort: 7474 ------------------------> 5
+```
+
+- **1. Kind: ReplicationController** → In the above code, we have defined the kind as replication controller which tells the kubectl that the yaml file is going to be used for creating the replication controller.
+
+- **2. name: Tomcat-ReplicationController** → This helps in identifying the name with which the replication controller will be created. If we run the kubctl, get rc < Tomcat-ReplicationController > it will show the replication controller details.
+
+- **3. replicas: 3** → This helps the replication controller to understand that it needs to maintain three replicas of a pod at any point of time in the pod lifecycle.
+
+- **4. name: Tomcat** → In the spec section, we have defined the name as tomcat which will tell the replication controller that the container present inside the pods is tomcat.
+
+- **5. containerPort: 7474** → It helps in making sure that all the nodes in the cluster where the pod is running the container inside the pod will be exposed on the same port 7474.
+
+</details>
+
+<details>
+<summary> 
+ 
+## Kubernetes - Replica Sets
+</summary><br>
+
+- Replica Set ensures how many replica of pod should be running. It can be considered as a replacement of replication controller. 
+- The key difference between the replica set and the replication controller is, the replication controller only supports equality-based selector whereas the replica set supports set-based selector.
+
+```
+apiVersion: extensions/v1beta1 --------------------->1
+kind: ReplicaSet --------------------------> 2
+metadata:
+   name: Tomcat-ReplicaSet
+spec:
+   replicas: 3
+   selector:
+      matchLables:
+         tier: Backend ------------------> 3
+      matchExpression:
+{ key: tier, operation: In, values: [Backend]} --------------> 4
+template:
+   metadata:
+      lables:
+         app: Tomcat-ReplicaSet
+         tier: Backend
+      labels:
+         app: App
+         component: neo4j
+   spec:
+      containers:
+      - name: Tomcat
+      image: tomcat: 8.0
+      ports:
+      - containerPort: 7474
+```
+
+- **1. apiVersion: extensions/v1beta1** → In the above code, the API version is the advanced beta version of Kubernetes which supports the concept of replica set.
+
+- **2. kind: ReplicaSet** → We have defined the kind as the replica set which helps kubectl to understand that the file is used to create a replica set.
+
+- **3. tier: Backend** → We have defined the label tier as backend which creates a matching selector.
+
+- **4. {key: tier, operation: In, values: [Backend]}** → This will help matchExpression to understand the matching condition we have defined and in the operation which is used by **matchlabel** to find details.
+
+</details>
+
+<details>
+<summary> 
+ 
+## Kubernetes - Deployments
+</summary><br>
+
+- A Deployment provides declarative updates for Pods and ReplicaSets.
+- You describe a desired state in a Deployment, and the Deployment Controller changes the actual state to the desired state at a controlled rate. 
+
+### Changing the Deployment
+
+- **Updating** − The user can update the ongoing deployment before it is completed. In this, the existing deployment will be settled and new deployment will be created.
+
+- **Deleting** − The user can pause/cancel the deployment by deleting it before it is completed. Recreating the same deployment will resume it.
+
+- **Rollback** − We can roll back the deployment or the deployment in progress. The user can create or update the deployment by using **DeploymentSpec.PodTemplateSpec = oldRC.PodTemplateSpec**.
+
+
+### Example deployment yaml
+
+```
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+   name: Tomcat-ReplicaSet
+spec:
+   replicas: 3
+   template:
+      metadata:
+         lables:
+            app: Tomcat-ReplicaSet
+            tier: Backend
+   spec:
+      containers:
+         - name: Tomcatimage:
+            tomcat: 8.0
+            ports:
+               - containerPort: 7474
+```
+
+### Create Deployment
+
+`kubectl create f Deployment.yaml -record`
+
+```
+deployment "Deployment" created Successfully.
+```
+
+### Fetch the Deployment
+
+`kubectl get deployments`
+
+```
+NAME           DESIRED     CURRENT     UP-TO-DATE     AVILABLE    AGE
+Deployment        3           3           3              3        20s
+```
+
+### Check the Status of Deployment
+
+`kubectl rollout status deployment/Deployment`
+
+### Updating the Deployment
+
+`kubectl set image deployment/Deployment tomcat=tomcat:6.0`
+
+### Rolling Back to Previous Deployment
+
+`kubectl rollout undo deployment/Deployment to-revision=2`
+
+</details>
