@@ -646,3 +646,146 @@ Deployment        3           3           3              3        20s
 `kubectl rollout undo deployment/Deployment to-revision=2`
 
 </details>
+
+<details>
+<summary> 
+ 
+## Kubernetes - Volumes
+</summary><br>
+
+In Kubernetes, a volume can be thought of as a directory which is accessible to the containers in a pod.
+
+### Persistent Volume and Persistent Volume Claim
+
+- **Persistent Volume (PV)** − Its a piece of network storage that has been provisioned by the administrator. Its a resource in the cluster which is independent of any individual pod that uses the PV.
+
+- **Persistent Volume Claim (PVC)** − The storage requested by Kubernetes for its pods is known as PVC. The user does not need to know the underlying provisioning. The claims must be created in the same namespace where the pod is created.
+
+### Creating Persistent Volume
+
+```
+kind: PersistentVolume ---------> 1
+apiVersion: v1
+metadata:
+   name: pv0001 ------------------> 2
+   labels:
+      type: local
+spec:
+   capacity: -----------------------> 3
+      storage: 10Gi ----------------------> 4
+   accessModes:
+      - ReadWriteOnce -------------------> 5
+      hostPath:
+         path: "/tmp/data01" --------------------------> 6
+```
+
+In the above code, we have defined −
+
+- **kind: PersistentVolume** → We have defined the kind as PersistentVolume which tells kubernetes that the yaml file being used is to create the Persistent Volume.
+- **name: pv0001** → Name of PersistentVolume that we are creating.
+- **capacity:** → This spec will define the capacity of PV that we are trying to create.
+- **storage: 10Gi** → This tells the underlying infrastructure that we are trying to claim 10Gi space on the defined path.
+- **ReadWriteOnce** → This tells the access rights of the volume that we are creating.
+- **path: "/tmp/data01"** → This definition tells the machine that we are trying to create volume under this path on the underlying infrastructure.
+
+### Creating PV
+
+```
+kubectl create f local-01.yaml
+
+persistentvolume "pv0001" created
+```
+
+### Checking PV
+
+```
+kubectl get pv
+
+NAME        CAPACITY      ACCESSMODES       STATUS       CLAIM      REASON     AGE
+pv0001        10Gi            RWO         Available
+```
+
+### Describing PV
+
+```
+kubectl describe pv pv0001
+```
+
+### Creating Persistent Volume Claim
+
+```
+kind: PersistentVolumeClaim --------------> 1
+apiVersion: v1
+metadata:
+   name: myclaim-1 --------------------> 2
+spec:
+   accessModes:
+      - ReadWriteOnce ------------------------> 3
+   resources:
+      requests:
+         storage: 3Gi ---------------------> 4
+```
+
+In the above code, we have defined −
+
+- **kind: PersistentVolumeClaim** → It instructs the underlying infrastructure that we are trying to claim a specified amount of space.
+- **name: myclaim-1** → Name of the claim that we are trying to create.
+- **ReadWriteOnce** → This specifies the mode of the claim that we are trying to create.
+- **storage: 3Gi** → This will tell kubernetes about the amount of space we are trying to claim.
+
+### Creating PVC
+
+```
+kubectl create f myclaim-1
+
+persistentvolumeclaim "myclaim-1" created
+```
+
+### Getting Details About PVC
+
+```
+kubectl get pvc
+
+NAME        STATUS   VOLUME   CAPACITY   ACCESSMODES   AGE
+myclaim-1   Bound    pv0001     10Gi         RWO       7s
+```
+
+### Describe PVC
+
+```
+kubectl describe pv pv0001
+```
+
+### Using PV and PVC with POD
+
+```
+kind: Pod
+apiVersion: v1
+metadata:
+   name: mypod
+   labels:
+      name: frontendhttp
+spec:
+   containers:
+   - name: myfrontend
+      image: nginx
+      ports:
+      - containerPort: 80
+         name: "http-server"
+      volumeMounts: ----------------------------> 1
+      - mountPath: "/usr/share/tomcat/html"
+         name: mypd
+   volumes: -----------------------> 2
+      - name: mypd
+         persistentVolumeClaim: ------------------------->3
+         claimName: myclaim-1
+```
+
+In the above code, we have defined −
+
+- **volumeMounts:** → This is the path in the container on which the mounting will take place.
+- **Volume:** → This definition defines the volume definition that we are going to claim.
+- **persistentVolumeClaim:** → Under this, we define the volume name which we are going to use in the defined pod.
+
+  
+</details>
