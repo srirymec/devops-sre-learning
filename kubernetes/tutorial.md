@@ -806,7 +806,185 @@ In the above code, we have defined −
 ## Role-Based Access Control (RBAC) in Kubernetes
 </summary><br>
 
+**RBAC** is a security mechanism that helps us manage user permissions based on their roles. It ensures that only authorized users can access or modify resources in Kubernetes. It operates on four key components:
 
+- **Role** − Defines what actions can be performed on which resources.
+- **RoleBinding** − Assigns a Role to a user or group.
+- **ClusterRole** − A Role that applies cluster-wide.
+- **ClusterRoleBinding** − Grants ClusterRoles to users or groups.
+
+Without RBAC, any user with access to the cluster can delete pods, modify configurations, or even shut down services. Thats a security nightmare!
+
+With RBAC, we can:
+
+- Restrict access to sensitive data.
+- Prevent accidental or malicious actions.
+- Organize permissions based on team responsibilities.
+
+### Step 1: Enabling RBAC
+
+RBAC is enabled by default in most modern Kubernetes distributions. To verify its status, run:
+
+`kubectl api-versions | grep rbac.authorization.k8s.io`
+
+If RBAC is enabled, well see the following output:
+
+```
+rbac.authorization.k8s.io/v1
+```
+
+If not, you can simply enable it in your Kubernetes API server using the **--authorization-mode=RBAC** flag.
+
+### Step 2: Creating a Role
+
+A Role in Kubernetes defines permissions within a specific namespace. Suppose we want to grant our developer team permission to list and get pods in the development namespace.
+
+#### Create the Namespace
+
+Before defining the Role, well first ensure that the development namespace exists:
+
+```
+$ kubectl create namespace development
+
+namespace/development created
+```
+
+#### Create the Role Definition
+
+**role.yaml**
+```
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: development
+  name: developer-role
+rules:
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["get", "list"]
+```
+
+Apply the role:
+
+```
+$ kubectl apply -f role.yaml
+
+role.rbac.authorization.k8s.io/developer-role created
+
+```
+
+### Step 3: Binding a Role to a User
+
+A RoleBinding links a Role to a user or group. Let's assign our developer-role to a user named alice.
+
+**rolebinding.yaml**
+
+```
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: developer-rolebinding
+  namespace: development
+subjects:
+- kind: User
+  name: alice
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: developer-role
+  apiGroup: rbac.authorization.k8s.io
+```
+
+Apply the RoleBinding:
+
+```
+$ kubectl apply -f rolebinding.yaml
+
+role.rbac.authorization.k8s.io/developer-role created
+```
+
+### Step 4: Creating a ClusterRole
+
+If we need a role to apply across all namespaces, we can simply create a ClusterRole instead. For instance, let's allow Alice to view all pods in the cluster.
+
+**clusterrole.yaml**
+
+```
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: cluster-viewer
+rules:
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["get", "list"]
+```
+
+Apply the ClusterRole:
+
+```
+$ kubectl apply -f clusterrole.yaml
+
+clusterrole.rbac.authorization.k8s.io/cluster-viewer created
+```
+
+### Step 5: Binding a ClusterRole
+
+Since this role applies cluster-wide, we can use a ClusterRoleBinding to grant Alice these permissions.
+
+**clusterrolebinding.yaml**
+```
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: cluster-viewer-binding
+subjects:
+- kind: User
+  name: alice
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: ClusterRole
+  name: cluster-viewer
+  apiGroup: rbac.authorization.k8s.io
+```
+
+Apply the ClusterRoleBinding:
+
+```
+$ kubectl apply -f clusterrolebinding.yaml
+
+clusterrolebinding.rbac.authorization.k8s.io/cluster-viewer-binding created
+```
+
+Now, Alice can list pods in any namespace.
+
+### Step 6: Verifying RBAC Permissions
+
+To confirm Alice's permissions, use **kubectl auth can-i:**
+
+```
+kubectl auth can-i list pods --namespace=development --as=alice
+```
+
+If permissions are set correctly, well see the following output:
+
+```
+yes
+```
+
+If Alice tries an unauthorized action, like deleting a pod:
+
+```
+kubectl auth can-i delete pods --namespace=development --as=alice
+```
+
+The output will be:
+
+```
+no
+```
+
+### Step 7: Managing and Auditing RBAC
 
 </details>
 
