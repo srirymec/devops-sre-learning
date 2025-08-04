@@ -986,6 +986,100 @@ no
 
 ### Step 7: Managing and Auditing RBAC
 
+#### Listing Existing Roles
+
+To see all roles in a namespace:
+
+```
+$ kubectl get roles -n development
+
+NAME             CREATED AT
+developer-role   2025-03-06T17:13:24Z
+```
+
+For ClusterRoles:
+
+```
+$ kubectl get clusterroles
+
+NAME                                                                   CREATED AT
+admin                                                                  2025-02-25T10:07:12Z
+argocd-application-controller                                          2025-02-27T11:38:34Z
+argocd-applicationset-controller                                       2025-02-27T11:38:34Z
+argocd-server                                                          2025-02-27T11:38:34Z
+calico-cni-plugin                                                      2025-02-26T13:55:30Z
+calico-kube-controllers                                                2025-02-26T13:55:30Z
+calico-node                                                            2025-02-26T13:55:30Z
+cluster-admin                                                          2025-02-25T10:07:11Z
+cluster-viewer                                                         2025-03-06T17:25:05Z
+edit                                                                   2025-02-25T10:07:12Z
+kubeadm:get-nodes                                                      2025-02-25T10:07:18Z
+system:aggregate-to-admin                                              2025-02-25T10:07:12Z
+system:aggregate-to-edit                                               2025-02-25T10:07:12Z
+system:aggregate-to-view                                               2025-02-25T10:07:12Z
+system:auth-delegator                                                  2025-02-25T10:07:13Z
+system:basic-user                                                      2025-02-25T10:07:12Z
+system:certificates.k8s.io:certificatesigningrequests:nodeclient       2025-02-25T10:07:13Z
+system:certificates.k8s.io:certificatesigningrequests:selfnodeclient   2025-02-25T10:07:13Z
+system:certificates.k8s.io:kube-apiserver-client-approver              2025-02-25T10:07:13Z
+system:certificates.k8s.io:kube-apiserver-client-kubelet-approver      2025-02-25T10:07:14Z
+system:certificates.k8s.io:kubelet-serving-approver                    2025-02-25T10:07:13Z
+system:certificates.k8s.io:legacy-unknown-approver                     2025-02-25T10:07:13Z
+system:controller:attachdetach-controller                              2025-02-25T10:07:14Z
+system:controller:certificate-controller                               2025-02-25T10:07:15Z
+system:controller:clusterrole-aggregation-controller                   2025-02-25T10:07:14Z
+system:controller:cronjob-controller                                   2025-02-25T10:07:14Z
+system:controller:daemon-set-controller                                2025-02-25T10:07:14Z
+```
+
+#### Checking RoleBindings
+
+To view RoleBindings in a namespace:
+
+```
+$ kubectl get rolebindings -n development
+
+NAME                    ROLE                  AGE
+developer-rolebinding   Role/developer-role   13m
+```
+
+For ClusterRoleBindings:
+
+```
+$ kubectl get clusterrolebindings
+
+NAME                                                            ROLE                                                                               AGE
+argocd-application-controller                                   ClusterRole/argocd-application-controller                                          7d5h
+argocd-applicationset-controller                                ClusterRole/argocd-applicationset-controller                                       7d5h
+argocd-server                                                   ClusterRole/argocd-server                                                          7d5h
+calico-cni-plugin                                               ClusterRole/calico-cni-plugin                                                      8d
+calico-kube-controllers                                         ClusterRole/calico-kube-controllers                                                8d
+calico-node                                                     ClusterRole/calico-node                                                            8d
+cluster-admin                                                   ClusterRole/cluster-admin                                                          9d
+cluster-viewer-binding                                          ClusterRole/cluster-viewer                                                         9m52s
+kubeadm:cluster-admins                                          ClusterRole/cluster-admin                                                          9d
+kubeadm:get-nodes                                               ClusterRole/kubeadm:get-nodes                                                      9d
+kubeadm:kubelet-bootstrap                                       ClusterRole/system:node-bootstrapper                                               9d
+```
+
+#### Deleting a Role or RoleBinding
+
+To delete a Role:
+
+```
+$ kubectl delete role developer-role -n development
+
+role.rbac.authorization.k8s.io "developer-role" deleted
+```
+
+To remove a RoleBinding:
+
+```
+$ kubectl delete rolebinding developer-rolebinding -n development
+
+rolebinding.rbac.authorization.k8s.io "developer-rolebinding" deleted
+```
+
 </details>
 
 <details>
