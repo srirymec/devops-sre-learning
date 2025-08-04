@@ -789,3 +789,74 @@ In the above code, we have defined −
 
   
 </details>
+
+<details>
+<summary> 
+ 
+## Helm Package Management in Kubernetes
+</summary><br>
+
+
+
+</details>
+
+<details>
+<summary> 
+ 
+## Role-Based Access Control (RBAC) in Kubernetes
+</summary><br>
+
+
+
+</details>
+
+<details>
+<summary> 
+ 
+## Logging and Monitoring with Prometheus and Grafana
+</summary><br>
+
+
+
+</details>
+
+<details>
+<summary> 
+ 
+## Service Mesh with Istio in Kubernetes
+</summary><br>
+
+
+
+</details>
+
+<details>
+<summary> 
+ 
+## Backup and Disaster Recovery in Kubernetes
+</summary><br>
+
+
+
+</details>
+
+<details>
+<summary> 
+ 
+## Managing ConfigMaps and Secrets in Kubernetes
+</summary><br>
+
+
+
+</details>
+
+<details>
+<summary> 
+ 
+## Kubernetes - Implementing Blue-Green Deployments
+</summary><br>
+
+
+
+</details>
+
