@@ -966,5 +966,59 @@ These are types of **Admission Webhooks** that allow you to extend the Kubernete
 
 By using a **ClusterRoleBinding**, you grant the ServiceAccount permissions across the entire cluster, allowing it to see all nodes, regardless of the namespace the application Pod runs in.
 
+## 95. What is kubectl diff?
+**Answer**:  
+`kubectl diff` shows a diff between the current live configuration of a Kubernetes object and a potential new configuration from a local file. It's a useful tool for previewing changes before applying them, helping to prevent unintended modifications.
+
+---
+
+## 96. How would you secure a Kubernetes cluster from a network perspective (beyond Network Policies)?
+**Answer**:
+- **Firewalls/Security Groups**: Configure network firewalls (e.g., cloud provider security groups) to restrict ingress/egress traffic to/from nodes and control plane components.
+- **Private Endpoints for API Server**: Access the Kubernetes API server only through private network endpoints if available.
+- **VPC Peering/VPN**: Securely connect Kubernetes clusters to other private networks.
+- **Egress Network Policies**: Control outbound traffic from Pods.
+- **Service Mesh**: Implement mTLS and granular traffic control.
+- **IDS/IPS**: Deploy intrusion detection/prevention systems at the network edge.
+
+---
+
+## 97. What is the containerRuntimeInterface (CRI)?
+**Answer**:  
+CRI is a plugin interface that enables Kubernetes to use different container runtimes (like containerd, CRI-O, Docker's dockershim — now deprecated) to run containers. It provides a gRPC API for the kubelet to interact with the container runtime. This abstraction allows Kubernetes to be independent of the specific container runtime used.
+
+---
+
+## 98. How would you implement blue/green deployments in Kubernetes?
+**Answer**:
+1. **Two Deployments**: Have two separate Deployments: "blue" (current version) and "green" (new version), each with its own set of Pods.
+2. **Service**: A single Kubernetes Service points to the "blue" deployment.
+3. **Switch Traffic**: To switch to "green," update the Service's selector to point to the "green" deployment's labels.
+4. **Rollback**: If issues arise with "green," simply revert the Service's selector back to "blue."
+
+   - This approach offers zero downtime and an immediate rollback capability, but it doubles resource consumption during the switch.
+
+---
+
+## 99. How would you implement canary deployments in Kubernetes?
+**Answer**:
+1. **Two Deployments**: One for the stable version (main) and another for the canary (new version).
+2. **Ingress/Service Mesh**: Use an Ingress controller or a service mesh (e.g., Istio, Linkerd) to manage traffic routing.
+3. **Gradual Traffic Shifting**: Configure the Ingress/Service Mesh to gradually shift a small percentage of traffic (e.g., 5-10%) to the canary deployment.
+4. **Monitoring**: Closely monitor metrics (errors, latency, performance) for the canary version.
+5. **Increase Traffic/Rollout**: If the canary performs well, gradually increase the traffic to the canary until 100%. Then, the old stable deployment can be scaled down and removed.
+6. **Rollback**: If issues are detected, immediately revert the traffic split to 0% to the canary.
+
+---
+
+## 100. What is the kubectl debug command? When would you use it?
+**Answer**:  
+`kubectl debug` is a beta command in kubectl (as of recent versions) that allows you to create an ephemeral debug container in an existing Pod or create a new debug Pod from an existing Pod or node.
+
+**Use cases**:
+- **Troubleshooting running Pods**: Attach a debugger or run diagnostic tools without restarting the main application container.
+- **Inspecting a crashlooping container**: Get a shell into a container that's constantly restarting.
+- **Debugging nodes**: Create a debug Pod on a specific node to inspect its filesystem or processes.
+- **Running network diagnostics**: Use tools like `tcpdump` inside a debug container.
 
 
