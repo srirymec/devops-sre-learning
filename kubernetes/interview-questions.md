@@ -179,11 +179,10 @@ Kubernetes provides a storage orchestration system using:
 - **StorageClass:**  
   Defines storage types (e.g., "fast", "slow") and allows dynamic provisioning of PVs when a PVC requests a specific class.
 
-<b>
-[Back to top](#index)
-<a name="networking-in-kubernetes"></a>
-</b>
 
+[**Back to top**](#index)
+
+<a name="networking-in-kubernetes"></a>
 # II. Networking in Kubernetes
 
 ## 16. Explain the Kubernetes networking model.
