@@ -243,7 +243,9 @@ Kubernetes uses an internal DNS service, typically **CoreDNS**, to provide **ser
 
   - **Headless Services** also get A records for their individual Pods.
 
-[Back to top](#index)
+
+[**Back to top**](#index)
+
 <a name="deployment-and-scaling"></a>
 # III. Deployment and Scaling
 
@@ -379,7 +381,9 @@ A **CronJob** creates Jobs on a repeating schedule, much like a Unix cron job. T
 - Generating **weekly reports**.
 - **Cleaning up old logs** periodically.
 
-[Back to top](#index)
+
+[**Back to top**](#index)
+
 <a name="security-and-access-control"></a>
 # IV. Security and Access Control
 
@@ -430,7 +434,9 @@ A **CronJob** creates Jobs on a repeating schedule, much like a Unix cron job. T
 
 They are important for improving the **security posture** of your cluster by preventing common security vulnerabilities in Pods.
 
-[Back to top](#index)
+
+[**Back to top**](#index)
+
 <a name="monitoring-and-logging"></a>
 # V. Monitoring and Logging
 
@@ -475,7 +481,9 @@ Monitoring a Kubernetes cluster involves collecting metrics, logs, and events. C
 **Answer:**  
 **Prometheus** is a popular open-source monitoring system that scrapes metrics from configured targets (like Kubernetes components, nodes, and applications) and stores them in a time-series database. It's often used with **Grafana** for dashboards and alerts.
 
-[Back to top](#index)
+
+[**Back to top**](#index)
+
 <a name="advanced-topics-and-troubleshooting-scenarios"></a>
 # VI. Advanced Topics and Troubleshooting Scenarios
 
@@ -548,7 +556,9 @@ Monitoring a Kubernetes cluster involves collecting metrics, logs, and events. C
   
   **Benefits**: Auditable deployments, faster disaster recovery, improved collaboration, and higher reliability.
 
-[Back to top](#index)
+
+[**Back to top**](#index)
+
 <a name="real-world-scenarios-and-troubleshooting"></a>
 # VII. Real-World Scenarios and Troubleshooting
 
@@ -606,7 +616,9 @@ Monitoring a Kubernetes cluster involves collecting metrics, logs, and events. C
 - **Network Policies**: Implement Network Policies to explicitly allow ingress traffic from the application's namespace to the database service's Pods in the database namespace. This ensures only authorized communication is allowed.
 - **Service Accounts & RBAC**: If the application needs to interact with the Kubernetes API to discover the database (less common for direct database access), ensure the application's Service Account has the necessary RBAC permissions.
 
-[Back to top](#index)
+
+[**Back to top**](#index)
+
 <a name="ecosystem-and-cncf-projects-for-2-years-experience-some-familiarity-expected"></a>
 # VIII. Ecosystem and CNCF Projects (for 2 years experience, some familiarity expected)
 
@@ -649,7 +661,9 @@ Example:
 - **Learning curve**: The initial complexity of Kubernetes.
 - **Upgrades**: Performing cluster upgrades with minimal disruption.
 
-[Back to top](#index)
+
+[**Back to top**](#index)
+
 <a name="deeper-dive-into-kubernetes-concepts"></a>
 # IX. Deeper Dive into Kubernetes Concepts
 
@@ -725,7 +739,9 @@ A headless Service does not have a ClusterIP. Instead of acting as a load balanc
 - **nodeSelector**: A simple way to constrain Pods to nodes with specific labels. The Pod will only be scheduled on nodes that have all the specified labels. It's a hard requirement.
 - **tolerations**: Works with taints. A Pod with tolerations can be scheduled on a node that has a matching taint. Without the toleration, the Pod would not be scheduled on that tainted node. It's about allowing scheduling on tainted nodes, not forcing it.
 
-[Back to top](#index)
+
+[**Back to top**](#index)
+
 <a name="scenario-based-questions-for-2-years-experience-focus-on-practical-application"></a>
 # X. Scenario-Based Questions (for 2 years experience, focus on practical application)
 
@@ -783,7 +799,9 @@ This is a tricky one as Kubernetes abstracts away the host OS.
 6. **Permissions within the container**: `kubectl exec -it <pod-name> -- ls -ld /path/to/mount`. Check the permissions of the mounted directory inside the container. The application might not have write permissions. You might need to adjust the `securityContext` in the Pod definition (e.g., `fsGroup`, `runAsUser`).
 7. **Selinux/AppArmor (on host)**: If present, these security modules on the node might be preventing access.
 
-[Back to top](#index)
+
+[**Back to top**](#index)
+
 <a name="advanced-kubernetes-concepts"></a>
 # XI. Advanced Kubernetes Concepts
 
@@ -873,7 +891,9 @@ The `kube-scheduler` is responsible for assigning newly created Pods to availabl
 - **Volume requirements**: Availability of suitable PersistentVolumes.
 - **Port conflicts**: Avoiding port conflicts on a node.
 
-[Back to top](#index)
+
+[**Back to top**](#index)
+
 <a name="miscellaneous-and-best-practices"></a>
 # XII. Miscellaneous and Best Practices
 
