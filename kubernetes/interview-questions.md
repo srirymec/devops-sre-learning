@@ -748,3 +748,91 @@ This is a tricky one as Kubernetes abstracts away the host OS.
 6. **Permissions within the container**: `kubectl exec -it <pod-name> -- ls -ld /path/to/mount`. Check the permissions of the mounted directory inside the container. The application might not have write permissions. You might need to adjust the `securityContext` in the Pod definition (e.g., `fsGroup`, `runAsUser`).
 7. **Selinux/AppArmor (on host)**: If present, these security modules on the node might be preventing access.
 
+# XI. Advanced Kubernetes Concepts
+
+## 71. What is an Admission Controller in Kubernetes? Give an example.
+
+**Answer:**  
+Admission controllers are plugins that intercept requests to the Kubernetes API server after authentication and authorization but before the object is persisted in etcd. They can mutate (change) or validate requests.
+
+**Examples:**
+- **LimitRanger**: Enforces resource limits on Pods within a namespace.
+- **ResourceQuota**: Ensures that namespaces don't exceed their allocated resource quotas.
+- **PodSecurityPolicy (deprecated, replaced by PSS)**: Used to enforce security policies on Pods.
+- **MutatingAdmissionWebhook/ValidatingAdmissionWebhook**: Allows you to define custom admission controllers using webhooks.
+
+## 72. How do you manage certificates and TLS in Kubernetes?
+
+**Answer:**
+- **Kubernetes Secrets**: Store TLS certificates as Kubernetes Secrets of type `kubernetes.io/tls`.
+- **Ingress**: Ingress resources can use these TLS Secrets to terminate SSL/TLS at the Ingress Controller.
+- **Cert-manager**: A popular open-source tool that automates the issuance and renewal of TLS certificates from various issuing sources (e.g., Let's Encrypt) within Kubernetes. It integrates with Ingress and creates/manages TLS Secrets.
+- **Service Mesh (e.g., Istio)**: Service meshes can manage **mTLS** (mutual TLS) between services, providing strong identity and encryption.
+
+## 73. Explain Kubernetes Operators in more detail. What problems do they solve?
+
+**Answer:**  
+Kubernetes Operators are a method of packaging, deploying, and managing a Kubernetes application. They extend the Kubernetes API to manage complex stateful applications. An Operator is essentially a **Custom Controller** that understands the domain-specific knowledge of an application (like a database or a message queue) and automates its operational tasks.
+
+**Problems they solve**:  
+Automating **day-2** operations for complex applications, including:
+- Deployment and upgrades
+- Scaling
+- Backup and restore
+- Failure recovery
+- Cluster rebalancing
+- Applying security patches
+- Handling application-specific configurations
+
+## 74. What is kubeconfig and how is it used?
+
+**Answer:**  
+`kubeconfig` is a YAML file that contains information about your Kubernetes clusters, users, and contexts. It allows `kubectl` (and other Kubernetes clients) to connect to and authenticate with different Kubernetes clusters. It typically resides at `~/.kube/config`.
+
+## 75. How does Kubernetes handle garbage collection?
+
+**Answer:**  
+Kubernetes performs garbage collection to clean up resources that are no longer needed. This includes:
+- **Finished Pods/Jobs**: Deleting Pods associated with completed Jobs.
+- **Orphaned Objects**: Deleting objects that are no longer referenced by their owners (e.g., a ReplicaSet deleting Pods that no longer match its selector).
+- **Unused images and containers**: `kubelet` regularly cleans up old images and containers on the nodes.
+- **kube-controller-manager**: Contains a garbage collector that cleans up various objects.
+
+## 76. What is a Multi-Cluster Kubernetes setup? Why would you need one?
+
+**Answer:**  
+A **multi-cluster** Kubernetes setup involves managing multiple independent Kubernetes clusters.
+
+**Reasons for using it:**
+- **High Availability/Disaster Recovery**: Distributing workloads across different geographical regions or cloud providers to ensure business continuity.
+- **Geographical Proximity/Latency**: Deploying applications closer to users in different regions.
+- **Regulatory Compliance/Data Sovereignty**: Meeting data residency requirements.
+- **Isolation**: Providing strong isolation for different teams or sensitive workloads.
+- **Hybrid Cloud**: Running workloads across on-premise and cloud environments.
+- **Resource Limits**: Overcoming the scaling limits of a single cluster.
+
+## 77. What is etcd in Kubernetes? What are its key characteristics?
+
+**Answer:**  
+`etcd` is a distributed, consistent, and highly available key-value store used by Kubernetes as its primary datastore. It stores all cluster state, configuration data, and metadata (e.g., Pod definitions, Service definitions, ConfigMaps, Secrets).
+
+**Key characteristics:**
+- **Consistency**: Uses the Raft consensus algorithm to ensure data consistency across all members.
+- **High Availability**: Designed to be highly available with multiple instances.
+- **Distributed**: Can run across multiple machines.
+- **Key-value store**: Simple API for storing and retrieving data.
+- **Watches**: Allows clients to watch for changes to keys, enabling Kubernetes components to react to state changes.
+
+## 78. How does the Kubernetes Scheduler work? What factors does it consider?
+
+**Answer:**  
+The `kube-scheduler` is responsible for assigning newly created Pods to available nodes. It considers various factors during the scheduling process:
+- **Resource requirements**: CPU, memory, GPU, etc., requested by the Pod.
+- **Node capacity**: Available resources on each node.
+- **Node selectors, taints, tolerations**: Constraints defined on Pods and nodes.
+- **Node affinity/anti-affinity**: Preferences for scheduling Pods on specific nodes or avoiding certain nodes.
+- **Pod affinity/anti-affinity**: Preferences for co-locating or separating Pods from other Pods.
+- **Quality of Service (QoS) classes**: Ensuring critical Pods get priority.
+- **Volume requirements**: Availability of suitable PersistentVolumes.
+- **Port conflicts**: Avoiding port conflicts on a node.
+
