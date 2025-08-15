@@ -507,5 +507,7 @@ Monitoring a Kubernetes cluster involves collecting metrics, logs, and events. C
   - Maintaining desired replicas: ReplicaSets and Deployments ensure the specified number of Pod replicas are always running.
   - Rolling back failed deployments: If a new deployment fails, it can automatically roll back to the previous stable version.
 
-### 43. What is a Pod
+### 43. What is a Pod Disruption Budget (PDB)? When would you use it?
+- **Answer**: A PDB is a Kubernetes API object that specifies the minimum number or percentage of Pods that must be available at all times during voluntary disruptions (e.g., node drain, cluster upgrade, scaling down). It ensures high availability for critical applications. You'd use it for stateful applications or mission-critical services that require a certain number of replicas to be running.
+
 
