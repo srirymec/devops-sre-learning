@@ -510,4 +510,17 @@ Monitoring a Kubernetes cluster involves collecting metrics, logs, and events. C
 ### 43. What is a Pod Disruption Budget (PDB)? When would you use it?
 - **Answer**: A PDB is a Kubernetes API object that specifies the minimum number or percentage of Pods that must be available at all times during voluntary disruptions (e.g., node drain, cluster upgrade, scaling down). It ensures high availability for critical applications. You'd use it for stateful applications or mission-critical services that require a certain number of replicas to be running.
 
+### 43. What is a Pod Disruption Budget (PDB)? When would you use it?
+- **Answer**: A PDB is a Kubernetes API object that specifies the minimum number or percentage of Pods that must be available at all times during voluntary disruptions (e.g., node drain, cluster upgrade, scaling down). It ensures high availability for critical applications. You'd use it for stateful applications or mission-critical services that require a certain number of replicas to be running.
+
+### 44. Explain how `kubectl exec` works.
+- **Answer**: `kubectl exec` allows you to execute commands inside a container running in a Pod. It establishes a secure, bidirectional stream (similar to SSH) between your local machine and the container, enabling you to interact with the container's shell or run specific commands.
+
+### 45. What is GitOps and how does it relate to Kubernetes?
+- **Answer**: GitOps is an operational framework that uses Git as the single source of truth for declarative infrastructure and applications. In Kubernetes, this means:
+  - All desired states of your cluster (Kubernetes manifests, Helm charts) are stored in Git.
+  - Changes to the cluster are made by creating pull requests to the Git repository.
+  - An automated agent (e.g., Flux, Argo CD) continuously observes the Git repository and applies any discrepancies to the cluster, ensuring the cluster's actual state matches the desired state in Git.
+  
+  **Benefits**: Auditable deployments, faster disaster recovery, improved collaboration, and higher reliability.
 
