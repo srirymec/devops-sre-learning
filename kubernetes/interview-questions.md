@@ -240,6 +240,7 @@ Kubernetes uses an internal DNS service, typically **CoreDNS**, to provide **ser
 
   - **Headless Services** also get A records for their individual Pods.
 
+<a name="deployment-and-scaling"></a>
 # III. Deployment and Scaling
 
 ## 21. Describe the process of a rolling update in Kubernetes.
@@ -374,6 +375,7 @@ A **CronJob** creates Jobs on a repeating schedule, much like a Unix cron job. T
 - Generating **weekly reports**.
 - **Cleaning up old logs** periodically.
 
+<a name="security-and-access-control"></a>
 # IV. Security and Access Control
 
 ## 29. Explain Role-Based Access Control (RBAC) in Kubernetes.
@@ -423,6 +425,7 @@ A **CronJob** creates Jobs on a repeating schedule, much like a Unix cron job. T
 
 They are important for improving the **security posture** of your cluster by preventing common security vulnerabilities in Pods.
 
+<a name="monitoring-and-logging"></a>
 # V. Monitoring and Logging
 
 ## 33. How do you monitor a Kubernetes cluster? What tools are commonly used?
@@ -466,6 +469,7 @@ Monitoring a Kubernetes cluster involves collecting metrics, logs, and events. C
 **Answer:**  
 **Prometheus** is a popular open-source monitoring system that scrapes metrics from configured targets (like Kubernetes components, nodes, and applications) and stores them in a time-series database. It's often used with **Grafana** for dashboards and alerts.
 
+<a name="advanced-topics-and-troubleshooting-scenarios"></a>
 # VI. Advanced Topics and Troubleshooting Scenarios
 
 ## 36. Describe a scenario where you would use a Custom Resource Definition (CRD) and a Custom Controller/Operator.
@@ -537,6 +541,7 @@ Monitoring a Kubernetes cluster involves collecting metrics, logs, and events. C
   
   **Benefits**: Auditable deployments, faster disaster recovery, improved collaboration, and higher reliability.
 
+<a name="real-world-scenarios-and-troubleshooting"></a>
 # VII. Real-World Scenarios and Troubleshooting
 
 ## 46. Scenario: Your application's Pods are constantly restarting. How do you investigate?
@@ -593,6 +598,7 @@ Monitoring a Kubernetes cluster involves collecting metrics, logs, and events. C
 - **Network Policies**: Implement Network Policies to explicitly allow ingress traffic from the application's namespace to the database service's Pods in the database namespace. This ensures only authorized communication is allowed.
 - **Service Accounts & RBAC**: If the application needs to interact with the Kubernetes API to discover the database (less common for direct database access), ensure the application's Service Account has the necessary RBAC permissions.
 
+<a name="ecosystem-and-cncf-projects-for-2-years-experience-some-familiarity-expected"></a>
 # VIII. Ecosystem and CNCF Projects (for 2 years experience, some familiarity expected)
 
 ## 53. What is the Cloud Native Computing Foundation (CNCF)?
@@ -634,6 +640,7 @@ Example:
 - **Learning curve**: The initial complexity of Kubernetes.
 - **Upgrades**: Performing cluster upgrades with minimal disruption.
 
+<a name="deeper-dive-into-kubernetes-concepts"></a>
 # IX. Deeper Dive into Kubernetes Concepts
 
 ## 57. Explain the lifecycle of a Pod.
@@ -708,6 +715,7 @@ A headless Service does not have a ClusterIP. Instead of acting as a load balanc
 - **nodeSelector**: A simple way to constrain Pods to nodes with specific labels. The Pod will only be scheduled on nodes that have all the specified labels. It's a hard requirement.
 - **tolerations**: Works with taints. A Pod with tolerations can be scheduled on a node that has a matching taint. Without the toleration, the Pod would not be scheduled on that tainted node. It's about allowing scheduling on tainted nodes, not forcing it.
 
+<a name="scenario-based-questions-for-2-years-experience-focus-on-practical-application"></a>
 # X. Scenario-Based Questions (for 2 years experience, focus on practical application)
 
 ## 66. You have a legacy application that requires a specific kernel module to be loaded on the host. How would you deploy this application in Kubernetes?
@@ -764,6 +772,7 @@ This is a tricky one as Kubernetes abstracts away the host OS.
 6. **Permissions within the container**: `kubectl exec -it <pod-name> -- ls -ld /path/to/mount`. Check the permissions of the mounted directory inside the container. The application might not have write permissions. You might need to adjust the `securityContext` in the Pod definition (e.g., `fsGroup`, `runAsUser`).
 7. **Selinux/AppArmor (on host)**: If present, these security modules on the node might be preventing access.
 
+<a name="advanced-kubernetes-concepts"></a>
 # XI. Advanced Kubernetes Concepts
 
 ## 71. What is an Admission Controller in Kubernetes? Give an example.
@@ -852,6 +861,7 @@ The `kube-scheduler` is responsible for assigning newly created Pods to availabl
 - **Volume requirements**: Availability of suitable PersistentVolumes.
 - **Port conflicts**: Avoiding port conflicts on a node.
 
+<a name="miscellaneous-and-best-practices"></a>
 # XII. Miscellaneous and Best Practices
 
 ## 79. What are some best practices for writing Dockerfiles for Kubernetes applications?
@@ -1036,5 +1046,4 @@ CRI is a plugin interface that enables Kubernetes to use different container run
 - **Inspecting a crashlooping container**: Get a shell into a container that's constantly restarting.
 - **Debugging nodes**: Create a debug Pod on a specific node to inspect its filesystem or processes.
 - **Running network diagnostics**: Use tools like `tcpdump` inside a debug container.
-
 
