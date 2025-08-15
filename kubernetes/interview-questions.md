@@ -1,37 +1,35 @@
-# Kubernetes Interview Questions
+# I. Kubernetes Fundamentals and Architecture
 
-## I. Kubernetes Fundamentals and Architecture
-
-### 1. What is Kubernetes and why is it used?
+## 1. What is Kubernetes and why is it used?
 **Answer:**  
 Kubernetes (K8s) is an open-source container orchestration platform that automates the deployment, scaling, and management of containerized applications. It solves the challenges of managing large, distributed applications across multiple servers by providing features like automated scheduling, self-healing, rolling updates, and service discovery.
 
 ---
 
-### 2. Explain the core components of Kubernetes architecture.
+## 2. Explain the core components of Kubernetes architecture.
 **Answer:**  
 Kubernetes architecture consists of two main parts:
 
-#### Control Plane (Master Node):
+### Control Plane (Master Node):
 - **Kube-apiserver:** The front-end of the Kubernetes control plane, exposing the Kubernetes API. All communication with the cluster goes through the API server.
 - **etcd:** A highly available, distributed key-value store that stores all cluster data (configurations, state, metadata).
 - **Kube-scheduler:** Selects a node for newly created Pods based on resource requirements, constraints, and other policies.
 - **Kube-controller-manager:** Runs controller processes that regulate the cluster's state (e.g., Node Controller, Replication Controller, Endpoints Controller, Service Account & Token Controllers).
 
-#### Worker Nodes:
+### Worker Nodes:
 - **Kubelet:** An agent that runs on each node in the cluster, ensuring containers are running in a Pod. It communicates with the control plane.
 - **Kube-proxy:** A network proxy that runs on each node, maintaining network rules on nodes and enabling network communication to your Pods from inside or outside of the cluster.
 - **Container Runtime:** (e.g., containerd, CRI-O, Docker) - The software responsible for running containers.
 
 ---
 
-### 3. What is a Pod in Kubernetes? Why is it the smallest deployable unit?
+## 3. What is a Pod in Kubernetes? Why is it the smallest deployable unit?
 **Answer:**  
 A Pod is the smallest deployable unit in Kubernetes. It represents a single instance of a running process in your cluster. It's the smallest unit because containers within a Pod share the same network namespace, IP address, and storage, making them tightly coupled and allowing them to communicate via `localhost`.
 
 ---
 
-### 4. What is the relationship between Kubernetes and Docker?
+## 4. What is the relationship between Kubernetes and Docker?
 **Answer:**  
 Docker is a containerization platform that enables you to package and run applications in isolated environments called containers.  
 Kubernetes is a container orchestration platform that manages and automates the deployment, scaling, and operation of Docker containers (or any other OCI-compliant container runtime) across a cluster of machines.  
@@ -39,7 +37,7 @@ Kubernetes is a container orchestration platform that manages and automates the 
 
 ---
 
-### 5. Explain Namespaces in Kubernetes. When would you use them?
+## 5. Explain Namespaces in Kubernetes. When would you use them?
 **Answer:**  
 Namespaces provide a mechanism for isolating groups of resources within a single Kubernetes cluster. They are essentially virtual clusters within a physical cluster. You would use them for:
 
@@ -49,21 +47,21 @@ Namespaces provide a mechanism for isolating groups of resources within a single
 
 ---
 
-### 6. What are Labels and Selectors in Kubernetes?
+## 6. What are Labels and Selectors in Kubernetes?
 **Answer:**  
 - **Labels:** Key-value pairs that are attached to Kubernetes objects (e.g., Pods, Services, Deployments). They are used to organize, identify, and categorize objects.
 - **Selectors:** Used to filter objects based on their labels. Services use selectors to identify the Pods they should route traffic to, and Deployments use them to manage their associated Pods.
 
 ---
 
-### 7. What is a Service in Kubernetes? Why is it needed?
+## 7. What is a Service in Kubernetes? Why is it needed?
 **Answer:**  
 A **Service** is an abstraction that defines a logical set of Pods and a policy by which to access them. It provides a **stable network endpoint** (a fixed IP address and DNS name) for a group of Pods, even as Pods are created, deleted, or rescheduled.  
 This is crucial because Pods are ephemeral and their IP addresses can change.
 
 ---
 
-### 8. Differentiate between ClusterIP, NodePort, and LoadBalancer Service types.
+## 8. Differentiate between ClusterIP, NodePort, and LoadBalancer Service types.
 **Answer:**
 
 - **ClusterIP:**  
@@ -80,13 +78,13 @@ This is crucial because Pods are ephemeral and their IP addresses can change.
 
 ---
 
-### 9. What is a Deployment in Kubernetes?
+## 9. What is a Deployment in Kubernetes?
 **Answer:**  
 A **Deployment** is a higher-level abstraction that manages the lifecycle of Pods and ReplicaSets. It provides **declarative updates** to Pods, ensuring that the desired number of replicas are running and supports features like **rolling updates**, **rollbacks**, and **self-healing**.
 
 ---
 
-### 10. Explain the difference between a ReplicaSet and a Deployment.
+## 10. Explain the difference between a ReplicaSet and a Deployment.
 **Answer:**
 
 - **ReplicaSet:**  
@@ -97,7 +95,7 @@ A **Deployment** is a higher-level abstraction that manages the lifecycle of Pod
 
 ---
 
-### 11. What is a StatefulSet and when would you use it?
+## 11. What is a StatefulSet and when would you use it?
 **Answer:**  
 A **StatefulSet** is a workload API object used to manage **stateful applications**. It provides:
 
@@ -110,7 +108,7 @@ A **StatefulSet** is a workload API object used to manage **stateful application
 
 ---
 
-### 12. What is a DaemonSet and when would you use it?
+## 12. What is a DaemonSet and when would you use it?
 **Answer:**  
 A **DaemonSet** ensures that a copy of a Pod runs on all (or a subset of) nodes in a cluster. Typically used for cluster-level services like:
 
@@ -120,7 +118,7 @@ A **DaemonSet** ensures that a copy of a Pod runs on all (or a subset of) nodes 
 
 ---
 
-### 13. Explain ConfigMaps and Secrets. What's the difference?
+## 13. Explain ConfigMaps and Secrets. What's the difference?
 **Answer:**
 
 - **ConfigMaps:**  
@@ -134,7 +132,7 @@ The primary difference is **sensitivity** and **security handling** — Secrets 
 
 ---
 
-### 14. What is Ingress in Kubernetes? How does it differ from a LoadBalancer Service?
+## 14. What is Ingress in Kubernetes? How does it differ from a LoadBalancer Service?
 **Answer:**
 
 - **Ingress:**  
@@ -153,7 +151,7 @@ Ingress works at **Layer 7 (Application Layer)** and supports advanced routing r
 
 ---
 
-### 15. How does Kubernetes handle storage orchestration?
+## 15. How does Kubernetes handle storage orchestration?
 **Answer:**  
 Kubernetes provides a storage orchestration system using:
 
@@ -166,9 +164,9 @@ Kubernetes provides a storage orchestration system using:
 - **StorageClass:**  
   Defines storage types (e.g., "fast", "slow") and allows dynamic provisioning of PVs when a PVC requests a specific class.
 
-## II. Networking in Kubernetes
+# II. Networking in Kubernetes
 
-### 16. Explain the Kubernetes networking model.
+## 16. Explain the Kubernetes networking model.
 **Answer:**  
 Kubernetes enforces a "flat" networking model where:
 
@@ -180,7 +178,7 @@ This model relies on a **Container Network Interface (CNI)** plugin (e.g., **Cal
 
 ---
 
-### 17. How does Pod-to-Pod communication work within the same node?
+## 17. How does Pod-to-Pod communication work within the same node?
 **Answer:**  
 Pods on the same node communicate via the **CNI bridge**.  
 The CNI plugin creates a **virtual Ethernet pair** for each Pod:
@@ -190,7 +188,7 @@ The CNI plugin creates a **virtual Ethernet pair** for each Pod:
 
 ---
 
-### 18. How does Pod-to-Pod communication work across different nodes?
+## 18. How does Pod-to-Pod communication work across different nodes?
 **Answer:**  
 Pods on different nodes communicate via the **overlay network** created by the CNI plugin.
 
@@ -199,7 +197,7 @@ Pods on different nodes communicate via the **overlay network** created by the C
 
 ---
 
-### 19. What are Network Policies in Kubernetes? When would you use them?
+## 19. What are Network Policies in Kubernetes? When would you use them?
 **Answer:**  
 **Network Policies** are Kubernetes resources that define rules for how Pods are allowed to communicate with each other and other endpoints.  
 They provide **network segmentation and security** by restricting traffic flow.
@@ -212,7 +210,7 @@ You would use Network Policies to:
 
 ---
 
-### 20. How does Kubernetes handle DNS for services and pods?
+## 20. How does Kubernetes handle DNS for services and pods?
 **Answer:**  
 Kubernetes uses an internal DNS service, typically **CoreDNS**, to provide **service discovery**.
 
@@ -226,9 +224,9 @@ Kubernetes uses an internal DNS service, typically **CoreDNS**, to provide **ser
 
   - **Headless Services** also get A records for their individual Pods.
 
-## III. Deployment and Scaling
+# III. Deployment and Scaling
 
-### 21. Describe the process of a rolling update in Kubernetes.
+## 21. Describe the process of a rolling update in Kubernetes.
 **Answer:**  
 A rolling update gradually updates application instances with a new version without downtime.  
 When you update a Deployment, Kubernetes:
@@ -241,7 +239,7 @@ This ensures continuous availability during the update process.
 
 ---
 
-### 22. How do you perform a rollback of a Deployment?
+## 22. How do you perform a rollback of a Deployment?
 **Answer:**  
 You can use the following command to rollback a Deployment:
 
@@ -255,7 +253,7 @@ To specify a particular revision to roll back to, use:
 kubectl rollout undo deployment <deployment-name> --to-revision=<revision-number>
 ```
 
-### 23. What is Horizontal Pod Autoscaling (HPA)? How does it work?
+## 23. What is Horizontal Pod Autoscaling (HPA)? How does it work?
 
 **Answer:**  
 **Horizontal Pod Autoscaling (HPA)** automatically scales the number of Pod replicas in a Deployment or ReplicaSet based on:
@@ -268,7 +266,7 @@ HPA periodically checks the metrics and adjusts the **replicas** field of the ta
 
 ---
 
-### 24. What is Vertical Pod Autoscaling (VPA)?
+## 24. What is Vertical Pod Autoscaling (VPA)?
 
 **Answer:**  
 **Vertical Pod Autoscaling (VPA)** automatically adjusts the **CPU** and **memory** requests and limits for containers in a Pod based on historical usage.  
@@ -281,7 +279,7 @@ It helps optimize resource allocation and prevents:
 
 ---
 
-### 25. What is Cluster Autoscaler?
+## 25. What is Cluster Autoscaler?
 
 **Answer:**  
 **Cluster Autoscaler** automatically adjusts the number of nodes in your Kubernetes cluster based on:
@@ -292,7 +290,7 @@ It helps optimize resource allocation and prevents:
 If Pods cannot be scheduled due to insufficient resources, Cluster Autoscaler **adds** new nodes.  
 If nodes are underutilized, it **removes** them.
 
-### 26. How would you troubleshoot a failed Deployment?
+## 26. How would you troubleshoot a failed Deployment?
 
 **Answer:**
 
@@ -334,7 +332,7 @@ kubectl exec -it <pod-name> -- /bin/sh
 **8.** Check **kube-apiserver** and **kube-scheduler** logs if no Pods are scheduling.
 **9.** Check **kubelet** logs on the node if Pods are stuck in a pending state.
 
-### 27. Explain Liveness and Readiness Probes. Why are they important?
+## 27. Explain Liveness and Readiness Probes. Why are they important?
 
 **Answer:**  
 
@@ -350,12 +348,12 @@ These probes enable Kubernetes to **self-heal**, managing application availabili
 
 ---
 
-### 28. What is a CronJob in Kubernetes? Give an example use case.
+## 28. What is a CronJob in Kubernetes? Give an example use case.
 
 **Answer:**  
 A **CronJob** creates Jobs on a repeating schedule, much like a Unix cron job. They are used for performing scheduled tasks.
 
-#### Example Use Cases:
+### Example Use Cases:
 - Running a **daily database backup**.
 - Generating **weekly reports**.
 - **Cleaning up old logs** periodically.
