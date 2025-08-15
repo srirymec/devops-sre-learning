@@ -226,4 +226,137 @@ Kubernetes uses an internal DNS service, typically **CoreDNS**, to provide **ser
 
   - **Headless Services** also get A records for their individual Pods.
 
+## III. Deployment and Scaling
+
+### 21. Describe the process of a rolling update in Kubernetes.
+**Answer:**  
+A rolling update gradually updates application instances with a new version without downtime.  
+When you update a Deployment, Kubernetes:
+
+- Creates new Pods with the new image.
+- Waits for them to become healthy.
+- Slowly terminates old Pods.
+
+This ensures continuous availability during the update process.
+
+---
+
+### 22. How do you perform a rollback of a Deployment?
+**Answer:**  
+You can use the following command to rollback a Deployment:
+
+```bash
+kubectl rollout undo deployment <deployment-name>
+```
+
+To specify a particular revision to roll back to, use:
+
+```
+kubectl rollout undo deployment <deployment-name> --to-revision=<revision-number>
+```
+
+### 23. What is Horizontal Pod Autoscaling (HPA)? How does it work?
+
+**Answer:**  
+**Horizontal Pod Autoscaling (HPA)** automatically scales the number of Pod replicas in a Deployment or ReplicaSet based on:
+
+- Observed **CPU utilization**
+- **Memory utilization**
+- **Custom metrics**
+
+HPA periodically checks the metrics and adjusts the **replicas** field of the target resource.
+
+---
+
+### 24. What is Vertical Pod Autoscaling (VPA)?
+
+**Answer:**  
+**Vertical Pod Autoscaling (VPA)** automatically adjusts the **CPU** and **memory** requests and limits for containers in a Pod based on historical usage.  
+It helps optimize resource allocation and prevents:
+
+- **Over-provisioning**
+- **Under-provisioning**
+
+**Note:** VPA is still in **beta** and has implications for Pod rescheduling.
+
+---
+
+### 25. What is Cluster Autoscaler?
+
+**Answer:**  
+**Cluster Autoscaler** automatically adjusts the number of nodes in your Kubernetes cluster based on:
+
+- **Resource requests**
+- **Actual usage**
+
+If Pods cannot be scheduled due to insufficient resources, Cluster Autoscaler **adds** new nodes.  
+If nodes are underutilized, it **removes** them.
+
+### 26. How would you troubleshoot a failed Deployment?
+
+**Answer:**
+
+**1.** Check the deployment status:
+```
+kubectl get deployments
+
+```
+**2.** Describe the deployment to check events and conditions:
+```
+kubectl describe deployment <deployment-name>
+
+```
+**3.** Check associated ReplicaSets:
+```
+kubectl get replicasets
+
+```
+**4.** Check Pod status using a label:
+```
+kubectl get pods -l app=<label>
+
+```
+**5.** Describe the Pod to view events, container status, and volumes:
+```
+kubectl describe pod <pod-name>
+
+```
+**6.** Check the application logs:
+```
+kubectl logs <pod-name>
+
+```
+**7.** Debug inside the container:
+```
+kubectl exec -it <pod-name> -- /bin/sh
+
+```
+**8.** Check **kube-apiserver** and **kube-scheduler** logs if no Pods are scheduling.
+**9.** Check **kubelet** logs on the node if Pods are stuck in a pending state.
+
+### 27. Explain Liveness and Readiness Probes. Why are they important?
+
+**Answer:**  
+
+- **Liveness Probe:**  
+  Determines if a container is running and healthy. If the liveness probe fails, Kubernetes will restart the container. This prevents deadlocked containers from perpetually consuming resources.
+
+- **Readiness Probe:**  
+  Determines if a container is ready to serve traffic. If the readiness probe fails, Kubernetes will remove the Pod's IP from the Service endpoints, preventing traffic from being routed to an unready Pod.  
+  This ensures no traffic is sent to applications that are still starting up or experiencing issues.
+
+**Importance:**  
+These probes enable Kubernetes to **self-heal**, managing application availability and reliability.
+
+---
+
+### 28. What is a CronJob in Kubernetes? Give an example use case.
+
+**Answer:**  
+A **CronJob** creates Jobs on a repeating schedule, much like a Unix cron job. They are used for performing scheduled tasks.
+
+#### Example Use Cases:
+- Running a **daily database backup**.
+- Generating **weekly reports**.
+- **Cleaning up old logs** periodically.
 
