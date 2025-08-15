@@ -452,17 +452,17 @@ Monitoring a Kubernetes cluster involves collecting metrics, logs, and events. C
 
 # VI. Advanced Topics and Troubleshooting Scenarios
 
-### 36. Describe a scenario where you would use a Custom Resource Definition (CRD) and a Custom Controller/Operator.
+## 36. Describe a scenario where you would use a Custom Resource Definition (CRD) and a Custom Controller/Operator.
 - **Answer**: You would use CRDs and Operators to extend Kubernetes's functionality for managing complex, stateful applications that have specific operational knowledge.
 - **Scenario**: Managing a distributed database like Cassandra or MongoDB. A CRD would define the desired state of your database cluster (e.g., number of nodes, version, backup schedule). An Operator (Custom Controller) would then watch for changes to this CRD, understand the operational complexities of Cassandra, and automate tasks like provisioning new nodes, handling upgrades, performing backups, and recovering from failures.
 
-### 37. Explain the concept of Taints and Tolerations.
+## 37. Explain the concept of Taints and Tolerations.
 - **Answer**:
   - **Taints**: Applied to nodes to prevent Pods from being scheduled on them unless those Pods explicitly "tolerate" the taint. They mark a node as undesirable for scheduling.
   - **Tolerations**: Applied to Pods, allowing them to be scheduled on nodes that have matching taints. They allow (but don't require) a Pod to be scheduled on a tainted node.
 - **Use cases**: Dedicated nodes for specific workloads, preventing certain Pods from running on unhealthy nodes, isolating critical workloads.
 
-### 38. What are Node Affinity and Anti-Affinity?
+## 38. What are Node Affinity and Anti-Affinity?
 - **Answer**:
   - **Node Affinity**: Forces Pods to be scheduled on nodes with specific labels. It's a "pull" mechanism where Pods "attract" nodes.
     - `requiredDuringSchedulingIgnoredDuringExecution`: Must meet the rule, but ignored if node labels change later.
@@ -470,7 +470,7 @@ Monitoring a Kubernetes cluster involves collecting metrics, logs, and events. C
   - **Node Anti-Affinity**: Prevents Pods from being scheduled on nodes with specific labels, often to spread Pods across different nodes for high availability.
 - **Use cases**: Ensuring performance, compliance, or high availability.
 
-### 39. How would you debug a Pod that is stuck in a Pending state?
+## 39. How would you debug a Pod that is stuck in a Pending state?
 - **Answer**: 
   1. `kubectl describe pod <pod-name>`: Check the Events section for reasons like:
      - Insufficient CPU/Memory: The cluster doesn't have enough resources.
@@ -481,7 +481,7 @@ Monitoring a Kubernetes cluster involves collecting metrics, logs, and events. C
   3. Check kube-scheduler logs for scheduling decisions.
   4. Check node resources: `kubectl top nodes` (if metrics server is running).
 
-### 40. How would you troubleshoot an application that is unreachable from outside the cluster?
+## 40. How would you troubleshoot an application that is unreachable from outside the cluster?
 - **Answer**: 
   1. Check Service type: Is it NodePort or LoadBalancer? If ClusterIP, it's not exposed externally.
   2. Verify Service endpoints: `kubectl describe service <service-name>`. Ensure it has healthy Pods as endpoints.
@@ -492,7 +492,7 @@ Monitoring a Kubernetes cluster involves collecting metrics, logs, and events. C
   7. DNS resolution: If using a custom domain with Ingress, verify DNS records are correctly pointing to the Ingress Controller's external IP/hostname.
   8. `kube-proxy`: Ensure kube-proxy is running on all nodes and check its logs.
 
-### 41. What is a Helm chart? Why is it useful?
+## 41. What is a Helm chart? Why is it useful?
 - **Answer**: 
   Helm is the package manager for Kubernetes. A Helm chart is a collection of files that describe a related set of Kubernetes resources. It's useful for:
   - **Packaging**: Bundling all Kubernetes resources for an application into a single, versionable unit.
@@ -500,27 +500,55 @@ Monitoring a Kubernetes cluster involves collecting metrics, logs, and events. C
   - **Templating**: Parameterizing configurations for different environments.
   - **Management**: Managing releases, upgrades, and rollbacks of applications.
 
-### 42. How does Kubernetes handle self-healing?
+## 42. How does Kubernetes handle self-healing?
 - **Answer**: Kubernetes self-healing capabilities include:
   - Restarting failed containers: Liveness probes detect unhealthy containers and restart them.
   - Rescheduling Pods on failed nodes: If a node goes down, the controller manager detects it and reschedules its Pods to healthy nodes.
   - Maintaining desired replicas: ReplicaSets and Deployments ensure the specified number of Pod replicas are always running.
   - Rolling back failed deployments: If a new deployment fails, it can automatically roll back to the previous stable version.
 
-### 43. What is a Pod Disruption Budget (PDB)? When would you use it?
+## 43. What is a Pod Disruption Budget (PDB)? When would you use it?
 - **Answer**: A PDB is a Kubernetes API object that specifies the minimum number or percentage of Pods that must be available at all times during voluntary disruptions (e.g., node drain, cluster upgrade, scaling down). It ensures high availability for critical applications. You'd use it for stateful applications or mission-critical services that require a certain number of replicas to be running.
 
-### 43. What is a Pod Disruption Budget (PDB)? When would you use it?
-- **Answer**: A PDB is a Kubernetes API object that specifies the minimum number or percentage of Pods that must be available at all times during voluntary disruptions (e.g., node drain, cluster upgrade, scaling down). It ensures high availability for critical applications. You'd use it for stateful applications or mission-critical services that require a certain number of replicas to be running.
-
-### 44. Explain how `kubectl exec` works.
+## 44. Explain how `kubectl exec` works.
 - **Answer**: `kubectl exec` allows you to execute commands inside a container running in a Pod. It establishes a secure, bidirectional stream (similar to SSH) between your local machine and the container, enabling you to interact with the container's shell or run specific commands.
 
-### 45. What is GitOps and how does it relate to Kubernetes?
+## 45. What is GitOps and how does it relate to Kubernetes?
 - **Answer**: GitOps is an operational framework that uses Git as the single source of truth for declarative infrastructure and applications. In Kubernetes, this means:
   - All desired states of your cluster (Kubernetes manifests, Helm charts) are stored in Git.
   - Changes to the cluster are made by creating pull requests to the Git repository.
   - An automated agent (e.g., Flux, Argo CD) continuously observes the Git repository and applies any discrepancies to the cluster, ensuring the cluster's actual state matches the desired state in Git.
   
   **Benefits**: Auditable deployments, faster disaster recovery, improved collaboration, and higher reliability.
+
+# VII. Real-World Scenarios and Troubleshooting
+
+## 46. Scenario: Your application's Pods are constantly restarting. How do you investigate?
+- **Answer**:
+  1. `kubectl get pods`: Check the RESTARTS column.
+  2. `kubectl describe pod <pod-name>`: Look at the Events section for clues (e.g., OOMKilled, CrashLoopBackOff, failed liveness/readiness probes).
+  3. `kubectl logs <pod-name>`: Check the application logs for errors or exceptions.
+  4. `kubectl logs <pod-name> -p`: Check logs from the previous container instance if it's restarting.
+  5. Check resource limits and requests in the Pod definition. Is the container running out of memory or CPU?
+  6. Examine the application code for bugs or misconfigurations.
+
+## 47. Scenario: You need to deploy a new version of your application with zero downtime. How would you achieve this?
+- **Answer**: Use a Kubernetes Deployment with a rollingUpdate strategy. Ensure your Pods have properly configured Liveness and Readiness Probes. The rollingUpdate strategy will gracefully replace old Pods with new ones, ensuring continuous availability. Consider using `maxUnavailable` and `maxSurge` to control the rollout speed and resource consumption during the update.
+
+## 48. Scenario: A new application deployment is failing, and the Pods are stuck in ImagePullBackOff. What's wrong?
+- **Answer**: `ImagePullBackOff` indicates that Kubernetes is unable to pull the container image. Common causes:
+  - Incorrect image name or tag: Double-check the image name and tag in the Pod/Deployment manifest.
+  - Private registry authentication: If using a private registry, ensure `imagePullSecrets` are correctly configured in the Pod and linked to a Secret with valid credentials.
+  - Network issues: Node cannot reach the image registry (firewall, DNS, proxy).
+  - Image doesn't exist: The image might have been deleted from the registry.
+
+## 49. Scenario: You have a database running as a StatefulSet, and you need to scale it down. What considerations do you need to make?
+- **Answer**: StatefulSets scale down gracefully by terminating Pods in reverse ordinal order (e.g., db-2, db-1, db-0). Before scaling down, ensure:
+  - Data integrity: The database is designed for graceful shutdown and data consistency during scale-down (e.g., by performing graceful shutdowns of database instances).
+  - Data migration/rebalancing: If the database sharded data, ensure data is rebalanced or migrated off the terminating instances.
+  - PersistentVolumeClaims: Understand that scaling down a StatefulSet does not automatically delete the associated PVCs. You'll need to manually delete them if the data is no longer needed.
+  - Quorum: Ensure you don't scale down below the minimum required replicas for your database to maintain quorum and availability.
+
+## 50. Scenario: You want to ensure that a critical application always has at least 3 Pods running, even during node maintenance. How would you configure this?
+- **Answer**: Implement a Pod Disruption Budget (PDB) for your application with `minAvailable: 3` (or `minAvailable: 100%` if you want all of them). This will tell Kubernetes that it should try to keep at least 3 Pods of that application running during voluntary disruptions like `kubectl drain`.
 
