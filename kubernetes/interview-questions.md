@@ -1,3 +1,17 @@
+1. [Kubernetes Fundamentals and Architecture](#kubernetes-fundamentals-and-architecture)
+2. [Networking in Kubernetes](#networking-in-kubernetes)
+3. [Deployment and Scaling](#deployment-and-scaling)
+4. [Security and Access Control](#security-and-access-control)
+5. [Monitoring and Logging](#monitoring-and-logging)
+6. [Advanced Topics and Troubleshooting Scenarios](#advanced-topics-and-troubleshooting-scenarios)
+7. [Real-World Scenarios and Troubleshooting](#real-world-scenarios-and-troubleshooting)
+8. [Ecosystem and CNCF Projects (for 2 years experience, some familiarity expected)](#ecosystem-and-cncf-projects-for-2-years-experience-some-familiarity-expected)
+9. [Deeper Dive into Kubernetes Concepts](#deeper-dive-into-kubernetes-concepts)
+10. [Scenario-Based Questions (for 2 years experience, focus on practical application)](#scenario-based-questions-for-2-years-experience-focus-on-practical-application)
+11. [Advanced Kubernetes Concepts](#advanced-kubernetes-concepts)
+12. [Miscellaneous and Best Practices](#miscellaneous-and-best-practices)
+
+<a name="kubernetes-fundamentals-and-architecture"></a>
 # I. Kubernetes Fundamentals and Architecture
 
 ## 1. What is Kubernetes and why is it used?
@@ -164,6 +178,7 @@ Kubernetes provides a storage orchestration system using:
 - **StorageClass:**  
   Defines storage types (e.g., "fast", "slow") and allows dynamic provisioning of PVs when a PVC requests a specific class.
 
+<a name="networking-in-kubernetes"></a>
 # II. Networking in Kubernetes
 
 ## 16. Explain the Kubernetes networking model.
