@@ -358,3 +358,96 @@ A **CronJob** creates Jobs on a repeating schedule, much like a Unix cron job. T
 - Generating **weekly reports**.
 - **Cleaning up old logs** periodically.
 
+# IV. Security and Access Control
+
+## 29. Explain Role-Based Access Control (RBAC) in Kubernetes.
+
+**Answer:**  
+**RBAC** is a mechanism that allows you to define who (Subjects: Users, Groups, Service Accounts) can do what (Verbs: get, list, create, delete) to which resources (Resources: Pods, Deployments, Services) in which namespaces.
+
+### Key components:
+- **Role:** Defines permissions within a specific namespace.
+- **ClusterRole:** Defines permissions across the entire cluster.
+- **RoleBinding:** Grants the permissions defined in a Role to a Subject within a namespace.
+- **ClusterRoleBinding:** Grants the permissions defined in a ClusterRole to a Subject across the entire cluster.
+
+---
+
+## 30. What are Service Accounts? How are they used?
+
+**Answer:**  
+**Service Accounts** provide an identity for processes that run in Pods. When a Pod makes API calls to the Kubernetes API server, it authenticates using the credentials of its Service Account. They are used for:
+
+- Allowing Pods to interact with the Kubernetes API.
+- Controlling access to resources within the cluster.
+- Integrating with external systems that need to authenticate to Kubernetes.
+
+---
+
+## 31. How do you secure access to the Kubernetes API server?
+
+**Answer:**
+
+- **Authentication:** Using client certificates, tokens, or integrated cloud provider authentication.
+- **Authorization (RBAC):** Defining granular permissions.
+- **Admission Controllers:** Enforcing policies before objects are created or modified.
+- **Network Policies:** Restricting network access to the API server.
+- **Encryption in transit:** Using **TLS** for all communication.
+
+---
+
+## 32. What are Pod Security Standards (PSS) and why are they important?
+
+**Answer:**  
+**PSS** define a set of security best practices for Pods in Kubernetes. They are divided into three levels:
+
+- **Privileged:** Unrestricted capabilities, used for highly privileged workloads.
+- **Baseline:** Minimally restrictive, prevents known privilege escalations.
+- **Restricted:** Highly restrictive, enforces hardening best practices.
+
+They are important for improving the **security posture** of your cluster by preventing common security vulnerabilities in Pods.
+
+# V. Monitoring and Logging
+
+## 33. How do you monitor a Kubernetes cluster? What tools are commonly used?
+
+**Answer:**  
+Monitoring a Kubernetes cluster involves collecting metrics, logs, and events. Commonly used tools include:
+
+- **Metrics:** 
+  - **Prometheus** (for scraping metrics) and **Grafana** (for visualization).
+  
+- **Logging:** 
+  - **Fluentd/Fluent Bit**, **Logstash**, **Elasticsearch**, **Kibana** (ELK stack).
+  
+- **Tracing:** 
+  - **Jaeger**, **Zipkin**.
+
+- **Built-in tools:**  
+  - `kubectl top`, `kubectl describe`, **Kubernetes Dashboard** (though often not used in production).
+  
+- **Cloud-native solutions:**
+  - **Google Cloud Monitoring**, **AWS CloudWatch Container Insights**, **Azure Monitor for Containers**.
+
+---
+
+## 34. How do you collect logs from applications running in Kubernetes?
+
+**Answer:**
+
+- **Standard output/error:** Applications should write logs to **stdout** and **stderr**.
+  
+- **Logging agents:**  
+  Deploy a logging agent (like **Fluentd**, **Fluent Bit**, or **Logstash**) as a **DaemonSet** on each node to collect logs from container runtimes and forward them to a centralized logging system (e.g., **Elasticsearch**, cloud logging services).
+
+- **Sidecar containers:**  
+  For applications that can't write to stdout/stderr, a **sidecar container** can be deployed in the same Pod to tail logs from a shared volume and forward them.
+
+---
+
+## 35. What is the role of Prometheus in Kubernetes monitoring?
+
+**Answer:**  
+**Prometheus** is a popular open-source monitoring system that scrapes metrics from configured targets (like Kubernetes components, nodes, and applications) and stores them in a time-series database. It's often used with **Grafana** for dashboards and alerts.
+
+
