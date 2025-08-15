@@ -1,6 +1,6 @@
 # Kubernetes Interview Questions
 
-## Kubernetes Fundamentals and Architecture
+## I. Kubernetes Fundamentals and Architecture
 
 ### 1. What is Kubernetes and why is it used?
 **Answer:**  
@@ -165,4 +165,65 @@ Kubernetes provides a storage orchestration system using:
 
 - **StorageClass:**  
   Defines storage types (e.g., "fast", "slow") and allows dynamic provisioning of PVs when a PVC requests a specific class.
+
+## II. Networking in Kubernetes
+
+### 16. Explain the Kubernetes networking model.
+**Answer:**  
+Kubernetes enforces a "flat" networking model where:
+
+- All Pods can communicate with all other Pods **without NAT**.
+- All Nodes can communicate with all Pods **without NAT**.
+- The IP that a Pod sees itself as is the **same IP** that others see it as.
+
+This model relies on a **Container Network Interface (CNI)** plugin (e.g., **Calico**, **Flannel**, **Cilium**) to implement the actual network fabric.
+
+---
+
+### 17. How does Pod-to-Pod communication work within the same node?
+**Answer:**  
+Pods on the same node communicate via the **CNI bridge**.  
+The CNI plugin creates a **virtual Ethernet pair** for each Pod:
+
+- One end is in the Pod’s network namespace.
+- The other end is connected to a **bridge** on the node.
+
+---
+
+### 18. How does Pod-to-Pod communication work across different nodes?
+**Answer:**  
+Pods on different nodes communicate via the **overlay network** created by the CNI plugin.
+
+- The CNI plugin **encapsulates Pod traffic** (e.g., using **VXLAN**, **IPIP**) and **routes** it between nodes.
+- This ensures that Pods have consistent, routable IPs across the cluster.
+
+---
+
+### 19. What are Network Policies in Kubernetes? When would you use them?
+**Answer:**  
+**Network Policies** are Kubernetes resources that define rules for how Pods are allowed to communicate with each other and other endpoints.  
+They provide **network segmentation and security** by restricting traffic flow.
+
+You would use Network Policies to:
+
+- Isolate different application tiers (e.g., frontend, backend, database).
+- Restrict access to sensitive services.
+- Implement **micro-segmentation** within the cluster.
+
+---
+
+### 20. How does Kubernetes handle DNS for services and pods?
+**Answer:**  
+Kubernetes uses an internal DNS service, typically **CoreDNS**, to provide **service discovery**.
+
+- **Pods:**  
+  Each Pod gets a DNS A record in the format:  
+  `pod-ip-address.namespace.pod.cluster.local`
+
+- **Services:**  
+  Each Service gets a DNS A record in the format:  
+  `service-name.namespace.svc.cluster.local`
+
+  - **Headless Services** also get A records for their individual Pods.
+
 
