@@ -552,3 +552,30 @@ Monitoring a Kubernetes cluster involves collecting metrics, logs, and events. C
 ## 50. Scenario: You want to ensure that a critical application always has at least 3 Pods running, even during node maintenance. How would you configure this?
 - **Answer**: Implement a Pod Disruption Budget (PDB) for your application with `minAvailable: 3` (or `minAvailable: 100%` if you want all of them). This will tell Kubernetes that it should try to keep at least 3 Pods of that application running during voluntary disruptions like `kubectl drain`.
 
+## 51. Scenario: You notice high CPU utilization on one of your worker nodes. How would you investigate and resolve it?
+
+**Answer:**
+
+1. `kubectl top nodes`: Identify which node has high CPU.
+2. `kubectl describe node <node-name>`: Check resource usage and events.
+3. `kubectl top pods --all-namespaces --sort-by='cpu'`: Identify which Pods on that node are consuming the most CPU.
+4. `kubectl logs <pod-name>`: Check logs of the high-CPU Pod for application issues.
+5. `kubectl exec -it <pod-name> -- top`: Go inside the container to see process-level CPU usage.
+
+**Resolution:**
+- **Scale Pods**: If the application can be scaled horizontally, increase the replica count of the high-CPU Pod's Deployment/StatefulSet.
+- **Resource Limits/Requests**: Adjust CPU limits and requests for the Pods to better fit the workload.
+- **Optimize Application**: Profile the application for performance bottlenecks.
+- **Node Autoscaling**: If the overall cluster is consistently high on CPU, consider configuring Cluster Autoscaler to add more nodes.
+- **Taints/Tolerations/Affinity**: Use these to ensure critical workloads get dedicated resources or are spread across nodes.
+
+## 52. Scenario: Your development team wants to deploy a new service, but they need to access a database running in a different namespace. How would you enable this communication securely?
+
+**Answer:**
+
+- **Service Discovery**: The database service can be accessed using its fully qualified domain name (FQDN): `database-service-name.database-namespace.svc.cluster.local`.
+- **Network Policies**: Implement Network Policies to explicitly allow ingress traffic from the application's namespace to the database service's Pods in the database namespace. This ensures only authorized communication is allowed.
+- **Service Accounts & RBAC**: If the application needs to interact with the Kubernetes API to discover the database (less common for direct database access), ensure the application's Service Account has the necessary RBAC permissions.
+
+
+
