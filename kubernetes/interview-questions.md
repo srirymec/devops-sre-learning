@@ -450,4 +450,62 @@ Monitoring a Kubernetes cluster involves collecting metrics, logs, and events. C
 **Answer:**  
 **Prometheus** is a popular open-source monitoring system that scrapes metrics from configured targets (like Kubernetes components, nodes, and applications) and stores them in a time-series database. It's often used with **Grafana** for dashboards and alerts.
 
+# VI. Advanced Topics and Troubleshooting Scenarios
+
+### 36. Describe a scenario where you would use a Custom Resource Definition (CRD) and a Custom Controller/Operator.
+- **Answer**: You would use CRDs and Operators to extend Kubernetes's functionality for managing complex, stateful applications that have specific operational knowledge.
+- **Scenario**: Managing a distributed database like Cassandra or MongoDB. A CRD would define the desired state of your database cluster (e.g., number of nodes, version, backup schedule). An Operator (Custom Controller) would then watch for changes to this CRD, understand the operational complexities of Cassandra, and automate tasks like provisioning new nodes, handling upgrades, performing backups, and recovering from failures.
+
+### 37. Explain the concept of Taints and Tolerations.
+- **Answer**:
+  - **Taints**: Applied to nodes to prevent Pods from being scheduled on them unless those Pods explicitly "tolerate" the taint. They mark a node as undesirable for scheduling.
+  - **Tolerations**: Applied to Pods, allowing them to be scheduled on nodes that have matching taints. They allow (but don't require) a Pod to be scheduled on a tainted node.
+- **Use cases**: Dedicated nodes for specific workloads, preventing certain Pods from running on unhealthy nodes, isolating critical workloads.
+
+### 38. What are Node Affinity and Anti-Affinity?
+- **Answer**:
+  - **Node Affinity**: Forces Pods to be scheduled on nodes with specific labels. It's a "pull" mechanism where Pods "attract" nodes.
+    - `requiredDuringSchedulingIgnoredDuringExecution`: Must meet the rule, but ignored if node labels change later.
+    - `preferredDuringSchedulingIgnoredDuringExecution`: Kubernetes tries to meet the rule but doesn't guarantee it.
+  - **Node Anti-Affinity**: Prevents Pods from being scheduled on nodes with specific labels, often to spread Pods across different nodes for high availability.
+- **Use cases**: Ensuring performance, compliance, or high availability.
+
+### 39. How would you debug a Pod that is stuck in a Pending state?
+- **Answer**: 
+  1. `kubectl describe pod <pod-name>`: Check the Events section for reasons like:
+     - Insufficient CPU/Memory: The cluster doesn't have enough resources.
+     - Node Selector/Taints/Tolerations: The Pod has a node selector or toleration that doesn't match any available nodes.
+     - Volume Issues: PersistentVolumeClaim cannot be bound to a PersistentVolume.
+     - Networking Issues: CNI plugin not working correctly on nodes.
+  2. `kubectl get events --field-selector involvedObject.name=<pod-name>`: More granular events.
+  3. Check kube-scheduler logs for scheduling decisions.
+  4. Check node resources: `kubectl top nodes` (if metrics server is running).
+
+### 40. How would you troubleshoot an application that is unreachable from outside the cluster?
+- **Answer**: 
+  1. Check Service type: Is it NodePort or LoadBalancer? If ClusterIP, it's not exposed externally.
+  2. Verify Service endpoints: `kubectl describe service <service-name>`. Ensure it has healthy Pods as endpoints.
+  3. Check Pod status: `kubectl get pods -l app=<service-selector>`. Are the Pods running and healthy (Readiness Probes passing)?
+  4. Check Ingress (if used): `kubectl describe ingress <ingress-name>`. Verify rules, backend services, and events.
+  5. Check Ingress Controller: Ensure the Ingress Controller Pods are running and healthy. Check their logs.
+  6. Network Firewall/Security Groups: For NodePort or LoadBalancer, ensure external firewalls allow traffic to the NodePorts or the LoadBalancer IP.
+  7. DNS resolution: If using a custom domain with Ingress, verify DNS records are correctly pointing to the Ingress Controller's external IP/hostname.
+  8. `kube-proxy`: Ensure kube-proxy is running on all nodes and check its logs.
+
+### 41. What is a Helm chart? Why is it useful?
+- **Answer**: 
+  Helm is the package manager for Kubernetes. A Helm chart is a collection of files that describe a related set of Kubernetes resources. It's useful for:
+  - **Packaging**: Bundling all Kubernetes resources for an application into a single, versionable unit.
+  - **Deployment**: Easily deploying complex applications with a single command.
+  - **Templating**: Parameterizing configurations for different environments.
+  - **Management**: Managing releases, upgrades, and rollbacks of applications.
+
+### 42. How does Kubernetes handle self-healing?
+- **Answer**: Kubernetes self-healing capabilities include:
+  - Restarting failed containers: Liveness probes detect unhealthy containers and restart them.
+  - Rescheduling Pods on failed nodes: If a node goes down, the controller manager detects it and reschedules its Pods to healthy nodes.
+  - Maintaining desired replicas: ReplicaSets and Deployments ensure the specified number of Pod replicas are always running.
+  - Rolling back failed deployments: If a new deployment fails, it can automatically roll back to the previous stable version.
+
+### 43. What is a Pod
 
