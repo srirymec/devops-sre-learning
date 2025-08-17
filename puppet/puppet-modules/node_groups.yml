@@ -1,0 +1,25 @@
+VehicleRental-BusinessSecurityGroup-1J8LSS95NTM58:
+  classes:
+    vehiclerentalbusiness:
+      username: 'root'
+      password: 'Welcome123'
+      rdsEndPoint: 'vd2402vvmr9aj9.cemlwcumehj4.us-west-2.rds.amazonaws.com'
+      database: 'rental'
+      port: '3306'
+    clients:
+VehicleRental-PresentationSecurityGroup-22YV78SBWOSY:
+  classes:
+    vehiclerentalpresentation:
+      busiElb: 'http://VehicleRe-OurElast-LYVTPQV3ZRX2-291391961.us-west-2.elb.amazonaws.com/VehicleBusiness/vehiclerental'
+      tomcatv: 'tomcat6'
+      memIp: '10.252.21.138'
+      cfEndPoint: 's3-us-west-2.amazonaws.com/srini-cloudfront'
+    clients:
+websphere:
+  classes:
+    websphere:
+      serverName: 'websphere'
+      rdsEndPoint: 'wd2trrp5lrlk5z.cemlwcumehj4.us-west-2.rds.amazonaws.com'
+    mcoll:
+    nginx:
+      port: '9080'

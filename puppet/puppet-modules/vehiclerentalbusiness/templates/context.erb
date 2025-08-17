@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='utf-8'?>
+
+<!-- The contents of this file will be loaded for each web application -->
+<Context>
+
+    <!-- Default set of monitored resources -->
+    <WatchedResource>WEB-INF/web.xml</WatchedResource>
+
+    <Resource name="jdbc/VehicleRental"
+      auth="Container"
+      type="javax.sql.DataSource"
+      username="<%= @username %>"
+      password="<%= @password %>"
+      driverClassName="com.mysql.jdbc.Driver"
+      url="jdbc:mysql://<%= @rdsEndPoint %>:<%= @port %>/<%= @database %>"
+      maxActive="8"
+      maxIdle="4"/>
+</Context>
+

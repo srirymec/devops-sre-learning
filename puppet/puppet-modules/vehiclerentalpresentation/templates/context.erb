@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='utf-8'?>
+
+<Context>
+
+    <!-- Default set of monitored resources -->
+    <WatchedResource>WEB-INF/web.xml</WatchedResource>
+    <Environment name="location" value="https://<%=@cfEndPoint %>/frame.css" type="java.lang.String"/>
+    <Environment name="datepickercsslocation" value="https://<%=@cfEndPoint %>/jsDatePick_ltr.min.css" type="java.lang.String"/>
+    <Environment name="businessURL" value="http://<%= @busiElb %>/VehicleBusiness/vehiclerental" type="java.lang.String"/>
+
+    <Manager className="de.javakaffee.web.msm.MemcachedBackupSessionManager"
+    memcachedNodes="n1:<%= @memIp %>:11211"
+    sticky="false"
+    sessionBackupAsync="false"
+    lockingMode="uriPattern:/path1|/path2"
+    requestUriIgnorePattern=".*\.(ico|png|gif|jpg|css|js)$"
+    transcoderFactoryClass="de.javakaffee.web.msm.serializer.kryo.KryoTranscoderFactory"/>
+
+</Context>
+

@@ -1,0 +1,26 @@
+#!/bin/bash
+
+export PATH=$PATH:$JAVA_HOME/bin/
+
+FILE=<%=@installDir %>/wlp
+if [ -e $FILE ];
+then
+echo "Websphere is already installed"
+exit 0
+else
+/usr/bin/expect <<EOD
+spawn java -jar <%=@installDir%>/wlp-developers-runtime-8.5.5.0.jar
+expect "Press Enter to display the license terms now, or 'x' to skip."
+send -- "x\r"
+expect "Press Enter to display additional license information now, or 'x' to skip."
+send -- "x\r"
+expect -re {Select [1] I Agree, or [2] I do not Agree$}
+send -- "1\r"
+expect -re {Enter directory$}
+send -- "<%=@installDir %>\r"
+expect
+EOD
+<%=@installDir %>/wlp/bin/server create <%=@serverName %>
+#/home/ec2-user/websphere/wlp/bin/server start <%=@serverName %>
+fi
+

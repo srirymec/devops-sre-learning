@@ -1,0 +1,31 @@
+#!/bin/bash
+# description: Websphere Start Stop Status Run
+# processname: websphere
+# chkconfig: 234 20 80
+JAVA_HOME=/usr/lib/jvm/jre
+export JAVA_HOME
+PATH=$JAVA_HOME/bin:$PATH
+export PATH
+WEBSPHERE_HOME=/opt/websphere
+
+case $1 in
+start)
+$WEBSPHERE_HOME/bin/server start <%=@serverName%>
+;;
+stop)
+$WEBSPHERE_HOME/bin/server stop <%=@serverName%>
+;;
+run)
+$WEBSPHERE_HOME/bin/server run <%=@serverName%>
+;;
+status)
+$WEBSPHERE_HOME/bin/server status <%=@serverName%>
+;;
+restart)
+$WEBSPHERE_HOME/bin/server stop <%=@serverName%>
+sleep 10
+$WEBSPHERE_HOME/bin/server start <%=@serverName%>
+;;
+esac
+exit 0
+
