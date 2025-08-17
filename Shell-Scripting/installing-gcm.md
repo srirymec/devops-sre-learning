@@ -81,3 +81,7 @@ Git to use the `gpg` credential store
   git config --global credential.credentialStore gpg
   ```
 
+- When git push is run, the credentials will be stored,
+
+  ![git-creds](https://github.com/srirymec/devops-sre-learning/blob/main/Shell-Scripting/images/gcm-configure.PNG)
+
