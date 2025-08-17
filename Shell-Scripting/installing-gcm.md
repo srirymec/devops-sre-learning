@@ -60,18 +60,31 @@ Git to use the `gpg` credential store
   Example output:
 
   ```
-  sec   rsa4096/ABC1234567890DEF 2025-08-17 [SC]
-      Key fingerprint = XXXXX YYYYY ZZZZZ
-  uid   [ultimate] Your Name <you@example.com>
+  srini@DESKTOP-7GERM11:~/git-repos/documents-copy$ gpg --list-secret-keys --keyid-format=long
+  gpg: checking the trustdb
+  gpg: marginals needed: 3  completes needed: 1  trust model: pgp
+  gpg: depth: 0  valid:   1  signed:   0  trust: 0-, 0q, 0n, 0m, 0f, 1u
+  /home/srini/.gnupg/pubring.kbx
+  ------------------------------
+  sec   rsa4096/2AB85A2E8ACD7E02 2025-08-17 [SC]
+        19B3FB91C9776DB6806E0C522AB85A2E8ACD7E02
+  uid                 [ultimate] Srinivas (bla bla) <srinivasabester@gmail.com>
+  ssb   rsa4096/D1D8CB3502F4DD39 2025-08-17 [E]
 
   ```
 
-  Here `ABC1234567890DEF` is your **GPS ID**
+  Here `2AB85A2E8ACD7E02` is your **GPS ID**
   
 - Initialize the password store with your GPG key
   
   ```
-  pass init ABC1234567890DEF
+  pass init 2AB85A2E8ACD7E02
+  ```
+
+  ```
+  srini@DESKTOP-7GERM11:~/git-repos/documents-copy$ pass init 2AB85A2E8ACD7E02
+  mkdir: created directory '/home/srini/.password-store/'
+  Password store initialized for 2AB85A2E8ACD7E02
   ```
 
   This creates `~/.password-store/` encrypted with your GPG key.
