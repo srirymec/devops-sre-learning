@@ -31,6 +31,7 @@ DevOps concepts and tools, SRE concepts
 
 - [Python Interview Questions](https://github.com/srirymec/devops-sre-learning/blob/main/python/interview-questions.md)
 - [Sample Scripts](https://github.com/srirymec/devops-sre-learning/tree/main/python/sample_scripts)
+- [Python Cheat sheet](https://github.com/srirymec/devops-sre-learning/blob/main/python/python%20sheet%20.pdf)
 
 ## Ansible
 
